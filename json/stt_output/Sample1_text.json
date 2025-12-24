@@ -1,0 +1,43 @@
+{
+    "status_code": 200,
+    "request_id": "df51f510-60f5-4837-ae5b-163d1feaaea9",
+    "code": "",
+    "message": "",
+    "output": {
+        "text": null,
+        "finish_reason": null,
+        "choices": [
+            {
+                "finish_reason": "stop",
+                "message": {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "text": "在光绪二十六年，神助拳义和团，扶清灭洋，五十五天在北京。"
+                        }
+                    ],
+                    "annotations": [
+                        {
+                            "emotion": "neutral",
+                            "language": "zh",
+                            "type": "audio_info"
+                        }
+                    ]
+                }
+            }
+        ],
+        "audio": null
+    },
+    "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "characters": 0,
+        "input_tokens_details": {
+            "text_tokens": 0
+        },
+        "output_tokens_details": {
+            "text_tokens": 31
+        },
+        "seconds": 7
+    }
+}

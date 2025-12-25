@@ -10,15 +10,19 @@ load_dotenv()
 class LLM:
     def __init__(self, _text: str) -> None:
         self.text: str = _text
+        self.role_prompt: str = "你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题"
         api_key: str = str(os.getenv("GEMINI_API_KEY"))
         self.client = genai.Client(api_key=api_key)
     
-    def get_response(self):
+    def get_response(self) -> str:
         response = self.client.models.generate_content(
             model="gemini-2.5-flash",
             contents=self.text
+            config=types.GenerareContentConfig(
+                system_instruction = self.role_prompt
+            )
         )
-        print(response.text)
+        return str(response.text)
     
 
     

@@ -1,0 +1,43 @@
+{
+    "status_code": 200,
+    "request_id": "bb8318b0-5eae-4974-bf38-965a404918e4",
+    "code": "",
+    "message": "",
+    "output": {
+        "text": null,
+        "finish_reason": null,
+        "choices": [
+            {
+                "finish_reason": "stop",
+                "message": {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "text": "你觉得是学Python重要还是学C加加重要呢？"
+                        }
+                    ],
+                    "annotations": [
+                        {
+                            "emotion": "neutral",
+                            "language": "zh",
+                            "type": "audio_info"
+                        }
+                    ]
+                }
+            }
+        ],
+        "audio": null
+    },
+    "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "characters": 0,
+        "input_tokens_details": {
+            "text_tokens": 0
+        },
+        "output_tokens_details": {
+            "text_tokens": 20
+        },
+        "seconds": 4
+    }
+}

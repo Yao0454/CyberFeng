@@ -1,0 +1,6 @@
+flask
+python-dotenv
+dashscope
+google-genai
+openai
+requests

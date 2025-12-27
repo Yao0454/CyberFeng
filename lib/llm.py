@@ -27,7 +27,7 @@ class LLM:
         return str(response.text)
     
 
-    
+
 if __name__ == "__main__":
     extext: str = "你好啊，我很高兴和你对话！"
     

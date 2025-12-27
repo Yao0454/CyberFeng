@@ -10,7 +10,6 @@
 '''
 
 #stt.py 即 Speak to Text 将嵌入式端得到的语音文件转换为文本
-
 import os
 import dashscope
 import subprocess

@@ -4,3 +4,4 @@ dashscope
 google-genai
 openai
 requests
+fastapi

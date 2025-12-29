@@ -5,7 +5,22 @@ from typing import List, Union, Optional
 class TTS:
     def __init__(self, _api_addr: str) -> None:
         self.api_addr: str = _api_addr
+        self.mode: str = ""
+        self.payload: dict = {}
 
+
+
+    def post(self) -> Optional[requests.Response]:
+        url = f"{self.api_addr}{self.mode}"
+        #发POST请求给GPT_SoVits
+        try:
+            response: requests.Response = requests.post(url, json=self.payload, stream=True)
+            return response
+        except Exception as e:
+            print(f"Post到{url}:{e}")
+            return None
+        
+        
 
 class Infer(TTS):
     def __init__(self,
@@ -78,12 +93,7 @@ class Control(TTS):
             "command" : _command
         }
         
-        
-class Model(TTS):
-    def __init__(self, _api_addr: str) -> None:
-        super().__init__(_api_addr)
-        
-class GPT(Model):
+class GPT(TTS):
     def __init__(self, _api_addr: str, _weights_path: str) -> None:
         super().__init__(_api_addr)
         self.mode: str = "/set_gpt_weights"
@@ -91,7 +101,7 @@ class GPT(Model):
             "weights_path": _weights_path
         }
         
-class Sovits(Model):
+class Sovits(TTS):
     def __init__(self, _api_addr: str, _weights_path: str) -> None:
         super().__init__(_api_addr)
         self.mode: str = "/set_sovits_weights"

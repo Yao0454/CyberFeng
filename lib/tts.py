@@ -67,6 +67,38 @@ class Infer(TTS):
         }
         
         
+class Control(TTS):
+    def __init__(self,
+                _api_addr: str,
+                _command: str
+                ) -> None:
+        super().__init__(_api_addr)
+        self.mode: str = "/control"
+        self.payload = {
+            "command" : _command
+        }
+        
+        
+class Model(TTS):
+    def __init__(self, _api_addr: str) -> None:
+        super().__init__(_api_addr)
+        
+class GPT(Model):
+    def __init__(self, _api_addr: str, _weights_path: str) -> None:
+        super().__init__(_api_addr)
+        self.mode: str = "/set_gpt_weights"
+        self.payload = {
+            "weights_path": _weights_path
+        }
+        
+class Sovits(Model):
+    def __init__(self, _api_addr: str, _weights_path: str) -> None:
+        super().__init__(_api_addr)
+        self.mode: str = "/set_sovits_weights"
+        self.payload = {
+            "weights_path": _weights_path
+        }
+        
         
     
         

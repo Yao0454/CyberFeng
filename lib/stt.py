@@ -27,8 +27,8 @@ class STT:
         dashscope.base_http_api_url = 'https://dashscope.aliyuncs.com/api/v1'
 
         #设置我的音频处理输出路径和我的文字输出路径
-        self.audio_output_dir = "/Users/feng/Desktop/CyberFeng/audio/converted"
-        self.json_output_dir = "/Users/feng/Desktop/CyberFeng/json/stt_output"
+        self.audio_output_dir = os.path.join(os.getcwd(), "audio", "converted")
+        self.json_output_dir = os.path.join(os.getcwd(), "json", "stt_output")
 
         #万一没有呢？
         if not os.path.exists(self.audio_output_dir):
@@ -115,9 +115,9 @@ class STT:
     #再说吧
     #@property
     #算了 反正就一行
-    def one_click(self) -> str:
+    def one_click(self) -> tuple[str, str]:
         converted_path, filename = self.convert_audio()
-        return self.get_text(self.save_to_json(self.process_audio(converted_path), filename))
+        return self.get_text(self.save_to_json(self.process_audio(converted_path), filename)), filename
     
     
 

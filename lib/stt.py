@@ -58,7 +58,7 @@ class STT:
         try:
             #调用子进程来处理音频文件
             subprocess.run(command, check=True, capture_output=True)
-            #print(f"转换成功: {output_path}")
+            print(f"转换成功: {output_path}")
             return front + output_path, filename
         except subprocess.CalledProcessError as e:
             print(f"转换失败: {e}")
@@ -100,7 +100,7 @@ class STT:
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(response, f, ensure_ascii=False, indent=4)
         
-        #print(f"语音文本已保存至{json_path}")
+        print(f"语音文本已保存至{json_path}")
         return json_path
 
     #从json里面取出精华，即你说的话

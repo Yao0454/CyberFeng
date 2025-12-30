@@ -53,7 +53,7 @@ class Infer(TTS):
                 _batch_size: int = 1,  # 推理批大小
                 _batch_threshold: float = 0.75,  # 批切分阈值
                 _split_bucket: bool = True,  # 是否开启分桶处理
-                _speed_factor: float = 1.0,  # 输出音频的速度倍率
+                _speed_factor: float = 1.2,  # 输出音频的速度倍率
                 _fragment_interval: float = 0.3,  # 音频片段间隔（秒）
                 _seed: int = -1,  # 随机种子（-1 表示随机）
                 _parallel_infer: bool = True,  # 是否启用并行推理
@@ -138,7 +138,7 @@ class Control(TTS):
                 _api_addr: str,  # GPT-SoVITS 服务地址
                 _command: str  # 控制指令（restart / exit）
                 ) -> None:
-        """Wrap the ``/control`` endpoint, sending ``restart`` or ``exit`` commands."""
+
         super().__init__(_api_addr)
         self.mode: str = "/control"
         self.params = {
@@ -150,7 +150,7 @@ class GPT(TTS):
                  _api_addr: str,  # GPT-SoVITS 服务地址
                  _weights_path: str  # GPT 权重文件路径
                  ) -> None:
-        """Call ``/set_gpt_weights`` to swap the GPT checkpoint."""
+
         super().__init__(_api_addr)
         self.mode: str = "/set_gpt_weights"
         self.params = {
@@ -162,7 +162,7 @@ class Sovits(TTS):
                  _api_addr: str,  # GPT-SoVITS 服务地址
                  _weights_path: str  # SoVITS 权重文件路径
                  ) -> None:
-        """Call ``/set_sovits_weights`` to swap the SoVITS checkpoint."""
+
         super().__init__(_api_addr)
         self.mode: str = "/set_sovits_weights"
         self.params = {

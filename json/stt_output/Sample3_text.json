@@ -1,6 +1,6 @@
 {
     "status_code": 200,
-    "request_id": "f2cc7bd7-a7f7-49e2-a654-5d8f9e02c621",
+    "request_id": "2751b346-7770-45a8-be47-ecb1eaedac07",
     "code": "",
     "message": "",
     "output": {
@@ -13,7 +13,7 @@
                     "role": "assistant",
                     "content": [
                         {
-                            "text": "你觉得是学Python重要还是学C加加重要呢？"
+                            "text": "你喜欢看星球大战吗？"
                         }
                     ],
                     "annotations": [
@@ -36,8 +36,8 @@
             "text_tokens": 0
         },
         "output_tokens_details": {
-            "text_tokens": 20
+            "text_tokens": 13
         },
-        "seconds": 4
+        "seconds": 3
     }
 }

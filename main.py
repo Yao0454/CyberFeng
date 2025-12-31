@@ -3,7 +3,7 @@ from lib.llm import LLM
 import lib.tts as tts
 
 def main():
-    stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample2.m4a")
+    stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample3.m4a")
     stt1_result = stt1.one_click()
     llm1: LLM = LLM(stt1_result[0])
     

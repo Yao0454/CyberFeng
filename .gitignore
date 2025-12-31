@@ -13,3 +13,5 @@ env/
 .pio
 .pio/
 firmware/.pio/
+
+.vscode/

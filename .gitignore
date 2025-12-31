@@ -8,3 +8,8 @@ __pycache__/
 venv/
 .venv/
 env/
+
+# PlatformIO
+.pio
+.pio/
+firmware/.pio/

@@ -38,9 +38,9 @@ class LLM:
         }
         
         full_path: str = os.path.join(save_dir, f"{self.filename}.json")
-        with open(full_path, "w", encoding="urf-8") as f:
+        with open(full_path, "w", encoding="utf-8") as f:
             json.dump(data_to_save, f ,ensure_ascii=False, indent=4)
-        
+        print(f"LLM输出已保存至{full_path}")
         return str(response.text)
     
 

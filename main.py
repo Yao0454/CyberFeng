@@ -4,8 +4,8 @@ import lib.tts as tts
 
 def main():
     stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample3.m4a")
-    stt1_result = stt1.one_click()
-    llm1: LLM = LLM(stt1_result[0])
+    prompt, filename = stt1.one_click()
+    llm1: LLM = LLM(prompt, filename)
     
     
     
@@ -19,7 +19,7 @@ def main():
     #tts_Sovits.get()
     #tts_GPT.get()
     tts_infer: tts.Infer = tts.Infer(tts_addr, llm1.get_response(), "zh", refau, "zh", refte)
-    tts_infer.save_audio(f"{stt1_result[1]}.wav")
+    tts_infer.save_audio(f"{filename}.wav")
     
    #print(llm1.get_response())
 

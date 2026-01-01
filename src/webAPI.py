@@ -20,6 +20,8 @@ TTS_SERVER_ADDR = "http://127.0.0.1:9880"
 REF_AUDIO_PATH = "reference_voice/reference.wav"
 REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 
+
+
 @app.post("/chat")
 async def chat_endpoint(file: UploadFile = File(...)):
     try:
@@ -55,7 +57,8 @@ async def chat_endpoint(file: UploadFile = File(...)):
             raise HTTPException(status_code=500, detail="TTS进程失败")
         
 
-        
+
+
     except Exception as e:
         print(f"Error:{e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -73,7 +76,34 @@ async def control_endpoint(command: str):
         return {"status": "success", "detail": f"指令 {command} 执行成功"}
     else:
         raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
+
+
+  
+@app.get("/set_gpt_weights")
+async def set_gpt_weights_endpoint(weights_path: str):
     
+    set_gpt_weights_workflow = tts.GPT(TTS_SERVER_ADDR, weights_path)
+    response = set_gpt_weights_workflow.get()
+    
+    if response and response.status_code == 200:
+        return {"status": "success", "detail": f"已将GPT模型权重文件路径改为{weights_path}"}
+    else:
+        raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
+    
+
+@app.get("/set_sovits_weights")
+async def set_sovits_weights_endpoint(weights_path: str):
+    
+    set_sovits_weights_workflow = tts.Sovits(TTS_SERVER_ADDR, weights_path)
+    response = set_sovits_weights_workflow.get()
+    
+    if response and response.status_code == 200:
+        return {"status": "success", "detail": f"已将Sovits模型权重文件路径改为{weights_path}"}
+    else:
+        raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
+
+
+
 def run_server(host: str = "0.0.0.0", port: int = 1111):
     print(f"CyberFeng后端服务器启动中 监听{host}:{port}")
     

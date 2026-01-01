@@ -54,9 +54,25 @@ async def chat_endpoint(file: UploadFile = File(...)):
         else:
             raise HTTPException(status_code=500, detail="TTS进程失败")
         
+
+        
     except Exception as e:
         print(f"Error:{e}")
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/control")
+async def control_endpoint(command: str):
+    
+    control_workflow = tts.Control(TTS_SERVER_ADDR, command)
+    response = control_workflow.get()
+    
+    if command == "restart":
+        return {"status": "success", "message": "重启指令已发送"}
+    
+    if response and response.status_code == 200:
+        return {"status": "success", "detail": f"指令 {command} 执行成功"}
+    else:
+        raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
     
 def run_server(host: str = "0.0.0.0", port: int = 1111):
     print(f"CyberFeng后端服务器启动中 监听{host}:{port}")

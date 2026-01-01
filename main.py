@@ -1,15 +1,13 @@
 from lib.stt import STT
 from lib.llm import LLM
 import lib.tts as tts
+import src.webAPI as webAPI
 
 def main():
     stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample3.m4a")
     prompt, filename = stt1.one_click()
     llm1: LLM = LLM(prompt, filename)
-    
-    
-    
-    
+        
     tts_addr: str = "127.0.0.1:9880"
     
     refau: str = "reference_voice/reference.wav"
@@ -21,7 +19,9 @@ def main():
     tts_infer: tts.Infer = tts.Infer(tts_addr, llm1.get_response(), "zh", refau, "zh", refte)
     tts_infer.save_audio(f"{filename}.wav")
     
-   #print(llm1.get_response())
+    #print(llm1.get_response())
+   
+    webAPI.run_server()
 
 if __name__ == "__main__":
     main()

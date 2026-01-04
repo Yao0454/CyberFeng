@@ -1,15 +1,15 @@
 {
-    "input": "你喜欢看星球大战吗？",
-    "output": "超爱星球大战，原力与我同在！",
+    "input": "你好啊，我很高兴和你对话！",
+    "output": "你好呀，见到你真开心！",
     "raw_data": {
-        "id": "chatcmpl-d20f0723-f87b-9393-91ac-40cd3ec1099c",
+        "id": "chatcmpl-fd2e0eed-0b9f-99f3-b8ad-4ebf0fdfe2e4",
         "choices": [
             {
                 "finish_reason": "stop",
                 "index": 0,
                 "logprobs": null,
                 "message": {
-                    "content": "超爱星球大战，原力与我同在！",
+                    "content": "你好呀，见到你真开心！",
                     "refusal": null,
                     "role": "assistant",
                     "annotations": null,
@@ -19,15 +19,15 @@
                 }
             }
         ],
-        "created": 1767276996,
+        "created": 1767262262,
         "model": "qwen-plus",
         "object": "chat.completion",
         "service_tier": null,
         "system_fingerprint": null,
         "usage": {
-            "completion_tokens": 12,
-            "prompt_tokens": 51,
-            "total_tokens": 63,
+            "completion_tokens": 8,
+            "prompt_tokens": 54,
+            "total_tokens": 62,
             "completion_tokens_details": null,
             "prompt_tokens_details": {
                 "audio_tokens": null,

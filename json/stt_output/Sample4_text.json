@@ -1,6 +1,6 @@
 {
     "status_code": 200,
-    "request_id": "7c2c87cb-ba11-414e-912c-6201ae7458fa",
+    "request_id": "35fad366-0bf9-4edd-bad8-f129ba168ff0",
     "code": "",
     "message": "",
     "output": {
@@ -13,7 +13,7 @@
                     "role": "assistant",
                     "content": [
                         {
-                            "text": "你喜欢看星球大战吗？"
+                            "text": "给我推荐一下长沙有哪些好玩的地方呗。"
                         }
                     ],
                     "annotations": [
@@ -36,7 +36,7 @@
             "text_tokens": 0
         },
         "output_tokens_details": {
-            "text_tokens": 13
+            "text_tokens": 16
         },
         "seconds": 3
     }

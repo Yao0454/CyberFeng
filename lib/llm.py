@@ -3,8 +3,10 @@
 
 import os
 import json
-from google import genai
-from google.genai import types
+#from google import genai
+#from google.genai import types
+from openai import OpenAI
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,11 +15,20 @@ class LLM:
     def __init__(self, _text: str, _filename: str) -> None:
         self.text: str = _text
         self.role_prompt: str = "你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字"
-        api_key: str = str(os.getenv("GEMINI_API_KEY"))
-        self.client = genai.Client(api_key=api_key)
+        #Gemini API 暂时弃用
+        #api_key: str = str(os.getenv("GEMINI_API_KEY"))
+        #更换为通义千问
+        api_key: str = str(os.getenv("DASHSCOPE_API_KEY"))
+        
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        )
         self.filename: str = _filename
     
     def get_response(self) -> str:
+        '''
+        暂时弃用 Gemini
         response = self.client.models.generate_content(
             model="gemini-2.5-flash",
             contents=self.text,
@@ -25,23 +36,43 @@ class LLM:
                 system_instruction = self.role_prompt
             )
         )
+        换用通义千问
+        '''
+        response = self.client.chat.completions.create(
+            model="qwen-plus",
+            messages= [
+                {"role": "system", "content" : self.role_prompt},
+                {"role" : "user", "content" : self.text},
+            ]
+        )
         
         #新增逻辑让LLM输出保留在json文件里面
         save_dir = os.path.join(os.getcwd(), "json", "llm_output")
         
         if not os.path.exists(save_dir):
             os.makedirs(save_dir, exist_ok=True)
-            
+        
+        '''
+        更换后输出格式为json
         data_to_save: dict = {
             "输入" : self.text,
-            "LL输出" : response.text
+            "LLM输出" : response.text
         }
+        '''
+        answer_text: str = str(response.choices[0].message.content)
+        
+        data_to_save = {
+            "input": self.text,
+            "output": answer_text,
+            "raw_data": response.model_dump() 
+        }
+        
         
         full_path: str = os.path.join(save_dir, f"{self.filename}.json")
         with open(full_path, "w", encoding="utf-8") as f:
             json.dump(data_to_save, f ,ensure_ascii=False, indent=4)
         print(f"LLM输出已保存至{full_path}")
-        return str(response.text)
+        return str(answer_text)
     
 
 

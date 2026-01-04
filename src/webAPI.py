@@ -16,7 +16,7 @@ RESPONCE_DIR = os.path.join(os.getcwd(), "audio", "trans")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(RESPONCE_DIR, exist_ok=True)
 
-TTS_SERVER_ADDR = "http://127.0.0.1:9880"
+TTS_SERVER_ADDR = "http://36.103.177.158:9880"
 REF_AUDIO_PATH = "reference_voice/reference.wav"
 REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 
@@ -38,6 +38,14 @@ async def chat_endpoint(file: UploadFile = File(...)):
         #LLM
         llm_workflow = LLM(input_text, filename)
         llm_responce = llm_workflow.get_response()
+        
+        '''
+        此处设置临时NO PROXY
+        '''
+        if os.environ.get('NO_PROXY'):
+            os.environ['NO_PROXY'] += ',36.103.177.158'
+        else:
+            os.environ['NO_PROXY'] = '36.103.177.158'
         
         #TTS
         tts_workflow = tts.Infer(

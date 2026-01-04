@@ -1,6 +1,6 @@
 {
     "status_code": 200,
-    "request_id": "7c2c87cb-ba11-414e-912c-6201ae7458fa",
+    "request_id": "7bb98b23-d92f-4ab7-912f-9c1fbeea4c8e",
     "code": "",
     "message": "",
     "output": {
@@ -13,7 +13,7 @@
                     "role": "assistant",
                     "content": [
                         {
-                            "text": "你喜欢看星球大战吗？"
+                            "text": "我要是讨厌大学物理，我该怎么学好物理？"
                         }
                     ],
                     "annotations": [
@@ -36,8 +36,8 @@
             "text_tokens": 0
         },
         "output_tokens_details": {
-            "text_tokens": 13
+            "text_tokens": 19
         },
-        "seconds": 3
+        "seconds": 4
     }
 }

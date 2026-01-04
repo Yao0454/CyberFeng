@@ -41,12 +41,12 @@ async def chat_endpoint(file: UploadFile = File(...)):
         
         '''
         此处设置临时NO PROXY
-        '''
+        
         if os.environ.get('NO_PROXY'):
             os.environ['NO_PROXY'] += ',36.103.177.158'
         else:
             os.environ['NO_PROXY'] = '36.103.177.158'
-        
+        '''
         #TTS
         tts_workflow = tts.Infer(
             _api_addr=TTS_SERVER_ADDR,
@@ -63,10 +63,7 @@ async def chat_endpoint(file: UploadFile = File(...)):
             return FileResponse(output_audio_path, media_type="audio/wav", filename="reply.wav")
         else:
             raise HTTPException(status_code=500, detail="TTS进程失败")
-        
-
-
-
+    
     except Exception as e:
         print(f"Error:{e}")
         raise HTTPException(status_code=500, detail=str(e))

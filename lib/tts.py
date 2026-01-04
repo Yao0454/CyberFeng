@@ -116,7 +116,7 @@ class Infer(TTS):
         save_dir = os.path.join(os.getcwd(), "audio", "trans")
         if not os.path.exists(save_dir):
             os.makedirs(save_dir, exist_ok=True)
-
+        
         full_path = os.path.join(save_dir, filename)
         
         response = self.post()

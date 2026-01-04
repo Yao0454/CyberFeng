@@ -18,14 +18,20 @@ CyberFeng/
 │   ├── raw/                # 原始录音文件 (输入)
 │   ├── converted/          # 格式转换后的音频 (用于API调用)
 │   └── trans/              # TTS 生成的回复音频 (输出)
+├── firmware/               # ESP32 硬件端代码 (PlatformIO)
+│   ├── src/                # C++ 源码 (main.cpp, ui.cpp)
+│   ├── lib/                # 硬件驱动库
+│   ├── platformio.ini      # 硬件项目配置文件
+│   └── diagram.json        # Wokwi 仿真电路图
 ├── json/
 │   └── stt_output/         # 语音识别结果的 JSON 缓存
-├── lib/                    # 核心功能模块库
+├── lib/                    # 核心功能模块库 (Python)
 │   ├── stt.py              # 语音识别模块 (DashScope)
 │   ├── llm.py              # 大模型对话模块 (Google Gemini)
 │   └── tts.py              # 语音合成客户端 (GPT-SoVITS)
-├── src/                    # (预留) 网络通信与扩展模块
-├── main.py                 # 项目主入口
+├── src/                    # 后端服务模块
+│   └── webAPI.py           # FastAPI 接口服务 (供 ESP32 调用)
+├── main.py                 # 项目主入口 / 本地测试脚本
 ├── requirements.txt        # Python 依赖清单
 ├── .env                    # 环境变量配置文件 (需自行创建)
 └── README.md               # 项目说明文档
@@ -35,7 +41,8 @@ CyberFeng/
 
 本项目融合了多家前沿 AI 技术与工程化实践：
 
-*   **编程语言**: Python 3.10+
+*   **编程语言**: Python 3.10+ (后端), C++ (硬件)
+*   **Web 框架**: [FastAPI](https://fastapi.tiangolo.com/) (提供 RESTful 接口)
 *   **语音识别 (ASR)**: [阿里云 DashScope](https://help.aliyun.com/zh/dashscope/) (通义听悟 / Paraformer)
     *   利用 FFmpeg 进行音频格式预处理。
 *   **大语言模型 (LLM)**: [Google Gemini](https://ai.google.dev/) (gemini-2.5-flash)
@@ -43,11 +50,14 @@ CyberFeng/
 *   **语音合成 (TTS)**: [GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS)
     *   私有化部署的高质量 TTS 服务。
     *   封装了 RESTful API 客户端，支持流式传输与模型切换。
-*   **硬件 (开发中)**: ESP32 (计划用于音频采集与播放)。
+*   **硬件开发 (IoT)**: [PlatformIO](https://platformio.org/)
+    *   **主控**: ESP32 DevKit V1
+    *   **显示**: SSD1306 OLED (I2C)
+    *   **仿真**: Wokwi Simulator
 
 ## 🧩 实现过程与原理
 
-系统采用了经典的 **"听-想-说"** 三段式架构，各模块解耦设计：
+系统采用了经典的 **"听-想-说"** 三段式架构，并增加了 **端云交互** 层：
 
 1.  **听 (STT - lib/stt.py)**
     *   接收原始音频文件（如 `.m4a`）。
@@ -64,6 +74,11 @@ CyberFeng/
     *   通过封装好的 `Infer` 类，向本地或远程运行的 GPT-SoVITS 服务发送 POST 请求。
     *   支持动态切换参考音频 (`ref_audio_path`) 以复刻特定音色。
     *   获取返回的音频流并保存到本地 `audio/trans/` 目录。
+
+4.  **端云交互 (Web API - src/webAPI.py)**
+    *   使用 FastAPI 搭建 HTTP 服务器，监听 `/chat` 接口。
+    *   ESP32 通过 WiFi 上传录音文件。
+    *   服务器编排 STT -> LLM -> TTS 全流程，并将生成的音频流直接返回给 ESP32。
 
 ## 🚀 如何使用
 
@@ -99,7 +114,23 @@ GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxx
     ```
 3.  确保模型文件已放置在服务端指定目录。
 
-### 5. 运行主程序
+### 5. 启动后端服务 (Web API)
+本项目提供了一个 FastAPI 服务供 ESP32 调用。
+```bash
+# 在项目根目录下运行
+python src/webAPI.py
+# 或者使用 uvicorn
+uvicorn src.webAPI:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### 6. 烧录 ESP32 固件
+1.  使用 VS Code 打开 `firmware/` 目录（或通过 PlatformIO 插件打开）。
+2.  修改 `firmware/src/main.cpp` 中的 WiFi 信息和服务器 IP 地址。
+3.  连接 ESP32 开发板，点击 PlatformIO 的 **Upload** 按钮进行烧录。
+4.  或者使用 Wokwi 插件打开 `firmware/diagram.json` 进行仿真测试。
+
+### 7. 本地测试 (可选)
+如果你没有硬件，也可以直接运行 `main.py` 进行本地测试：
 修改 `main.py` 中的 `tts_addr` 为你的 TTS 服务器地址，然后运行：
 ```bash
 python main.py

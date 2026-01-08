@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 import uvicorn
+from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 
@@ -11,10 +12,11 @@ import lib.tts as tts
 
 app = FastAPI(title="CyberFeng")
 
-UPLOAD_DIR = os.path.join(os.getcwd(), "audio", "raw")
-RESPONCE_DIR = os.path.join(os.getcwd(), "audio", "trans")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(RESPONCE_DIR, exist_ok=True)
+UPLOAD_DIR = Path.cwd() / "audio" / "raw"
+RESPONCE_DIR = Path.cwd() / "audio" / "trans"
+
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+RESPONCE_DIR.mkdir(parents=True, exist_ok=True)
 
 TTS_SERVER_ADDR = "http://36.103.177.158:9880"
 REF_AUDIO_PATH = "reference_voice/reference.wav"
@@ -26,13 +28,14 @@ REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 async def chat_endpoint(file: UploadFile = File(...)):
     try:
         #保存上传到服务器的音频文件
-        file_location: str = os.path.join(UPLOAD_DIR, file.filename or "")
-        with open(file_location, "wb") as buffer:
+        file_location = UPLOAD_DIR / (file.filename or "")
+        
+        with file_location.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         print(f"成功收到音频文件{file_location}")
         
         #STT
-        stt_workflow = STT(file_location)
+        stt_workflow = STT(str(file_location))
         input_text, filename = stt_workflow.one_click()
         
         #LLM
@@ -59,7 +62,7 @@ async def chat_endpoint(file: UploadFile = File(...)):
         
         output_audio_path = tts_workflow.save_audio(filename)
         
-        if output_audio_path and os.path.exists(output_audio_path):
+        if output_audio_path and Path(output_audio_path).exists():
             return FileResponse(output_audio_path, media_type="audio/wav", filename="reply.wav")
         else:
             raise HTTPException(status_code=500, detail="TTS进程失败")
@@ -106,7 +109,6 @@ async def set_sovits_weights_endpoint(weights_path: str):
         return {"status": "success", "detail": f"已将Sovits模型权重文件路径改为{weights_path}"}
     else:
         raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
-
 
 
 def run_server(host: str = "0.0.0.0", port: int = 1111):

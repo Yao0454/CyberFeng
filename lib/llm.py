@@ -3,6 +3,7 @@
 
 import os
 import json
+from pathlib import Path
 #from google import genai
 #from google.genai import types
 from openai import OpenAI
@@ -47,10 +48,9 @@ class LLM:
         )
         
         #新增逻辑让LLM输出保留在json文件里面
-        save_dir = os.path.join(os.getcwd(), "json", "llm_output")
+        save_dir = Path.cwd() / "json" / "llm_output"
         
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir, exist_ok=True)
+        save_dir.mkdir(parents=True, exist_ok=True)
         
         '''
         更换后输出格式为json
@@ -68,13 +68,12 @@ class LLM:
         }
         
         
-        full_path: str = os.path.join(save_dir, f"{self.filename}.json")
-        with open(full_path, "w", encoding="utf-8") as f:
+        full_path = save_dir / f"{self.filename}.json"
+        with full_path.open("w", encoding="utf-8") as f:
             json.dump(data_to_save, f ,ensure_ascii=False, indent=4)
         print(f"LLM输出已保存至{full_path}")
         return str(answer_text)
     
-
 
 if __name__ == "__main__":
     extext: str = "你好啊，我很高兴和你对话！"

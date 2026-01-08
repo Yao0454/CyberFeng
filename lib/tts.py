@@ -2,6 +2,7 @@ import json
 import os
 import requests
 from typing import List, Union, Optional
+from pathlib import Path
 
 class TTS:
     def __init__(self, _api_addr: str) -> None:
@@ -113,19 +114,18 @@ class Infer(TTS):
         )
 
     def save_audio(self, filename: str) -> Optional[str]:
-        save_dir = os.path.join(os.getcwd(), "audio", "trans")
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir, exist_ok=True)
+        save_dir = Path.cwd() / "audio" / "trans"
+        save_dir.mkdir(parents=True, exist_ok=True)
         
-        full_path = os.path.join(save_dir, filename)
+        full_path = save_dir / filename
         
         response = self.post()
         
         if response and response.status_code == 200:
-            with open(full_path, "wb") as f:
+            with full_path.open("wb") as f:
                 f.write(response.content)
             print(f"音频保存至：{full_path}")
-            return full_path
+            return str(full_path)
         else:
             print(f"保存失败：{response.status_code if response else 'No Response'}")
             return None

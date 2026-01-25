@@ -120,10 +120,8 @@ class STT:
     def one_click(self) -> tuple[str, str]:
         converted_path, filename = self.convert_audio()
         return self.get_text(self.save_to_json(self.process_audio(converted_path), filename)), filename
-    
-    
-
-    
+        
+        
 if __name__ == "__main__":
     #debuuuuuuuuuuuuuuug
     filepath: str = "/Users/feng/Desktop/CyberFeng/audio/raw/Sample1.m4a"

@@ -1,68 +1,100 @@
-#include <Arduino.h>
-#include <WiFi.h>
+#include <SPI.h> // 提供 SPI 总线通信接口 负责和屏幕以及触摸芯片传输数据
+#include <TFT_eSPI.h> // 提供 TFT 显示屏驱动
+#include <XPT2046_Touchscreen.h> // 驱动触摸控制器，读取触摸控制器的坐标和压力
+// 先导入3个必要的库
 
-// ================= 配置区域 =================
-// 请在这里填入你的 Wi-Fi 名称和密码
-// const char* ssid = "YOUR_WIFI_NAME";     // 你的Wi-Fi名称
-// const char* password = "YOUR_WIFI_PASSWORD"; // 你的Wi-Fi密码
-const char* ssid = "Wokwi-GUEST";      
-const char* password = "";
-// ===========================================
+TFT_eSPI tft = TFT_eSPI(); // 创建一个 TFT 显示对象
+
+// 触控板的针脚
+#define XPT2046_IRQ 36   // 触控版中断针脚
+#define XPT2046_MOSI 32  // 触控 SPI 的 MOSI
+#define XPT2046_MISO 39  // 触控 SPI 的 MISO
+#define XPT2046_CLK 25   // 触控 SPI 的 SCK
+#define XPT2046_CS 33    // 触控 SPI 的 片选
+
+XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);
+
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+#define FONT_SIZE 2
+
+// Touchscreen coordinates: (x, y) and pressure (z)
+int x, y, z;
+
+// Print Touchscreen info about X, Y and Pressure (Z) on the Serial Monitor
+void printTouchToSerial(int touchX, int touchY, int touchZ) {
+  Serial.print("X = ");
+  Serial.print(touchX);
+  Serial.print(" | Y = ");
+  Serial.print(touchY);
+  Serial.print(" | Pressure = ");
+  Serial.print(touchZ);
+  Serial.println();
+}
+
+// Print Touchscreen info about X, Y and Pressure (Z) on the TFT Display
+void printTouchToDisplay(int touchX, int touchY, int touchZ) {
+  // Clear TFT screen
+  tft.fillScreen(TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+
+  int centerX = SCREEN_WIDTH / 2;
+  int textY = 80;
+ 
+  String tempText = "X = " + String(touchX);
+  tft.drawCentreString(tempText, centerX, textY, FONT_SIZE);
+
+  textY += 20;
+  tempText = "Y = " + String(touchY);
+  tft.drawCentreString(tempText, centerX, textY, FONT_SIZE);
+
+  textY += 20;
+  tempText = "Pressure = " + String(touchZ);
+  tft.drawCentreString(tempText, centerX, textY, FONT_SIZE);
+}
 
 void setup() {
-  // 1. 初始化串口通信，波特率115200
+  pinMode(21, OUTPUT);
+  digitalWrite(21, HIGH);
   Serial.begin(115200);
+
+  // Start the SPI for the touchscreen and init the touchscreen
+  SPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
+  touchscreen.begin();
+  // Set the Touchscreen rotation in landscape mode
+  // Note: in some displays, the touchscreen might be upside down, so you might need to set the rotation to 3: touchscreen.setRotation(3);
+  touchscreen.setRotation(1);
+
+  // Start the tft display
+  tft.init();
+  // Set the TFT display rotation in landscape mode
+  tft.setRotation(2);
+
+  // Clear the screen before writing to it
+  tft.fillScreen(TFT_WHITE);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
   
-  // 等待一小会儿让串口稳定
-  delay(1000);
-  Serial.println("\n\nStarting ESP32 Client...");
+  // Set X and Y coordinates for center of display
+  int centerX = SCREEN_WIDTH / 2;
+  int centerY = SCREEN_HEIGHT / 2;
 
-  // 2. 开始连接 Wi-Fi
-  WiFi.mode(WIFI_STA); // 设置为 Station 模式 (客户端模式)
-  WiFi.begin(ssid, password);
-
-  Serial.print("Connecting to WiFi");
-  
-  // 循环等待连接，直到成功
-  int retry_count = 0;
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    retry_count++;
-    
-    // 如果超过 20次 (10秒) 连不上，提示一下
-    if(retry_count > 20) {
-      Serial.println("\nStill connecting... Check SSID/Password or use 2.4G hotspot.");
-      retry_count = 0;
-    }
-  }
-
-  // 3. 连接成功
-  Serial.println("\nSuccess!");
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP()); // 打印获取到的 IP 地址
+  tft.drawCentreString("Hello, world!", centerX, 30, FONT_SIZE);
+  tft.drawCentreString("Touch screen to test", centerX, centerY, FONT_SIZE);
 }
 
 void loop() {
-  // 暂时在主循环里做一个心跳包打印，证明板子没死机
-  Serial.println("System alive... (Waiting for Audio logic)");
-  delay(5000); // 每5秒打印一次
+  // Checks if Touchscreen was touched, and prints X, Y and Pressure (Z) info on the TFT display and Serial Monitor
+  if (touchscreen.tirqTouched() && touchscreen.touched()) {
+    // Get Touchscreen points
+    TS_Point p = touchscreen.getPoint();
+    // Calibrate Touchscreen points with map function to the correct width and height
+    x = map(p.x, 200, 3700, 1, SCREEN_WIDTH);
+    y = map(p.y, 240, 3800, 1, SCREEN_HEIGHT);
+    z = p.z;
+
+    printTouchToSerial(x, y, z);
+    printTouchToDisplay(x, y, z);
+
+    delay(100);
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

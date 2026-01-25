@@ -169,8 +169,5 @@ class Sovits(TTS):
             "weights_path": _weights_path
         }
         
-        
-    
-        
     
     

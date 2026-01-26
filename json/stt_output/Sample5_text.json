@@ -1,6 +1,6 @@
 {
     "status_code": 200,
-    "request_id": "7bb98b23-d92f-4ab7-912f-9c1fbeea4c8e",
+    "request_id": "7585bdef-af1e-471f-b6d7-60f960c98eae",
     "code": "",
     "message": "",
     "output": {
@@ -29,15 +29,18 @@
         "audio": null
     },
     "usage": {
-        "input_tokens": 0,
-        "output_tokens": 0,
+        "input_tokens": 124,
+        "output_tokens": 19,
         "characters": 0,
+        "audio_tokens": 124,
         "input_tokens_details": {
+            "audio_tokens": 124,
             "text_tokens": 0
         },
         "output_tokens_details": {
             "text_tokens": 19
         },
-        "seconds": 4
+        "seconds": 4,
+        "total_tokens": 143
     }
 }

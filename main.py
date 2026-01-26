@@ -7,10 +7,11 @@ from lib.stt import STT
 
 
 def main() -> None:
-    stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample3.m4a")
+    stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample5.m4a")
     prompt, filename = stt1.one_click()
     llm1: LLM = LLM(prompt, filename)
 
+    """
     tts_addr: str = "36.103.177.158:9880"
 
     refau: str = "reference_voice/reference.wav"
@@ -21,6 +22,7 @@ def main() -> None:
     # tts_GPT.get()
     llm_response_text: str = llm1.get_response()
 
+
     if os.environ.get("NO_PROXY"):
         os.environ["NO_PROXY"] += ",36.103.177.158"
     else:
@@ -29,6 +31,7 @@ def main() -> None:
         tts_addr, llm_response_text, "zh", refau, "zh", refte
     )
     tts_infer.save_audio(f"{filename}.wav")
+    """
 
     print(llm1.get_response())
 
@@ -38,7 +41,7 @@ def debug_web() -> None:
 
 
 if __name__ == "__main__":
-    # main()
-    debug_web()
+    main()
+    # debug_web()
 
 # end main

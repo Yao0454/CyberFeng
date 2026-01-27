@@ -5,3 +5,5 @@ google-genai
 openai
 requests
 fastapi
+vllm
+uvicorn

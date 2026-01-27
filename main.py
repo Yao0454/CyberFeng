@@ -1,5 +1,3 @@
-import os
-
 import lib.tts as tts
 import src.webAPI as webAPI
 from lib.llm import LLM
@@ -21,7 +19,6 @@ def main() -> None:
     # tts_Sovits.get()
     # tts_GPT.get()
     llm_response_text: str = llm1.get_response()
-
 
     if os.environ.get("NO_PROXY"):
         os.environ["NO_PROXY"] += ",36.103.177.158"

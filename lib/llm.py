@@ -2,6 +2,7 @@
 # 在这里将处理后的文字发送给LLM处理回答
 
 import json
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv

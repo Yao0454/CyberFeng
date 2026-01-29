@@ -136,6 +136,14 @@ class LLM:
                 max_tokens=self.max_tokens,
             )
 
+    def set_gpu_memory_utilization(self, gpu_memory_utilization: float) -> None:
+        if self.llm is None:
+            self.gpu_memory_utilization = gpu_memory_utilization
+        else:
+            self.unload_model()
+            self.gpu_memory_utilization = gpu_memory_utilization
+            self.load_model()
+
 
 if __name__ == "__main__":
     extext: str = "你好啊，我很高兴和你对话！"
@@ -145,5 +153,6 @@ if __name__ == "__main__":
     llm1.load_model()
     response1: Optional[str] = llm1.get_response("你好呀！", "test1")
     response2: Optional[str] = llm1.get_response("你知道物理应该怎么学吗？", "test2")
+    print(response1, response2)
     llm1.unload_model()
 # end main

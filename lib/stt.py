@@ -1,57 +1,46 @@
-"""
-这应该是我真正意义上的第一个自己完成的项目文件吧
-太他妈爽了
-里面包含了一段我自己都绷不住的声音
-我受不了了
-
-这个我是调用了通义的qwen3的API做的语音转文字
-挺好用的
-新人还有5000k tokens能领
-"""
-
 # stt.py 即 Speak to Text 将嵌入式端得到的语音文件转换为文本
 import json
 import os
 import subprocess
 from pathlib import Path
 
-import dashscope
+project_root = Path(__file__).resolve().parent.parent
+models_dir = project_root / "models"
+models_dir.mkdir(parents=True, exist_ok=True)
 
 
 # 给声音处理创建一个类
 class STT:
     # 构造函数：传入音频文件地址
     def __init__(self, _raw_path: str) -> None:
-        self.raw_path = Path(_raw_path)
-        # 获取环境变量中的API_KEY
-        self.api_key: str = str(os.getenv("DASHSCOPE_API_KEY"))
-        # 给API节点设置地址，位于北京，他还可以选用新加坡的节点
-        dashscope.base_http_api_url = "https://dashscope.aliyuncs.com/api/v1"
+        """
+        初始化 STT 服务
+        """
 
         # 设置我的音频处理输出路径和我的文字输出路径
-        # self.audio_output_dir = os.path.join(os.getcwd(), "audio", "converted")
-        self.audio_output_dir = Path.cwd() / "audio" / "converted"
-        # self.json_output_dir = os.path.join(os.getcwd(), "json", "stt_output")
-        self.json_output_dir = Path.cwd() / "json" / "stt_output"
-
+        self.audio_output_dir: Path = Path.cwd() / "audio" / "converted"
+        self.json_output_dir: Path = Path.cwd() / "json" / "stt_output"
         # 万一没有呢？
         self.audio_output_dir.mkdir(parents=True, exist_ok=True)
         self.json_output_dir.mkdir(parents=True, exist_ok=True)
 
+        # 预设模型启动状态为空
+        self.model = None
+
     # 这个函数用了FFMPEG将输入进来的音频统一转换为API支持的格式
-    def convert_audio(self) -> tuple[str, str]:
+    def convert_audio(self, raw_path) -> tuple[str, str]:
         # 首先获取一下文件名 方便给接下来生成的文件命名
-        filename: str = self.raw_path.stem
+        filename: str = raw_path.stem
         # 配置输出文件的路径以及名字
         output_path = self.audio_output_dir / f"{filename}_converted.wav"
         # 他这个API调用文件必须加一个这个我服了
         front: str = "file://"
         # 使用FFMPEG的命令
-        command: list = [
+        command = [
             "ffmpeg",
             "-y",
             "-i",
-            str(self.raw_path),
+            str(raw_path),
             "-ac",
             "1",
             "-ar",

@@ -7,3 +7,6 @@ requests
 fastapi
 vllm
 uvicorn
+funasr
+modelscope
+torchaudio

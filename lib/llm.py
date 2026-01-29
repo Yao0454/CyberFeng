@@ -1,7 +1,7 @@
 # 这里是llm.py 即 Large Language Model
 # 在这里将处理后的文字发送给LLM处理回答
-
 import json
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -11,6 +11,10 @@ from dotenv import load_dotenv
 from transformers import AutoTokenizer
 
 load_dotenv()
+proxy_url = "http://127.0.0.1:20171"
+
+os.environ["HTTP_PROXY"] = proxy_url
+os.environ["HTTPS_PROXY"] = proxy_url
 
 
 class LLM:
@@ -20,7 +24,7 @@ class LLM:
         _temperature: float = 0.7,
         _top_p: float = 0.8,
         _max_tokens: int = 512,
-        _gpu_memory_utilization: float = 0.9,
+        _gpu_memory_utilization: float = 0.3,
     ) -> None:
         """
         初始化 LLM 配置
@@ -40,12 +44,17 @@ class LLM:
         """
         新增接口启动配置的 LLM 模型
         """
+        project_root = Path(__file__).resolve().parent.parent
+        models_dir = project_root / "models"
+
         if self.llm is None:
             print(f"正在加载模型：{self.model_path}")
             self.llm = vllm.LLM(
                 model=self.model_path,
                 gpu_memory_utilization=self.gpu_memory_utilization,
+                download_dir=str(models_dir),
             )
+
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
             self.sampling_params = vllm.SamplingParams(
                 temperature=self.temperature,
@@ -147,7 +156,7 @@ class LLM:
 
 if __name__ == "__main__":
     extext: str = "你好啊，我很高兴和你对话！"
-    model_path: str = "/home/xingning/CyberFeng/models/qwen/Qwen2.5-7B-Instruct"
+    model_path: str = "Qwen/Qwen2.5-1.5B-Instruct"
 
     llm1 = LLM(model_path)
     llm1.load_model()

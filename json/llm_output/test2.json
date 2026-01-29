@@ -1,0 +1,11 @@
+{
+    "input": "你知道物理应该怎么学吗？",
+    "output": "物理其实挺有意思的，多做题，多思考。",
+    "raw_data": {
+        "request_id": "1",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你知道物理应该怎么学吗？<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "物理其实挺有意思的，多做题，多思考。",
+        "finish_reason": "stop",
+        "finished": true
+    }
+}

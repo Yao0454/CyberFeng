@@ -83,6 +83,10 @@ class LLM:
         else:
             print("模型并未启动")
 
+    @property
+    def get_model_status(self) -> bool:
+        return self.llm is not None
+
     def get_response(self, text: str, filename: str) -> Optional[str]:
         if self.tokenizer is None or self.llm is None:
             print("模型未启动")
@@ -152,6 +156,11 @@ class LLM:
             self.unload_model()
             self.gpu_memory_utilization = gpu_memory_utilization
             self.load_model()
+
+    def __del__(self) -> None:
+        if self.llm:
+            del self.llm
+            torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":

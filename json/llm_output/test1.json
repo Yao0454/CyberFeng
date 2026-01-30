@@ -1,9 +1,9 @@
 {
-    "input": "你好",
+    "input": "你好哇",
     "output": "很高兴为您服务",
     "raw_data": {
-        "request_id": "4",
-        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你好<|im_end|>\n<|im_start|>assistant\n",
+        "request_id": "0",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你好哇<|im_end|>\n<|im_start|>assistant\n",
         "generated_text": "很高兴为您服务",
         "finish_reason": "stop",
         "finished": true

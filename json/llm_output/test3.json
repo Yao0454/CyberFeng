@@ -1,0 +1,11 @@
+{
+    "input": "你觉我们应该怎么学c++",
+    "output": "多做项目，多看代码，多思考。",
+    "raw_data": {
+        "request_id": "2",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你觉我们应该怎么学c++<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "多做项目，多看代码，多思考。",
+        "finish_reason": "stop",
+        "finished": true
+    }
+}

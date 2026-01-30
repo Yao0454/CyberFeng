@@ -1,8 +1,12 @@
 # stt.py 即 Speak to Text 将嵌入式端得到的语音文件转换为文本
+import gc
 import json
 import os
 import subprocess
 from pathlib import Path
+
+import torch
+from funasr import AutoModel
 
 project_root = Path(__file__).resolve().parent.parent
 models_dir = project_root / "models"
@@ -23,18 +27,55 @@ class STT:
         # 万一没有呢？
         self.audio_output_dir.mkdir(parents=True, exist_ok=True)
         self.json_output_dir.mkdir(parents=True, exist_ok=True)
+        self.raw_path: str = _raw_path
 
         # 预设模型启动状态为空
         self.model = None
 
+    def load_model(self) -> None:
+        """
+        启动 STT 模型
+        """
+        if self.model is None:
+            print("正在启动 STT 模型")
+            try:
+                self.model = AutoModel(
+                    model="paraformer-zh",
+                    vad_model="fsmn-vad",
+                    device="cuda",
+                )
+                print("STT 模型加载完成")
+            except Exception as e:
+                print(f"STT 模型加载失败：{e}")
+        else:
+            print("STT 模型已在运行中")
+
+    def unload_model(self) -> None:
+        """
+        关闭 STT 模型
+        """
+        if self.model is not None:
+            print("正在关闭 STT 模型")
+            try:
+                del self.model
+                self.model = None
+                gc.collect()
+                torch.cuda.empty_cache()
+                print("STT 模型已卸载")
+
+            except Exception as e:
+                print(f"模型未成功卸载：{e}")
+        else:
+            print("STT 模型为加载")
+
     # 这个函数用了FFMPEG将输入进来的音频统一转换为API支持的格式
     def convert_audio(self, raw_path) -> tuple[str, str]:
         # 首先获取一下文件名 方便给接下来生成的文件命名
-        filename: str = raw_path.stem
+
+        filename: str = Path(raw_path).stem
         # 配置输出文件的路径以及名字
         output_path = self.audio_output_dir / f"{filename}_converted.wav"
         # 他这个API调用文件必须加一个这个我服了
-        front: str = "file://"
         # 使用FFMPEG的命令
         command = [
             "ffmpeg",
@@ -54,7 +95,7 @@ class STT:
             # 调用子进程来处理音频文件
             subprocess.run(command, check=True, capture_output=True)
             print(f"转换成功: {output_path}")
-            return front + str(output_path), filename
+            return str(output_path), filename
         except subprocess.CalledProcessError as e:
             print(f"转换失败: {e}")
             if e.stderr:
@@ -63,27 +104,24 @@ class STT:
 
     # 这个函数用来将音频文件发给API然后转换成文字
     # 他们官方文档给的返回值是一个带有固定模版的jsonfile
-    def process_audio(self, filepath: str):
-        # 这里配置模型设置
-        messages: list[dict] = [
-            {"role": "system", "content": [{"text": ""}]},
-            {"role": "user", "content": [{"audio": filepath}]},
-        ]
-        # 诶 我再try一下
+    def process_audio(self):
+        """
+        语音转文字
+        """
+        if not self.model:
+            print("STT 模型未加载，将自动加载模型...")
+            self.load_model()
+            assert self.model is not None
+
+        converted_path, filename = self.convert_audio(self.raw_path)
+
         try:
-            response = dashscope.MultiModalConversation.call(
-                api_key=self.api_key,
-                model="qwen3-asr-flash",
-                messages=messages,
-                result_format="message",
-                asr_options={"enable_itn": False},
-            )
-
-            return response
-
+            response = self.model.generate(input=converted_path)
+            text: str = response[0]["text"]
+            return text, filename
         except Exception as e:
-            print(f"[Error]:{e}")
-            return
+            print(f"识别过程出错：{e}")
+            return "", filename
 
     # 这个函数把我获取到的responce写入一个json文件里面
     def save_to_json(self, response, filename: str) -> str:
@@ -101,37 +139,15 @@ class STT:
         print(f"语音文本已保存至{json_path}")
         return str(json_path)
 
-    # 从json里面取出精华，即你说的话
-    def get_text(self, json_path: str) -> str:
-        with Path(json_path).open("r", encoding="utf-8") as f:
-            data = json.load(f)
-            text: str = data["output"]["choices"][0]["message"]["content"][0]["text"]
-            return text
-
-    # 傻瓜式 直接返回你说的话 类型为str方便之后的操作
-    # 其实我可以写个修饰器让他直接变成一个变量
-    # 再说吧
-    # @property
-    # 算了 反正就一行
-    def one_click(self) -> tuple[str, str]:
-        """
-        一键处理
-        """
-        converted_path, filename = self.convert_audio()
-        return self.get_text(
-            self.save_to_json(self.process_audio(converted_path), filename)
-        ), filename
+    @property
+    def get_text(self) -> str:
+        return self.process_audio()[0]
 
 
 if __name__ == "__main__":
     # debuuuuuuuuuuuuuuug
-    filepath: str = "/Users/feng/Desktop/CyberFeng/audio/raw/Sample1.m4a"
-    # print(os.getenv("DASHSCOPE_API_KEY"))
-    # converted_path, filename = convert_audio(filepath)
-    # json_path: str = save_to_json(process_audio(converted_path), filename)
-    stt_demo = STT(filepath)
-    converted_path, filename = stt_demo.convert_audio()
-    stt_demo.save_to_json(stt_demo.process_audio(converted_path), filename)
-
+    filepath: str = "/home/xingning/CyberFeng/audio/raw/Sample3.m4a"
+    ex1: STT = STT(filepath)
+    print(ex1.get_text)
 
 # end main

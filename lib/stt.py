@@ -15,7 +15,9 @@ models_dir.mkdir(parents=True, exist_ok=True)
 # 给声音处理创建一个类
 class STT:
     # 构造函数：传入音频文件地址
-    def __init__(self, _raw_path: str) -> None:
+    def __init__(
+        self,
+    ) -> None:
         """
         初始化 STT 服务
         """
@@ -26,7 +28,6 @@ class STT:
         # 万一没有呢？
         self.audio_output_dir.mkdir(parents=True, exist_ok=True)
         self.json_output_dir.mkdir(parents=True, exist_ok=True)
-        self.raw_path: str = _raw_path
 
         # 预设模型启动状态为空
         self.model = None
@@ -72,7 +73,7 @@ class STT:
         return self.model is not None
 
     # 这个函数用了FFMPEG将输入进来的音频统一转换为API支持的格式
-    def convert_audio(self, raw_path) -> tuple[str, str]:
+    def convert_audio(self, raw_path: str) -> tuple[str, str]:
         # 首先获取一下文件名 方便给接下来生成的文件命名
 
         filename: str = Path(raw_path).stem
@@ -107,7 +108,7 @@ class STT:
 
     # 这个函数用来将音频文件发给API然后转换成文字
     # 他们官方文档给的返回值是一个带有固定模版的jsonfile
-    def process_audio(self):
+    def process_audio(self, raw_path: str) -> tuple[str, str]:
         """
         语音转文字
         """
@@ -116,7 +117,7 @@ class STT:
             self.load_model()
             assert self.model is not None
 
-        converted_path, filename = self.convert_audio(self.raw_path)
+        converted_path, filename = self.convert_audio(raw_path)
 
         try:
             response = self.model.generate(input=converted_path)
@@ -142,15 +143,9 @@ class STT:
         print(f"语音文本已保存至{json_path}")
         return str(json_path)
 
-    @property
-    def get_text(self) -> str:
-        return self.process_audio()[0]
-
 
 if __name__ == "__main__":
     # debuuuuuuuuuuuuuuug
     filepath: str = "/home/xingning/CyberFeng/audio/raw/Sample3.m4a"
-    ex1: STT = STT(filepath)
-    print(ex1.get_text)
 
 # end main

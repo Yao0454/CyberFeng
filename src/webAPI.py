@@ -1,5 +1,7 @@
 import shutil
+from dataclasses import dataclass
 from pathlib import Path
+from typing import cast
 
 import uvicorn
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -22,8 +24,44 @@ REF_AUDIO_PATH = "reference_voice/reference.wav"
 REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 
 
+@dataclass
+class WorkFlows:
+    stt: STT
+    llm: LLM
+
+
+def pre_work(
+    model_path: str = "Qwen/Qwen2.5-1.5B-Instruct",
+) -> bool:
+    workflows = WorkFlows(stt=STT(), llm=LLM(model_path))
+    workflows.stt.load_model()
+    workflows.llm.load_model()
+
+    if not (workflows.stt.get_model_status and workflows.llm.get_model_status):
+        return False
+    app.state.workflows = workflows
+    return True
+
+
+def get_workflows() -> WorkFlows:
+    if not hasattr(app.state, "workflows"):
+        raise RuntimeError("workflows 没有被正确初始化")
+    return cast(WorkFlows, app.state.workflows)
+
+
+def stop_service() -> bool:
+    workflows = get_workflows()
+    workflows.stt.unload_model()
+    workflows.llm.unload_model()
+    return not workflows.stt.get_model_status and not workflows.llm.get_model_status
+
+
 @app.post("/chat")
 async def chat_endpoint(file: UploadFile = File(...)):
+    workflows: WorkFlows = get_workflows()
+    llm: LLM = workflows.llm
+    stt: STT = workflows.stt
+
     try:
         # 保存上传到服务器的音频文件
         file_location = UPLOAD_DIR / (file.filename or "")
@@ -32,26 +70,12 @@ async def chat_endpoint(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
         print(f"成功收到音频文件{file_location}")
 
-        # STT
-        stt_workflow = STT(str(file_location))
-        input_text, filename = stt_workflow.process_audio()
+        convert_text, filename = stt.process_audio(str(file_location))
+        output_text: str | None = llm.get_response(convert_text, filename)
 
-        # LLM
-        model_path: str = "Qwen/Qwen2.5-1.5B-Instruct"
-        llm_workflow = LLM(model_path)
-        llm_workflow.load_model()
-
-        llm_responce = llm_workflow.get_response(input_text, filename)
-        # TTS
-        tts_workflow = tts.Infer(
-            _api_addr=TTS_SERVER_ADDR,
-            _text=llm_responce,
-            _text_lang="zh",
-            _ref_audio_path=REF_AUDIO_PATH,
-            _prompt_lang="zh",
-            _prompt_text=REF_TEXT,
+        tts_workflow: tts.Infer = tts.Infer(
+            TTS_SERVER_ADDR, str(output_text), "zh", REF_AUDIO_PATH, "zh", REF_TEXT
         )
-
         output_audio_path = tts_workflow.save_audio(filename)
 
         if output_audio_path and Path(output_audio_path).exists():

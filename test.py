@@ -1,18 +1,20 @@
 from lib.llm import LLM
+from lib.stt import STT
+
+
+def pre_work(stt_workflow: STT, llm_workflow: LLM) -> bool:
+    stt_workflow.load_model()
+    llm_workflow.load_model()
+    if not (stt_workflow.get_model_status or llm_workflow.get_model_status):
+        return False
+    return True
 
 
 def main() -> None:
-    llmex: LLM = LLM("Qwen/Qwen2.5-1.5B-Instruct")
-    llmex.load_model()
-    i = 1
-    while True:
-        prompt: str = input("请输入提示词，退出则输入0：")
-        if prompt == "0":
-            llmex.unload_model()
-            break
-        print(llmex.get_response(prompt, f"test{i}"))
-        i += 1
-
-
-if __name__ == "__main__":
-    main()
+    model_path: str = "Qwen/Qwen2.5-1.5B-Instruct"
+    audio_path: str = "audio/raw/Sample5.m4a"
+    stt_workflow = STT(audio_path)
+    llm_workflow = LLM(model_path)
+    if not pre_work(stt_workflow, llm_workflow):
+        print("模型启动失败")
+        return

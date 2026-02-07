@@ -1,7 +1,6 @@
 # stt.py 即 Speak to Text 将嵌入式端得到的语音文件转换为文本
 import gc
 import json
-import os
 import subprocess
 from pathlib import Path
 
@@ -67,6 +66,10 @@ class STT:
                 print(f"模型未成功卸载：{e}")
         else:
             print("STT 模型为加载")
+
+    @property
+    def get_model_status(self) -> bool:
+        return self.model is not None
 
     # 这个函数用了FFMPEG将输入进来的音频统一转换为API支持的格式
     def convert_audio(self, raw_path) -> tuple[str, str]:

@@ -34,20 +34,14 @@ async def chat_endpoint(file: UploadFile = File(...)):
 
         # STT
         stt_workflow = STT(str(file_location))
-        input_text, filename = stt_workflow.one_click()
+        input_text, filename = stt_workflow.process_audio()
 
         # LLM
-        llm_workflow = LLM(input_text, filename)
-        llm_responce = llm_workflow.get_response()
+        model_path: str = "Qwen/Qwen2.5-1.5B-Instruct"
+        llm_workflow = LLM(model_path)
+        llm_workflow.load_model()
 
-        """
-        此处设置临时NO PROXY
-
-        if os.environ.get('NO_PROXY'):
-            os.environ['NO_PROXY'] += ',36.103.177.158'
-        else:
-            os.environ['NO_PROXY'] = '36.103.177.158'
-        """
+        llm_responce = llm_workflow.get_response(input_text, filename)
         # TTS
         tts_workflow = tts.Infer(
             _api_addr=TTS_SERVER_ADDR,

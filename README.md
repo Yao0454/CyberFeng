@@ -1,5 +1,123 @@
 # CyberFeng (赛博枫枫子) 🤖
 
+## 🧱 Python 类功能接口（推荐用法）
+
+本项目的核心能力封装在 `lib/` 下，均提供「加载模型 / 卸载模型」的生命周期接口，避免每次调用都重复加载导致慢、占显存。
+
+> 说明：本文档已更新为 **本地推理版本**：
+> - **LLM**：vLLM 本地加载 Qwen2.5 Instruct（支持手动加载/卸载）
+> - **STT**：FunASR 本地 Paraformer（支持手动加载/卸载）
+> - 模型缓存目录：`models/`（LLM `download_dir` 使用该目录；STT 当前也会在项目下使用该目录）
+
+---
+
+### 1) `lib/llm.py`：`LLM`（vLLM，本地大模型）
+
+#### 初始化
+- `LLM(_modelpath, _temperature=0.7, _top_p=0.8, _max_tokens=512, _gpu_memory_utilization=0.3)`
+
+常用参数：
+- `_modelpath`：模型路径或 Hugging Face 模型ID（例如 `Qwen/Qwen2.5-1.5B-Instruct`）
+- `_gpu_memory_utilization`：vLLM 显存利用率（越大可用 KV Cache 越多，但会占用更多显存）
+
+#### 生命周期接口
+- `load_model() -> None`
+  - 作用：加载模型到显存并初始化 tokenizer / sampling params
+- `unload_model() -> None`
+  - 作用：卸载模型并清理显存（`torch.cuda.empty_cache()`）
+- `get_model_status -> bool`（属性）
+  - 作用：查看模型是否已加载
+
+#### 推理接口
+- `get_response(text: str, filename: str) -> Optional[str]`
+  - 返回：模型回复文本
+  - 副作用：把结构化输出保存到 `json/llm_output/{filename}.json`
+
+#### 参数调整
+- `set_sampling_params(_temperature, _top_p, _max_tokens) -> None`
+- `set_gpu_memory_utilization(gpu_memory_utilization: float) -> None`
+  - 如果模型已加载：会先卸载再按新显存参数重载
+
+#### 使用示例
+```python
+from lib.llm import LLM
+
+llm = LLM(
+    _modelpath="Qwen/Qwen2.5-1.5B-Instruct",
+    _temperature=0.7,
+    _top_p=0.8,
+    _max_tokens=256,
+    _gpu_memory_utilization=0.3,
+)
+
+llm.load_model()
+reply = llm.get_response("你好，请用一句话介绍你自己", "demo_llm_01")
+print("LLM:", reply)
+llm.unload_model()
+```
+
+---
+
+### 2) `lib/stt.py`：`STT`（FunASR，本地语音转文字）
+
+#### 初始化
+- `STT(_raw_path: str)`
+  - `_raw_path`：原始音频文件路径（例如 `.m4a` / `.wav`）
+
+#### 生命周期接口
+- `load_model() -> None`
+  - 作用：加载 Paraformer-zh（并启用 VAD），默认使用 GPU（`device="cuda"`）
+- `unload_model() -> None`
+  - 作用：卸载模型并清理显存
+- `get_model_status -> bool`（属性）
+  - 作用：查看模型是否已加载
+
+#### 推理接口
+- `process_audio() -> tuple[str, str]`
+  - 返回：`(text, filename)`
+  - 如果模型未加载，会自动调用 `load_model()`
+- `get_text -> str`（属性）
+  - 返回：等价于 `process_audio()[0]`
+
+#### 音频处理接口
+- `convert_audio(raw_path) -> tuple[str, str]`
+  - 作用：调用 `ffmpeg` 将音频转换为 16kHz / 单声道 / s16 的 wav
+  - 返回：`(converted_path, filename)`
+
+#### 使用示例
+```python
+from lib.stt import STT
+
+stt = STT("/CyberFeng/audio/raw/Sample3.m4a")
+stt.load_model()
+
+text, filename = stt.process_audio()
+print("STT:", text, "filename:", filename)
+
+stt.unload_model()
+```
+
+---
+
+### 3) 串联示例：STT -> LLM
+```python
+from lib.stt import STT
+from lib.llm import LLM
+
+stt = STT("/CyberFeng/audio/raw/Sample3.m4a")
+llm = LLM("Qwen/Qwen2.5-1.5B-Instruct")
+
+stt.load_model()
+llm.load_model()
+
+text, filename = stt.process_audio()
+reply = llm.get_response(text, filename)
+print("reply:", reply)
+
+llm.unload_model()
+stt.unload_model()
+```
+
 > 一个基于大模型的端云协同多模态语音交互系统。
 > 
 > *“你是一个AI助手，名字叫CyberFeng。你的说话风格要酷一点，简短有力。”*
@@ -24,11 +142,13 @@ CyberFeng/
 │   ├── platformio.ini      # 硬件项目配置文件
 │   └── diagram.json        # Wokwi 仿真电路图
 ├── json/
-│   └── stt_output/         # 语音识别结果的 JSON 缓存
+│   ├── stt_output/         # 语音识别结果的 JSON 缓存
+│   └── llm_output/         # 大模型输出的 JSON 缓存
 ├── lib/                    # 核心功能模块库 (Python)
-│   ├── stt.py              # 语音识别模块 (DashScope)
-│   ├── llm.py              # 大模型对话模块 (Google Gemini)
+│   ├── stt.py              # 语音识别模块 (本地 FunASR，可加载/卸载)
+│   ├── llm.py              # 大模型对话模块 (本地 vLLM，可加载/卸载)
 │   └── tts.py              # 语音合成客户端 (GPT-SoVITS)
+├── models/                 # 本地模型/缓存目录（LLM/STT 都会下载到这里）
 ├── src/                    # 后端服务模块
 │   └── webAPI.py           # FastAPI 接口服务 (供 ESP32 调用)
 ├── main.py                 # 项目主入口 / 本地测试脚本
@@ -43,10 +163,12 @@ CyberFeng/
 
 *   **编程语言**: Python 3.10+ (后端), C++ (硬件)
 *   **Web 框架**: [FastAPI](https://fastapi.tiangolo.com/) (提供 RESTful 接口)
-*   **语音识别 (ASR)**: [阿里云 DashScope](https://help.aliyun.com/zh/dashscope/) (通义听悟 / Paraformer)
-    *   利用 FFmpeg 进行音频格式预处理。
-*   **大语言模型 (LLM)**: [Google Gemini](https://ai.google.dev/) (gemini-2.5-flash)
-    *   通过 Prompt Engineering 定制赛博朋克角色人设。
+*   **语音识别 (ASR / STT)**: 本地 [FunASR](https://github.com/modelscope/FunASR) (Paraformer-zh)
+    *   利用 FFmpeg 进行音频格式预处理（16kHz 单声道 wav）。
+    *   支持手动 `load_model()` / `unload_model()` 管理显存与资源。
+*   **大语言模型 (LLM)**: 本地 [vLLM](https://github.com/vllm-project/vllm) 加载 Qwen2.5 Instruct
+    *   同样支持手动 `load_model()` / `unload_model()`。
+    *   通过 Chat Template 注入 System Prompt（角色提示词）。
 *   **语音合成 (TTS)**: [GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS)
     *   私有化部署的高质量 TTS 服务。
     *   封装了 RESTful API 客户端，支持流式传输与模型切换。
@@ -59,15 +181,16 @@ CyberFeng/
 
 系统采用了经典的 **"听-想-说"** 三段式架构，并增加了 **端云交互** 层：
 
-1.  **听 (STT - lib/stt.py)**
+1.  **听 (STT - lib/stt.py，本地 FunASR)**
     *   接收原始音频文件（如 `.m4a`）。
-    *   调用 `ffmpeg` 将其转换为 API 兼容的格式（如 `.wav` 或 `.mp3`）。
-    *   发送至阿里云 DashScope 接口，解析返回的 JSON 数据提取文本。
+    *   调用 `ffmpeg` 转换为 **16kHz / 单声道 / s16 wav**。
+    *   使用本地 FunASR `paraformer-zh` 推理得到文本（可选 VAD/标点模型）。
+    *   支持手动加载/卸载模型，避免每次识别都重复加载。
 
-2.  **想 (LLM - lib/llm.py)**
-    *   接收 STT 转换后的文本。
-    *   加载系统提示词 (System Prompt)：设定 AI 为“CyberFeng”，性格热情且酷。
-    *   调用 Google Gemini API 生成回复文本。
+2.  **想 (LLM - lib/llm.py，本地 vLLM)**
+    *   接收 STT 结果文本。
+    *   使用 tokenizer 的 Chat Template 组装 `system/user/assistant`，注入角色提示词（System Prompt）。
+    *   vLLM 本地推理生成回复文本，并将输出以更清晰的结构写入 `json/llm_output/`。
 
 3.  **说 (TTS - lib/tts.py)**
     *   接收 LLM 生成的回复文本。
@@ -93,16 +216,38 @@ cd CyberFeng
 ```bash
 pip install -r requirements.txt
 ```
+
+本地 STT 需要额外依赖（如未写入 `requirements.txt` 请手动安装）：
+```bash
+pip install funasr modelscope torchaudio
+```
+
 *注意：你需要确保系统中已安装 `ffmpeg` 并配置了环境变量。*
 
 ### 3. 配置环境变量
-在项目根目录创建 `.env` 文件，填入你的 API Key：
-```ini
-# 阿里云 DashScope API Key (用于语音识别)
-DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxx
 
-# Google Gemini API Key (用于大模型对话)
-GEMINI_API_KEY=AIzaSyxxxxxxxxxxxxxxx
+#### 3.1 API Key（可选）
+如果你只使用 **本地 STT/LLM**，可以不配置 Key；如果仍保留云端能力再按需添加。
+
+在项目根目录创建 `.env` 文件（可选）：
+```ini
+# 可选：如果你仍在使用 DashScope 的云端能力
+DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxx
+```
+
+#### 3.2 下载代理（可选）
+如果你需要给 Hugging Face / ModelScope 下载挂代理（用哪个填哪个）：
+- 在终端运行前设置环境变量，或在代码最前面 `os.environ[...] = ...`
+- 常见写法如下（示例端口 7890）：
+```text
+HTTP_PROXY=http://127.0.0.1:7890
+HTTPS_PROXY=http://127.0.0.1:7890
+```
+
+#### 3.3 国内镜像（可选）
+如果你从 Hugging Face 下载很慢，可以设置：
+```text
+HF_ENDPOINT=https://hf-mirror.com
 ```
 
 ### 4. 部署 TTS 服务 (GPT-SoVITS)

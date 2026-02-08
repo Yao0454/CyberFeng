@@ -131,7 +131,44 @@ stt.unload_model()
 
 
 <!-- STATS:START -->
-<!-- 此部分内容将由 GitHub Actions 自动更新 -->
+
+## 📊 项目统计
+
+<div align="center">
+
+![GitHub stars](https://img.shields.io/github/stars/Yao0454/CyberFeng?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Yao0454/CyberFeng?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/Yao0454/CyberFeng?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/Yao0454/CyberFeng)
+![GitHub language count](https://img.shields.io/github/languages/count/Yao0454/CyberFeng)
+![GitHub top language](https://img.shields.io/github/languages/top/Yao0454/CyberFeng)
+![GitHub last commit](https://img.shields.io/github/last-commit/Yao0454/CyberFeng)
+![GitHub issues](https://img.shields.io/github/issues/Yao0454/CyberFeng)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/Yao0454/CyberFeng)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Yao0454/CyberFeng)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Yao0454/CyberFeng)
+![GitHub contributors](https://img.shields.io/github/contributors/Yao0454/CyberFeng)
+
+</div>
+
+### 📈 仓库数据
+
+- ⭐ **Stars**: 8
+- 🍴 **Forks**: 0
+- 👀 **Watchers**: 0
+- 🐛 **Open Issues**: 1
+- 💾 **仓库大小**: 18182 KB
+
+### 📝 最近提交
+
+- [`fcea400`](https://github.com/Yao0454/CyberFeng/commit/fcea400b1f407b4eda25be5921171396530be503) Merge pull request #2 from Yao0454/copilot/update-readme-in-real-time - *姚奕枫* (2026-02-09 02:10)
+- [`3af10a2`](https://github.com/Yao0454/CyberFeng/commit/3af10a22c0d6793e787911f392678bb949637278) docs: Address code review feedback and clarify documentation - *copilot-swe-agent[bot]* (2026-02-09 02:08)
+- [`2bf4d81`](https://github.com/Yao0454/CyberFeng/commit/2bf4d81a2159815f3ed971124b6622e48b350a91) docs: Add workflow badge and auto-update documentation - *copilot-swe-agent[bot]* (2026-02-09 02:07)
+- [`6c71828`](https://github.com/Yao0454/CyberFeng/commit/6c71828c26c88bb937bf159c909a991f875677d0) feat: Add GitHub Actions workflow for auto-updating README stats - *copilot-swe-agent[bot]* (2026-02-09 02:06)
+- [`cd36267`](https://github.com/Yao0454/CyberFeng/commit/cd362678d77be2025b828b892515dc675c471ffd) Initial plan - *copilot-swe-agent[bot]* (2026-02-09 02:04)
+
+*最后更新时间: 2026年02月09日 02:10:53 (北京时间)*
+
 <!-- STATS:END -->
 
 ## 📖 项目介绍
@@ -316,7 +353,46 @@ python main.py
 1. `.github/workflows/update-readme.yml` - GitHub Actions 工作流配置
 2. `.github/scripts/update_readme.py` - Python 脚本，通过 GitHub API 获取统计数据并更新 README
 
-统计数据会自动插入到 `<!-- STATS:START -->` 和 `<!-- STATS:END -->` 标记之间。
+统计数据会自动插入到 `<!-- STATS:START -->
+
+## 📊 项目统计
+
+<div align="center">
+
+![GitHub stars](https://img.shields.io/github/stars/Yao0454/CyberFeng?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Yao0454/CyberFeng?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/Yao0454/CyberFeng?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/Yao0454/CyberFeng)
+![GitHub language count](https://img.shields.io/github/languages/count/Yao0454/CyberFeng)
+![GitHub top language](https://img.shields.io/github/languages/top/Yao0454/CyberFeng)
+![GitHub last commit](https://img.shields.io/github/last-commit/Yao0454/CyberFeng)
+![GitHub issues](https://img.shields.io/github/issues/Yao0454/CyberFeng)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/Yao0454/CyberFeng)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Yao0454/CyberFeng)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Yao0454/CyberFeng)
+![GitHub contributors](https://img.shields.io/github/contributors/Yao0454/CyberFeng)
+
+</div>
+
+### 📈 仓库数据
+
+- ⭐ **Stars**: 8
+- 🍴 **Forks**: 0
+- 👀 **Watchers**: 0
+- 🐛 **Open Issues**: 1
+- 💾 **仓库大小**: 18182 KB
+
+### 📝 最近提交
+
+- [`fcea400`](https://github.com/Yao0454/CyberFeng/commit/fcea400b1f407b4eda25be5921171396530be503) Merge pull request #2 from Yao0454/copilot/update-readme-in-real-time - *姚奕枫* (2026-02-09 02:10)
+- [`3af10a2`](https://github.com/Yao0454/CyberFeng/commit/3af10a22c0d6793e787911f392678bb949637278) docs: Address code review feedback and clarify documentation - *copilot-swe-agent[bot]* (2026-02-09 02:08)
+- [`2bf4d81`](https://github.com/Yao0454/CyberFeng/commit/2bf4d81a2159815f3ed971124b6622e48b350a91) docs: Add workflow badge and auto-update documentation - *copilot-swe-agent[bot]* (2026-02-09 02:07)
+- [`6c71828`](https://github.com/Yao0454/CyberFeng/commit/6c71828c26c88bb937bf159c909a991f875677d0) feat: Add GitHub Actions workflow for auto-updating README stats - *copilot-swe-agent[bot]* (2026-02-09 02:06)
+- [`cd36267`](https://github.com/Yao0454/CyberFeng/commit/cd362678d77be2025b828b892515dc675c471ffd) Initial plan - *copilot-swe-agent[bot]* (2026-02-09 02:04)
+
+*最后更新时间: 2026年02月09日 02:10:53 (北京时间)*
+
+<!-- STATS:END -->` 标记之间。
 
 ## 📄 开源说明
 

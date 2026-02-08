@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Self
 
@@ -18,28 +18,25 @@ class CyberFengData:
 
 @dataclass
 class CyberFeng:
-    datas: CyberFengData = CyberFengData()
+    datas: CyberFengData = field(default_factory=CyberFengData)
 
-    @classmethod
-    def get_status(cls) -> bool:
-        return cls.stt_service.get_model_status and cls.llm_service.get_model_status
+    def get_status(self) -> bool:
+        return self.stt_service.get_model_status and self.llm_service.get_model_status
 
-    @classmethod
-    def start_service(cls) -> bool:
-        cls.stt_service: STT = STT()
-        cls.llm_service: LLM = LLM(str(cls.datas.model_path))
+    def start_service(self) -> bool:
+        self.stt_service: STT = STT()
+        self.llm_service: LLM = LLM(str(self.datas.model_path))
 
-        cls.stt_service.load_model()
-        cls.llm_service.load_model()
-        return cls.get_status()
+        self.stt_service.load_model()
+        self.llm_service.load_model()
+        return self.get_status()
 
-    @classmethod
-    def stop_service(cls) -> bool:
-        cls.stt_service.unload_model()
-        cls.llm_service.unload_model()
+    def stop_service(self) -> bool:
+        self.stt_service.unload_model()
+        self.llm_service.unload_model()
         return (
-            not cls.stt_service.get_model_status
-            and not cls.llm_service.get_model_status
+            not self.stt_service.get_model_status
+            and not self.llm_service.get_model_status
         )
 
     def choose_audio(self, input_audio_path) -> Self:

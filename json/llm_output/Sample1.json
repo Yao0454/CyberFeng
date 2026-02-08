@@ -1,0 +1,11 @@
+{
+    "input": "在 光 绪 二 十 六 年 神 助 全 义 和 团 扶 妻 灭 阳 五 十 五 天 在 北 京",
+    "output": "光绪二十六年神助拳义和团扶妻灭洋五十五天在北京。",
+    "raw_data": {
+        "request_id": "0",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n在 光 绪 二 十 六 年 神 助 全 义 和 团 扶 妻 灭 阳 五 十 五 天 在 北 京<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "光绪二十六年神助拳义和团扶妻灭洋五十五天在北京。",
+        "finish_reason": "stop",
+        "finished": true
+    }
+}

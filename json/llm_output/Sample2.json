@@ -1,0 +1,11 @@
+{
+    "input": "你 觉 得 是 学 python 重 要 还 是 学 CA 加 重 要 呢",
+    "output": "学 Python 重，学 CA 也要。",
+    "raw_data": {
+        "request_id": "1",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你 觉 得 是 学 python 重 要 还 是 学 CA 加 重 要 呢<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "学 Python 重，学 CA 也要。",
+        "finish_reason": "stop",
+        "finished": true
+    }
+}

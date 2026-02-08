@@ -1,43 +1,44 @@
-{
-    "status_code": 200,
-    "request_id": "7c2c87cb-ba11-414e-912c-6201ae7458fa",
-    "code": "",
-    "message": "",
-    "output": {
-        "text": null,
-        "finish_reason": null,
-        "choices": [
-            {
-                "finish_reason": "stop",
-                "message": {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "text": "你喜欢看星球大战吗？"
-                        }
-                    ],
-                    "annotations": [
-                        {
-                            "emotion": "neutral",
-                            "language": "zh",
-                            "type": "audio_info"
-                        }
-                    ]
-                }
-            }
-        ],
-        "audio": null
-    },
-    "usage": {
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "characters": 0,
-        "input_tokens_details": {
-            "text_tokens": 0
-        },
-        "output_tokens_details": {
-            "text_tokens": 13
-        },
-        "seconds": 3
+[
+    {
+        "key": "Sample3_converted",
+        "text": "你 喜 欢 看 星 球 大 战 吗",
+        "timestamp": [
+            [
+                890,
+                1130
+            ],
+            [
+                1130,
+                1230
+            ],
+            [
+                1230,
+                1410
+            ],
+            [
+                1410,
+                1610
+            ],
+            [
+                1610,
+                1750
+            ],
+            [
+                1750,
+                1950
+            ],
+            [
+                1950,
+                2090
+            ],
+            [
+                2090,
+                2270
+            ],
+            [
+                2270,
+                2865
+            ]
+        ]
     }
-}
+]

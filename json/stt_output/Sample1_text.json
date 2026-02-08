@@ -1,43 +1,104 @@
-{
-    "status_code": 200,
-    "request_id": "03985dad-c839-44ce-ad15-ea26eb24906b",
-    "code": "",
-    "message": "",
-    "output": {
-        "text": null,
-        "finish_reason": null,
-        "choices": [
-            {
-                "finish_reason": "stop",
-                "message": {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "text": "在光绪二十六年，神助拳义和团，扶清灭洋，五十五天在北京。"
-                        }
-                    ],
-                    "annotations": [
-                        {
-                            "emotion": "neutral",
-                            "language": "zh",
-                            "type": "audio_info"
-                        }
-                    ]
-                }
-            }
-        ],
-        "audio": null
-    },
-    "usage": {
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "characters": 0,
-        "input_tokens_details": {
-            "text_tokens": 0
-        },
-        "output_tokens_details": {
-            "text_tokens": 31
-        },
-        "seconds": 7
+[
+    {
+        "key": "Sample1_converted",
+        "text": "在 光 绪 二 十 六 年 神 助 全 义 和 团 扶 妻 灭 阳 五 十 五 天 在 北 京",
+        "timestamp": [
+            [
+                690,
+                930
+            ],
+            [
+                1030,
+                1230
+            ],
+            [
+                1230,
+                1450
+            ],
+            [
+                1450,
+                1590
+            ],
+            [
+                1590,
+                1710
+            ],
+            [
+                1710,
+                1890
+            ],
+            [
+                1890,
+                2130
+            ],
+            [
+                2270,
+                2510
+            ],
+            [
+                2610,
+                2770
+            ],
+            [
+                2770,
+                3010
+            ],
+            [
+                3090,
+                3250
+            ],
+            [
+                3250,
+                3350
+            ],
+            [
+                3350,
+                3590
+            ],
+            [
+                3970,
+                4190
+            ],
+            [
+                4190,
+                4370
+            ],
+            [
+                4370,
+                4550
+            ],
+            [
+                4550,
+                4790
+            ],
+            [
+                4990,
+                5130
+            ],
+            [
+                5130,
+                5270
+            ],
+            [
+                5270,
+                5430
+            ],
+            [
+                5430,
+                5670
+            ],
+            [
+                5710,
+                5930
+            ],
+            [
+                5930,
+                6090
+            ],
+            [
+                6090,
+                6385
+            ]
+        ]
     }
-}
+]

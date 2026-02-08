@@ -1,43 +1,72 @@
-{
-    "status_code": 200,
-    "request_id": "16eb8c3b-8fc0-4fe0-9be9-989c8def2c33",
-    "code": "",
-    "message": "",
-    "output": {
-        "text": null,
-        "finish_reason": null,
-        "choices": [
-            {
-                "finish_reason": "stop",
-                "message": {
-                    "role": "assistant",
-                    "content": [
-                        {
-                            "text": "你觉得是学Python重要还是学C加加重要呢？"
-                        }
-                    ],
-                    "annotations": [
-                        {
-                            "emotion": "neutral",
-                            "language": "zh",
-                            "type": "audio_info"
-                        }
-                    ]
-                }
-            }
-        ],
-        "audio": null
-    },
-    "usage": {
-        "input_tokens": 0,
-        "output_tokens": 0,
-        "characters": 0,
-        "input_tokens_details": {
-            "text_tokens": 0
-        },
-        "output_tokens_details": {
-            "text_tokens": 20
-        },
-        "seconds": 4
+[
+    {
+        "key": "Sample2_converted",
+        "text": "你 觉 得 是 学 python 重 要 还 是 学 CA 加 重 要 呢",
+        "timestamp": [
+            [
+                630,
+                770
+            ],
+            [
+                770,
+                950
+            ],
+            [
+                950,
+                1030
+            ],
+            [
+                1030,
+                1130
+            ],
+            [
+                1130,
+                1310
+            ],
+            [
+                1310,
+                1790
+            ],
+            [
+                1790,
+                1870
+            ],
+            [
+                1870,
+                2050
+            ],
+            [
+                2050,
+                2230
+            ],
+            [
+                2230,
+                2310
+            ],
+            [
+                2310,
+                2490
+            ],
+            [
+                2490,
+                2730
+            ],
+            [
+                2730,
+                2950
+            ],
+            [
+                2950,
+                3110
+            ],
+            [
+                3110,
+                3290
+            ],
+            [
+                3290,
+                3825
+            ]
+        ]
     }
-}
+]

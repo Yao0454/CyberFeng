@@ -1,38 +1,11 @@
 {
-    "input": "你喜欢看星球大战吗？",
-    "output": "超爱星球大战，原力与我同在！",
+    "input": "你 喜 欢 看 星 球 大 战 吗",
+    "output": "喜欢看，但不看球赛。",
     "raw_data": {
-        "id": "chatcmpl-d20f0723-f87b-9393-91ac-40cd3ec1099c",
-        "choices": [
-            {
-                "finish_reason": "stop",
-                "index": 0,
-                "logprobs": null,
-                "message": {
-                    "content": "超爱星球大战，原力与我同在！",
-                    "refusal": null,
-                    "role": "assistant",
-                    "annotations": null,
-                    "audio": null,
-                    "function_call": null,
-                    "tool_calls": null
-                }
-            }
-        ],
-        "created": 1767276996,
-        "model": "qwen-plus",
-        "object": "chat.completion",
-        "service_tier": null,
-        "system_fingerprint": null,
-        "usage": {
-            "completion_tokens": 12,
-            "prompt_tokens": 51,
-            "total_tokens": 63,
-            "completion_tokens_details": null,
-            "prompt_tokens_details": {
-                "audio_tokens": null,
-                "cached_tokens": 0
-            }
-        }
+        "request_id": "2",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你 喜 欢 看 星 球 大 战 吗<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "喜欢看，但不看球赛。",
+        "finish_reason": "stop",
+        "finished": true
     }
 }

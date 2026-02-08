@@ -6,14 +6,30 @@
 
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from github import Github
 
-def get_repo_stats():
-    """获取仓库统计信息"""
+def get_github_client():
+    """初始化 GitHub 客户端"""
     token = os.environ.get('GITHUB_TOKEN')
-    g = Github(token)
-    repo = g.get_repo('Yao0454/CyberFeng')
+    if not token:
+        raise ValueError("GITHUB_TOKEN environment variable is not set")
+    return Github(token)
+
+def get_repo(g=None):
+    """获取仓库对象"""
+    if g is None:
+        g = get_github_client()
+    
+    # 从环境变量获取仓库名称，否则使用默认值
+    repo_name = os.environ.get('GITHUB_REPOSITORY', 'Yao0454/CyberFeng')
+    return g.get_repo(repo_name)
+
+def get_repo_stats(repo):
+    """获取仓库统计信息"""
+    utc_now = datetime.now(timezone.utc)
+    # 北京时间 = UTC + 8
+    beijing_now = utc_now + timedelta(hours=8)
     
     stats = {
         'stars': repo.stargazers_count,
@@ -21,17 +37,14 @@ def get_repo_stats():
         'watchers': repo.subscribers_count,
         'issues': repo.open_issues_count,
         'contributors': repo.get_contributors().totalCount,
-        'updated_time': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'),
-        'updated_time_cn': datetime.now(timezone.utc).strftime('%Y年%m月%d日 %H:%M UTC'),
+        'updated_time': utc_now.strftime('%Y-%m-%d %H:%M:%S UTC'),
+        'updated_time_cn': beijing_now.strftime('%Y年%m月%d日 %H:%M 北京时间'),
     }
     
     return stats
 
-def get_recent_commits(limit=5):
+def get_recent_commits(repo, limit=5):
     """获取最近的提交记录"""
-    token = os.environ.get('GITHUB_TOKEN')
-    g = Github(token)
-    repo = g.get_repo('Yao0454/CyberFeng')
     
     commits = []
     for commit in repo.get_commits()[:limit]:
@@ -89,9 +102,13 @@ def update_readme():
     with open(readme_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
+    # 获取 GitHub 客户端和仓库对象
+    g = get_github_client()
+    repo = get_repo(g)
+    
     # 获取数据
-    stats = get_repo_stats()
-    commits = get_recent_commits(5)
+    stats = get_repo_stats(repo)
+    commits = get_recent_commits(repo, 5)
     
     # 生成新的区域
     stats_section = generate_stats_section(stats)

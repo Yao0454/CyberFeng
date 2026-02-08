@@ -123,6 +123,11 @@ stt.unload_model()
 > 
 > *“你是一个AI助手，名字叫CyberFeng。你的说话风格要酷一点，简短有力。”*
 
+
+<!-- STATS:START -->
+<!-- 此部分内容将由 GitHub Actions 自动更新 -->
+<!-- STATS:END -->
+
 ## 📖 项目介绍
 
 CyberFeng 是一个集成了语音识别 (ASR)、大语言模型 (LLM) 和语音合成 (TTS) 的全栈语音助手项目。它能够“听懂”用户的语音指令，通过云端大模型进行思考与角色扮演，并使用定制化的音色（GPT-SoVITS）进行语音回复。

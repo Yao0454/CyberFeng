@@ -5,9 +5,9 @@ from lib.stt import STT
 
 
 def main() -> None:
-    stt1: STT = STT("/Users/feng/Desktop/CyberFeng/audio/raw/Sample5.m4a")
-    prompt, filename = stt1.one_click()
-    llm1: LLM = LLM(prompt, filename)
+    stt1: STT = STT()
+    prompt, filename = stt1.process_audio("")
+    llm1: LLM = LLM("")
 
     """
     tts_addr: str = "36.103.177.158:9880"
@@ -30,15 +30,13 @@ def main() -> None:
     tts_infer.save_audio(f"{filename}.wav")
     """
 
-    print(llm1.get_response())
-
 
 def debug_web() -> None:
     webAPI.run_server()
 
 
 if __name__ == "__main__":
-    main()
-    # debug_web()
+    # main()
+    debug_web()
 
 # end main

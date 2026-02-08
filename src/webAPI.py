@@ -74,7 +74,12 @@ async def chat_endpoint(file: UploadFile = File(...)):
         output_text: str | None = llm.get_response(convert_text, filename)
 
         tts_workflow: tts.Infer = tts.Infer(
-            TTS_SERVER_ADDR, str(output_text), "zh", REF_AUDIO_PATH, "zh", REF_TEXT
+            _api_addr=TTS_SERVER_ADDR,
+            _text=str(output_text),
+            _text_lang="zh",
+            _ref_audio_path=REF_AUDIO_PATH,
+            _prompt_lang="zh",
+            _prompt_text=REF_TEXT,
         )
         output_audio_path = tts_workflow.save_audio(filename)
 

@@ -18,3 +18,10 @@ def main() -> None:
     if not pre_work(stt_workflow, llm_workflow):
         print("模型启动失败")
         return
+    text, filename = stt_workflow.process_audio()
+    result: str | None = llm_workflow.get_response(text, filename)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()

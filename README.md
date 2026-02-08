@@ -285,6 +285,38 @@ uvicorn src.webAPI:app --host 0.0.0.0 --port 8000 --reload
 python main.py
 ```
 
+## ⚙️ 自动更新功能
+
+本项目的 README 文件通过 GitHub Actions 实现自动更新，可以实时展示项目的最新数据和动态。
+
+### 📊 自动更新的内容
+
+1. **项目统计数据**
+   - ⭐ Stars（收藏数）
+   - 🔱 Forks（分支数）
+   - 👀 Watchers（关注数）
+   - 📝 Open Issues（开放问题数）
+   - 👥 Contributors（贡献者数）
+   - 📅 最后更新时间
+
+2. **最近提交记录**
+   - 显示最近 5 条提交记录
+   - 包含提交者、时间和链接
+
+### 🤖 更新机制
+
+- **定时更新**：每天北京时间早上 8 点（UTC 00:00）自动运行
+- **推送触发**：每次推送到 `main` 分支时自动更新
+- **手动触发**：可以在 GitHub Actions 页面手动运行
+
+### 🔧 技术实现
+
+- 使用 GitHub Actions 工作流（`.github/workflows/update-readme.yml`）
+- Python 脚本（`.github/scripts/update_readme.py`）通过 GitHub API 获取实时数据
+- 自动提交更新到仓库
+
+想要了解更多或自定义更新逻辑，请查看 `.github/scripts/update_readme.py` 文件。
+
 <!-- COMMITS_START -->
 <!-- COMMITS_END -->
 

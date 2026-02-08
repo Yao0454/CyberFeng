@@ -27,7 +27,7 @@ def get_repo_stats():
         'forks': repo.forks_count,
         'watchers': repo.subscribers_count,
         'open_issues': repo.open_issues_count,
-        'size': repo.size,  # KB
+        'size': repo.size,  # KB (repository size excluding Git history)
     }
     
     return stats, repo

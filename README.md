@@ -1,6 +1,12 @@
 
 # CyberFeng (赛博枫枫子) 🤖
 
+<div align="center">
+
+[![Update README](https://github.com/Yao0454/CyberFeng/actions/workflows/update-readme.yml/badge.svg)](https://github.com/Yao0454/CyberFeng/actions/workflows/update-readme.yml)
+
+</div>
+
 ## 🧱 Python 类功能接口（推荐用法）
 
 本项目的核心能力封装在 `lib/` 下，均提供「加载模型 / 卸载模型」的生命周期接口，避免每次调用都重复加载导致慢、占显存。
@@ -286,6 +292,31 @@ uvicorn src.webAPI:app --host 0.0.0.0 --port 8000 --reload
 ```bash
 python main.py
 ```
+
+
+## 🔄 README 自动更新
+
+本项目使用 GitHub Actions 自动更新 README 中的统计信息，包括：
+
+- **项目统计徽章**：Stars、Forks、Issues、语言等
+- **仓库数据**：实时的 Stars、Forks、Watchers、Issues 数量
+- **最近提交**：显示最近 5 条提交记录及其作者和时间
+- **最后更新时间**：显示 README 最后一次自动更新的时间（北京时间）
+
+### 更新频率
+
+- **自动更新**：每天北京时间 08:00（UTC 00:00）自动运行
+- **手动触发**：在仓库的 Actions 标签页中手动运行 "Update README" 工作流
+- **推送触发**：每次向 `main` 分支推送代码时自动运行
+
+### 实现原理
+
+更新机制由以下文件实现：
+
+1. `.github/workflows/update-readme.yml` - GitHub Actions 工作流配置
+2. `.github/scripts/update_readme.py` - Python 脚本，通过 GitHub API 获取统计数据并更新 README
+
+统计数据会自动插入到 `<!-- STATS:START -->` 和 `<!-- STATS:END -->` 标记之间。
 
 ## 📄 开源说明
 

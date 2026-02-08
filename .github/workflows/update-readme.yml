@@ -28,7 +28,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install requests PyGithub
+          pip install requests PyGithub pytz
       
       - name: Update README
         env:

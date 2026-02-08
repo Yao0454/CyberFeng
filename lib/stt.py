@@ -111,6 +111,10 @@ class STT:
     def process_audio(self, raw_path: str) -> tuple[str, str]:
         """
         语音转文字
+
+        Returns:
+            text: str 转换后的文字
+            filename: str 文件名
         """
         if not self.model:
             print("STT 模型未加载，将自动加载模型...")
@@ -122,6 +126,7 @@ class STT:
         try:
             response = self.model.generate(input=converted_path)
             text: str = response[0]["text"]
+            self.save_to_json(response=response, filename=filename)
             return text, filename
         except Exception as e:
             print(f"识别过程出错：{e}")

@@ -88,6 +88,15 @@ class LLM:
         return self.llm is not None
 
     def get_response(self, text: str, filename: str) -> Optional[str]:
+        """
+        用来产出对话
+
+        Args:
+            text: 输入文本
+            filename: 文件名
+        Returns:
+            answer_text: llm回复
+        """
         if self.tokenizer is None or self.llm is None:
             print("模型未启动")
             return

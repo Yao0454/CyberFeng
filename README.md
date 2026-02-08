@@ -1,6 +1,9 @@
 
 # CyberFeng (赛博枫枫子) 🤖
 
+<!-- STATS_START -->
+<!-- STATS_END -->
+
 ## 🧱 Python 类功能接口（推荐用法）
 
 本项目的核心能力封装在 `lib/` 下，均提供「加载模型 / 卸载模型」的生命周期接口，避免每次调用都重复加载导致慢、占显存。
@@ -281,6 +284,9 @@ uvicorn src.webAPI:app --host 0.0.0.0 --port 8000 --reload
 ```bash
 python main.py
 ```
+
+<!-- COMMITS_START -->
+<!-- COMMITS_END -->
 
 ## 📄 开源说明
 

@@ -1,0 +1,27 @@
+CompileFlags:
+  Add:
+    # 假装是 Linux 以绕过 macOS 的 mach-o section 报错
+    - "--target=x86_64-pc-linux-gnu"
+
+    # 禁用系统默认路径，只使用我们指定的路径
+    - "-nostdinc"
+    - "-nostdlibinc"
+
+    # 定义 ESP32 宏
+    - "-D__XTENSA__"
+    - "-DESP32"
+    - "-DARDUINO=10800"
+    - "-DARDUINO_ARCH_ESP32"
+    - "-DARDUINO_ESP32_DEV"
+    - "-isystem/Users/feng/.platformio/packages/toolchain-xtensa-esp32/xtensa-esp32-elf/include"
+    - "-isystem/Users/feng/.platformio/packages/toolchain-xtensa-esp32/xtensa-esp32-elf/include/c++/8.4.0"
+    - "-isystem/Users/feng/.platformio/packages/toolchain-xtensa-esp32/xtensa-esp32-elf/include/c++/8.4.0/xtensa-esp32-elf"
+    - "-isystem/Users/feng/.platformio/packages/toolchain-xtensa-esp32/lib/gcc/xtensa-esp32-elf/8.4.0/include"
+    - "-isystem/Users/feng/.platformio/packages/toolchain-xtensa-esp32/lib/gcc/xtensa-esp32-elf/8.4.0/include-fixed"
+  Remove:
+    - "-fstrict-volatile-bitfields"
+    - "-fno-tree-switch-conversion"
+    - "-mlongcalls"
+    - "-mtext-section-literals"
+    - "-mfix-esp32-psram-cache-issue"
+    - "-fno-rtti"

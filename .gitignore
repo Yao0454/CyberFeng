@@ -19,5 +19,8 @@ firmware/.pio/
 .firmware/.vscode/
 .vscode/c_cpp_properties.json
 firmware/diagram.json
+firmware/.pio
+firmware/build/
+firmware/.cache/
 
 models/

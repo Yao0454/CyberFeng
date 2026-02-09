@@ -11,9 +11,14 @@ from lib.tts import Infer
 class CyberFengData:
     input_audio_path: Path | str = ""
     model_path: Path | str = "Qwen/Qwen2.5-1.5B-Instruct"
+    tts_addr: str = "http://36.103.177.158:9880"
+    ref_audio_path: str = "reference_voice/reference.wav"
+    ref_text: str = "就是学习函数可能的输出，在这个例子里"
+
     transfered_text: str = ""
     filename: str = ""
     llm_response: str = ""
+    output_audio_path: Path | str = ""
 
 
 @dataclass
@@ -61,4 +66,17 @@ class CyberFeng:
                 self.datas.transfered_text, self.datas.filename
             )
         )
+        return self
+
+    def tts(self) -> Self:
+        infer: Infer = Infer(
+            _api_addr=self.datas.tts_addr,
+            _text=str(self.datas.llm_response),
+            _text_lang="zh",
+            _ref_audio_path=self.datas.ref_audio_path,
+            _prompt_lang="zh",
+            _prompt_text=self.datas.ref_text,
+        )
+        self.datas.output_audio_path = infer.save_audio(self.datas.filename)
+
         return self

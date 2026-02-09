@@ -120,7 +120,7 @@ class Infer(TTS):
             _aux_ref_audio_paths=[],
         )
 
-    def save_audio(self, filename: str) -> Optional[str]:
+    def save_audio(self, filename: str) -> Path | str:
         save_dir = Path.cwd() / "audio" / "trans"
         save_dir.mkdir(parents=True, exist_ok=True)
 
@@ -132,10 +132,10 @@ class Infer(TTS):
             with full_path.open("wb") as f:
                 f.write(response.content)
             print(f"音频保存至：{full_path}")
-            return str(full_path)
+            return full_path
         else:
             print(f"保存失败：{response.status_code if response else 'No Response'}")
-            return None
+            return ""
 
 
 class Control(TTS):

@@ -156,18 +156,18 @@ stt.unload_model()
 - ⭐ **Stars**: 8
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
-- 🐛 **Open Issues**: 1
-- 💾 **仓库大小**: 18161 KB
+- 🐛 **Open Issues**: 0
+- 💾 **仓库大小**: 18162 KB
 
 ### 📝 最近提交
 
+- [`0a0bd30`](https://github.com/Yao0454/CyberFeng/commit/0a0bd30364a0ac97575a90bfab6b81b6c4631b81) Add WebCom class for HTTP communication and update platformio configuration - *Yao0454* (2026-02-10 01:36)
+- [`03662a0`](https://github.com/Yao0454/CyberFeng/commit/03662a03800574e7d5e7131b50846f21e5189bec) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 12:13)
 - [`7383d0f`](https://github.com/Yao0454/CyberFeng/commit/7383d0fc8ef3a29816bf7441ea5d4bfcb868233f) Add TTS method and change save_audio return - *Yao0454* (2026-02-09 12:13)
 - [`ead6b0a`](https://github.com/Yao0454/CyberFeng/commit/ead6b0a42e71e3129e6e5a71866f7e5079892d6d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 09:57)
 - [`ba9ff07`](https://github.com/Yao0454/CyberFeng/commit/ba9ff0795f3155db0db5d88527f4a6d792413ac1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 02:10)
-- [`fcea400`](https://github.com/Yao0454/CyberFeng/commit/fcea400b1f407b4eda25be5921171396530be503) Merge pull request #2 from Yao0454/copilot/update-readme-in-real-time - *姚奕枫* (2026-02-09 02:10)
-- [`3af10a2`](https://github.com/Yao0454/CyberFeng/commit/3af10a22c0d6793e787911f392678bb949637278) docs: Address code review feedback and clarify documentation - *copilot-swe-agent[bot]* (2026-02-09 02:08)
 
-*最后更新时间: 2026年02月09日 12:13:19 (北京时间)*
+*最后更新时间: 2026年02月10日 01:36:59 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -379,18 +379,18 @@ python main.py
 - ⭐ **Stars**: 8
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
-- 🐛 **Open Issues**: 1
-- 💾 **仓库大小**: 18161 KB
+- 🐛 **Open Issues**: 0
+- 💾 **仓库大小**: 18162 KB
 
 ### 📝 最近提交
 
+- [`0a0bd30`](https://github.com/Yao0454/CyberFeng/commit/0a0bd30364a0ac97575a90bfab6b81b6c4631b81) Add WebCom class for HTTP communication and update platformio configuration - *Yao0454* (2026-02-10 01:36)
+- [`03662a0`](https://github.com/Yao0454/CyberFeng/commit/03662a03800574e7d5e7131b50846f21e5189bec) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 12:13)
 - [`7383d0f`](https://github.com/Yao0454/CyberFeng/commit/7383d0fc8ef3a29816bf7441ea5d4bfcb868233f) Add TTS method and change save_audio return - *Yao0454* (2026-02-09 12:13)
 - [`ead6b0a`](https://github.com/Yao0454/CyberFeng/commit/ead6b0a42e71e3129e6e5a71866f7e5079892d6d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 09:57)
 - [`ba9ff07`](https://github.com/Yao0454/CyberFeng/commit/ba9ff0795f3155db0db5d88527f4a6d792413ac1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-09 02:10)
-- [`fcea400`](https://github.com/Yao0454/CyberFeng/commit/fcea400b1f407b4eda25be5921171396530be503) Merge pull request #2 from Yao0454/copilot/update-readme-in-real-time - *姚奕枫* (2026-02-09 02:10)
-- [`3af10a2`](https://github.com/Yao0454/CyberFeng/commit/3af10a22c0d6793e787911f392678bb949637278) docs: Address code review feedback and clarify documentation - *copilot-swe-agent[bot]* (2026-02-09 02:08)
 
-*最后更新时间: 2026年02月09日 12:13:19 (北京时间)*
+*最后更新时间: 2026年02月10日 01:36:59 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

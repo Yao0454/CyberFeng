@@ -1,0 +1,15 @@
+{
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "arguments": [
+          "--compile-commands-dir=.",
+          "--query-driver=/Users/feng/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-g++*",
+          "--header-insertion=never",
+          "--all-scopes-completion",
+          "--completion-style=detailed",
+        ],
+      },
+    },
+  },
+}

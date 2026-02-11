@@ -45,13 +45,13 @@ String WebCom::sendPostRequest(const char* endpoint, String jsonPayload) {
 
     HTTPClient http;
     String fullUrl = String(serverUrl) + endpoint;
-    
+
     http.begin(fullUrl);
     http.addHeader("Content-Type", "application/json");
-    
+
     int httpCode = http.POST(jsonPayload);
     String response = http.getString();
     http.end();
-    
+
     return response;
 }

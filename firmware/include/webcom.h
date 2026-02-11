@@ -25,7 +25,6 @@ public:
     // 发送 POST 请求
     String sendPostRequest(const char* endpoint, String jsonpayload);
 
-
 };
 
 #endif

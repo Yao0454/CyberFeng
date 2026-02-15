@@ -103,7 +103,7 @@ class CyberFeng:
         Raises:
             RuntimeError: 当 STT 或 LLM 模型未正常初始化时抛出。
         """
-        if not self.get_status():
+        if not self.get_status:
             raise RuntimeError("模型没有被正常初始化！")
         self.datas.llm_response = str(
             self.llm_service.get_response(

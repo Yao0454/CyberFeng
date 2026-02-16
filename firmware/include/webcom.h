@@ -8,11 +8,11 @@
 
 class WebCom {
 private:
-    const char* serverUrl;
+    String serverUrl;
 
 public:
     // 构造函数 传一个服务器的基础地址
-    WebCom(const char* _serverUrl);
+    WebCom(String _serverUrl);
 
     // 初始化 WiFi
     void connectWiFi(const char* ssid, const char* password);

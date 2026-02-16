@@ -1,6 +1,6 @@
 #include <webcom.h>
 
-WebCom::WebCom(const char* _serverUrl) {
+WebCom::WebCom(String _serverUrl) {
     serverUrl = _serverUrl;
 }
 

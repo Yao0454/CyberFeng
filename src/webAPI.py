@@ -1,3 +1,4 @@
+import os
 import shutil
 from pathlib import Path
 
@@ -16,7 +17,7 @@ RESPONCE_DIR = Path.cwd() / "audio" / "trans"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 RESPONCE_DIR.mkdir(parents=True, exist_ok=True)
 
-TTS_SERVER_ADDR = "http://36.103.177.158:9880"
+TTS_SERVER_ADDR = "http://127.0.0.1:9880"
 REF_AUDIO_PATH = "reference_voice/reference.wav"
 REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 
@@ -24,14 +25,13 @@ REF_TEXT = "就是学习函数可能的输出，在这个例子里"
 cfdata: CyberFengData = CyberFengData()
 cf: CyberFeng = CyberFeng(cfdata)
 
-cf.start_service()
-
-if not cf.get_status:
-    raise RuntimeError("模型启动失败！")
-
 
 @app.post("/chat")
 async def chat_endpoint(file: UploadFile = File(...)):
+    if os.environ.get("NO_PROXY"):
+        os.environ["NO_PROXY"] += ",127.0.0.1"
+    else:
+        os.environ["NO_PROXY"] = "127.0.0.1"
     try:
         # 保存上传到服务器的音频文件
         file_location = UPLOAD_DIR / (file.filename or "")
@@ -78,6 +78,10 @@ async def set_gpt_weights_endpoint(weights_path: str):
     set_gpt_weights_workflow = tts.GPT(TTS_SERVER_ADDR, weights_path)
     response = set_gpt_weights_workflow.get()
 
+    print(
+        f"DEBUG: response={response}, status={response.status_code if response else 'None'}, body={response.text if response else 'None'}"
+    )
+
     if response and response.status_code == 200:
         return {
             "status": "success",
@@ -101,7 +105,21 @@ async def set_sovits_weights_endpoint(weights_path: str):
         raise HTTPException(status_code=500, detail="指令执行失败或服务端无响应")
 
 
+@app.get("/status")
+async def get_status() -> dict:
+    return {
+        "status": "online",
+        "stt": str(cf.stt_service.get_model_status),
+        "llm": str(cf.llm_service.get_model_status),
+    }
+
+
 def run_server(host: str = "0.0.0.0", port: int = 1111):
+    cf.start_service()
+
+    if not cf.get_status:
+        raise RuntimeError("模型启动失败！")
+
     print(f"CyberFeng后端服务器启动中 监听{host}:{port}")
 
     uvicorn.run(app, host=host, port=port)

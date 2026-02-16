@@ -11,7 +11,7 @@ from lib.tts import Infer
 class CyberFengData:
     input_audio_path: Path | str = ""
     model_path: Path | str = "Qwen/Qwen2.5-1.5B-Instruct"
-    tts_addr: str = "http://36.103.177.158:9880"
+    tts_addr: str = "http://127.0.0.1:9880"
     ref_audio_path: str = "reference_voice/reference.wav"
     ref_text: str = "就是学习函数可能的输出，在这个例子里"
 

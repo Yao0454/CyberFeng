@@ -59,6 +59,34 @@ async def chat_endpoint(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/text")
+async def text_endpoint(text: str):
+    if os.environ.get("NO_PROXY"):
+        os.environ["NO_PROXY"] += ",127.0.0.1"
+    else:
+        os.environ["NO_PROXY"] = "127.0.0.1"
+
+    try:
+        cfdata.transfered_text = text
+        cf.llm().tts()
+
+        if not cfdata.output_audio_path:
+            raise RuntimeError("过程错误！")
+
+        output_audio_path = cfdata.output_audio_path
+
+        if output_audio_path and Path(output_audio_path).exists():
+            return FileResponse(
+                output_audio_path, media_type="audio/wav", filename="reply.wav"
+            )
+        else:
+            raise HTTPException(status_code=500, detail="进程失败")
+
+    except Exception as e:
+        print(f"Error:{e}")
+    raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/control")
 async def control_endpoint(command: str):
     control_workflow = tts.Control(TTS_SERVER_ADDR, command)

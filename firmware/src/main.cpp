@@ -82,6 +82,20 @@ void onFetchData() {
     ui.addLog(msg);
 }
 
+void on_refresh_timer(lv_timer_t* timer) {
+    if(!web.isConnected()) return;
+
+    String json = web.sendGetRequest("/status");
+    StaticJsonDocument<256> doc;
+    deserializeJson(doc, json);
+
+    if (doc.containsKey("model_status")) {
+        const char* m_status = doc["model_status"] | "Offline";
+        ui.updateServerStatus(m_status, true);
+    }
+}
+
+
 // --- 初始化 ---
 
 void setup() {
@@ -91,15 +105,13 @@ void setup() {
     tft.init();
     tft.setRotation(1);
 
-    // --- 修复背光控制 ---
+    tft.fillScreen(TFT_BLACK);
     pinMode(21, OUTPUT);
-    analogWrite(21, 255); // 替代之前的 tft.setBrightness
-    // ------------------
+    analogWrite(21, 255); 
 
     touchSpi.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
     ts.begin(touchSpi);
     ts.setRotation(1);
-
 
     // 2. LVGL 核心初始化
     lv_init();
@@ -112,7 +124,7 @@ void setup() {
     disp_drv.hor_res = 320;
     disp_drv.ver_res = 240;
     disp_drv.flush_cb = my_disp_flush;
-    disp_drv.draw_buf = &draw_buf; // 注意 & 符号
+    disp_drv.draw_buf = &draw_buf; // 注意 &
     lv_disp_drv_register(&disp_drv);
 
     static lv_indev_drv_t indev_drv;
@@ -123,7 +135,9 @@ void setup() {
 
     // 3. 模块初始化
     ui.init();
-    ui.setOnBtnClick(onFetchData); // 绑定业务逻辑
+    ui.setOnBtnClick(onFetchData);
+
+    lv_timer_create(on_refresh_timer, 5000, NULL);
 
     // 4. 联网
     ui.addLog("Connecting to WiFi...");

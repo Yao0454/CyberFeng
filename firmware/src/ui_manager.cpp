@@ -4,42 +4,38 @@ UIManager::UIManager() {}
 
 void UIManager::init() {
     _screen = lv_scr_act();
-    lv_obj_set_style_bg_color(_screen, lv_palette_main(LV_PALETTE_GREY), 0);
 
-    // 1. 创建标题样式
-    lv_style_init(&_style_title);
-    lv_style_set_text_font(&_style_title, &lv_font_montserrat_14);
-    lv_style_set_text_color(&_style_title, lv_palette_main(LV_PALETTE_BLUE_GREY));
+    // 选项卡页面 
+    lv_obj_t* tabview = lv_tabview_create(_screen, LV_DIR_TOP, 40);
 
-    // 2. 标题标签
-    lv_obj_t* title = lv_label_create(_screen);
-    lv_obj_add_style(title, &_style_title, 0);
-    lv_label_set_text(title, "CyberFeng Control");
-    lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 10);
-
-    // 3. 状态显示框
-    _status_label = lv_label_create(_screen);
-    lv_label_set_text(_status_label, "Status: Offline");
-    lv_obj_align(_status_label, LV_ALIGN_TOP_MID, 0, 45);
-
-    // 4. 日志显示区域 (一个文本框)
-    _log_text = lv_textarea_create(_screen);
-    lv_obj_set_size(_log_text, 280, 100);
-    lv_obj_align(_log_text, LV_ALIGN_CENTER, 0, 10);
-    lv_textarea_set_placeholder_text(_log_text, "System logs...");
-    lv_obj_set_style_text_font(_log_text, &lv_font_montserrat_14, 0);
-
-    // 5. 操作按钮
-    _action_btn = lv_btn_create(_screen);
-    lv_obj_set_size(_action_btn, 120, 45);
-    lv_obj_align(_action_btn, LV_ALIGN_BOTTOM_MID, 0, -10);
+    // 然后添加三个子页面
+    lv_obj_t* t1 = lv_tabview_add_tab(tabview, "Control");
+    lv_obj_t* t2 = lv_tabview_add_tab(tabview, "Status");
+    lv_obj_t* t3 = lv_tabview_add_tab(tabview, "Settings");
     
-    lv_obj_t* btn_label = lv_label_create(_action_btn);
-    lv_label_set_text(btn_label, "FETCH DATA");
-    lv_obj_center(btn_label);
 
-    // 重要：将当前对象的指针(this)存入按钮，方便回调函数访问
+    // 1. Control
+    _action_btn = lv_btn_create(t1);
+    lv_obj_set_size(_action_btn, 120, 50);
+    lv_obj_align(_action_btn, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_t* btn_lbl = lv_label_create(_action_btn);
+    lv_label_set_text(btn_lbl, "RESTART CF");
     lv_obj_add_event_cb(_action_btn, btn_event_handler, LV_EVENT_CLICKED, this);
+
+    // 2. Status
+    _status_label = lv_label_create(t2);
+    lv_label_set_text(_status_label, "Server Status:");
+    lv_obj_align(_status_label, LV_ALIGN_TOP_LEFT, 10, 10);
+    lv_obj_t* bar = lv_bar_create(t2);
+    lv_obj_set_size(bar, 200, 20);
+    lv_obj_center(bar);
+    lv_bar_set_value(bar, 70, LV_ANIM_ON);
+
+    // 3. Log
+    _log_text = lv_textarea_create(t3);
+    lv_obj_set_size(_log_text, 280, 150);
+    lv_obj_center(_log_text);
+
 }
 
 // 静态回调逻辑

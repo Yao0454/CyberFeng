@@ -7,14 +7,11 @@ WebCom::WebCom(String _serverUrl) {
 void WebCom::connectWiFi(const char* ssid, const char* password) {
     if (WiFi.status() == WL_CONNECTED) return;
 
-    Serial.printf("Connecting to %s ", ssid);
+    Serial.printf("Connecting to %s \n", ssid);
+    WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println("\nWiFi Connected!");
+    Serial.println("WiFi Connection initiated...!");
 }
 
 bool WebCom::isConnected() {

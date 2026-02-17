@@ -157,17 +157,17 @@ stt.unload_model()
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18307 KB
+- 💾 **仓库大小**: 18313 KB
 
 ### 📝 最近提交
 
+- [`13fccd0`](https://github.com/Yao0454/CyberFeng/commit/13fccd0da14c5541eb8f70991c1a77c6bed0a42d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 16:27)
 - [`f12e434`](https://github.com/Yao0454/CyberFeng/commit/f12e434c2f09fff1acbdd60665a9dae1fa906d98) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-16 16:25)
 - [`d0e4c06`](https://github.com/Yao0454/CyberFeng/commit/d0e4c06a9189ffcaa3eb9a41e111ebca8cc634ae) Add UIManager and WebCom, update backend config - *Yao0454* (2026-02-16 16:24)
 - [`0999a76`](https://github.com/Yao0454/CyberFeng/commit/0999a76822aa16a890d084e98ea51010da1cd294) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 09:55)
 - [`bc8214f`](https://github.com/Yao0454/CyberFeng/commit/bc8214f001a2a821239d7acd8921f46624847747) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 00:07)
-- [`6858f96`](https://github.com/Yao0454/CyberFeng/commit/6858f9694126f1578c5043f7df35e73a79e75346) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-16 00:07)
 
-*最后更新时间: 2026年02月16日 16:27:21 (北京时间)*
+*最后更新时间: 2026年02月17日 09:52:58 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -380,17 +380,17 @@ python main.py
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18307 KB
+- 💾 **仓库大小**: 18313 KB
 
 ### 📝 最近提交
 
+- [`13fccd0`](https://github.com/Yao0454/CyberFeng/commit/13fccd0da14c5541eb8f70991c1a77c6bed0a42d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 16:27)
 - [`f12e434`](https://github.com/Yao0454/CyberFeng/commit/f12e434c2f09fff1acbdd60665a9dae1fa906d98) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-16 16:25)
 - [`d0e4c06`](https://github.com/Yao0454/CyberFeng/commit/d0e4c06a9189ffcaa3eb9a41e111ebca8cc634ae) Add UIManager and WebCom, update backend config - *Yao0454* (2026-02-16 16:24)
 - [`0999a76`](https://github.com/Yao0454/CyberFeng/commit/0999a76822aa16a890d084e98ea51010da1cd294) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 09:55)
 - [`bc8214f`](https://github.com/Yao0454/CyberFeng/commit/bc8214f001a2a821239d7acd8921f46624847747) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-16 00:07)
-- [`6858f96`](https://github.com/Yao0454/CyberFeng/commit/6858f9694126f1578c5043f7df35e73a79e75346) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-16 00:07)
 
-*最后更新时间: 2026年02月16日 16:27:21 (北京时间)*
+*最后更新时间: 2026年02月17日 09:52:58 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

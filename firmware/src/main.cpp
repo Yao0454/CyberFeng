@@ -135,24 +135,34 @@ void setup() {
 
     // 3. 模块初始化
     ui.init();
-    ui.setOnBtnClick(onFetchData);
 
+    ui.setOnBtnClick(onFetchData);
+    ui.updateServerStatus("Connecting WiFi...", false);
     lv_timer_create(on_refresh_timer, 5000, NULL);
 
     // 4. 联网
-    ui.addLog("Connecting to WiFi...");
+    
     web.connectWiFi("CMCC-301", "15926081964");
     
-    if(web.isConnected()) {
-        ui.updateServerStatus("WiFi OK", true);
-        ui.addLog("WiFi Connected!");
-    } else {
-        ui.updateServerStatus("No WiFi", false);
-    }
 }
+
+unsigned long lastWifiCheck = 0;
+bool wifiAnnounced = false;
 
 void loop() {
     // 运行 LVGL 定时器
     lv_timer_handler();
+
+    if (millis() - lastWifiCheck > 1000) {
+        lastWifiCheck = millis();
+        if (WiFi.status() == WL_CONNECTED && !wifiAnnounced) {
+            ui.updateServerStatus("WiFi OK", true);
+            ui.addLog("Network joined!");
+            wifiAnnounced = true;
+        } else if (WiFi.status() != WL_CONNECTED) {
+            ui.updateServerStatus("WiFi Offline", false);
+            wifiAnnounced = false;
+        }
+    }
     delay(5);
 }

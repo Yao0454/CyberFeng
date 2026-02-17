@@ -1,13 +1,10 @@
-import lib.tts as tts
 import src.webAPI as webAPI
-from lib.llm import LLM
 from lib.stt import STT
 
 
 def main() -> None:
     stt1: STT = STT()
     prompt, filename = stt1.process_audio("")
-    llm1: LLM = LLM("")
 
     """
     tts_addr: str = "36.103.177.158:9880"

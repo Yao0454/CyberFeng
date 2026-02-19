@@ -18,7 +18,7 @@ bool WebCom::isConnected() {
     return (WiFi.status() == WL_CONNECTED);
 }
 
-String WebCom::sendGetRequest(const char* endpoint) {
+String WebCom::sendGetRequest(String endpoint) {
     if (!isConnected()) return "Error: No WiFi!!!!!";
 
     HTTPClient http;

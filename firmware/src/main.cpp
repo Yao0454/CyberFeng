@@ -8,7 +8,7 @@
 #include "webcom.h"
 #include "ui_manager.h"
 
-// --- 硬件引脚定义 ---
+// 硬件引脚定义
 #define XPT2046_CS 33
 #define XPT2046_CLK 25
 #define XPT2046_MISO 39
@@ -23,7 +23,7 @@ XPT2046_Touchscreen ts(XPT2046_CS); // 软件轮询模式
 UIManager ui;
 WebCom web("http://129.212.226.20:1111"); // Python 后端地址
 
-// --- LVGL 驱动接口 (必须留在 main 或驱动层) ---
+// LVGL 驱动接口
 
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
     uint32_t w = (area->x2 - area->x1 + 1);
@@ -51,49 +51,37 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data) {
     }
 }
 
-// --- 核心业务逻辑：当 UI 按钮被点击时执行 ---
 
-void onFetchData() {
-    ui.addLog(">> Sending Command...");
-    
-    // 1. 调用你的 Python 后端 /control 接口 (因为它返回 JSON)
-    // 注意：/chat 返回的是音频流，ESP32 无法直接作为 JSON 解析，会崩溃
-    String response = web.sendGetRequest("/control?command=restart");
-    
-    Serial.println("Response: " + response);
-
-    // 2. 解析 JSON 结果
-    StaticJsonDocument<512> doc;
-    DeserializationError error = deserializeJson(doc, response);
-
-    if (error) {
-        ui.updateServerStatus("Parse Err", false);
-        ui.addLog("X JSON Decode Failed");
-        return;
+// 业务逻辑：处理按钮指令
+void handleCommand(const char* cmd) {
+    ui.addLog(String(">> Executing: " + String(cmd)).c_str());
+    if (strcmp(cmd, "RESTART") == 0) {
+        web.sendGetRequest("/control?command=restart");
+    } else if (strcmp(cmd, "FETCH") == 0) {
+        // 手动刷新逻辑
     }
-
-    // 3. 安全提取字段 (对应你 Python 中的 {"status": "success", "message": "..."})
-    const char* status = doc["status"] | "failed";
-    const char* msg = doc["message"] | doc["detail"] | "No msg";
-
-    // 4. 更新模块化的 UI
-    bool isOk = (strcmp(status, "success") == 0);
-    ui.updateServerStatus(status, isOk);
-    ui.addLog(msg);
 }
 
-void on_refresh_timer(lv_timer_t* timer) {
-    if(!web.isConnected()) return;
+// 业务逻辑：处理权重切换
+void handleWeight(const char* weight) {
+    ui.addLog(String(">> Changing Weight: " + String(weight)).c_str());
+    web.sendGetRequest("/set_gpt_weights?weights_path=" + String(weight));
+}
 
-    String json = web.sendGetRequest("/status");
+// 定时器：每 5 秒获取一次后端状态
+void on_refresh_timer(lv_timer_t* t) {
+    if (!web.isConnected()) return;
+    
+    // 这里调用你 Python 端的 /control 或者新增的 /status
+    String json = web.sendGetRequest("/control?command=get_status");
     StaticJsonDocument<256> doc;
-    deserializeJson(doc, json);
-
-    if (doc.containsKey("model_status")) {
-        const char* m_status = doc["model_status"] | "Offline";
-        ui.updateServerStatus(m_status, true);
+    if (deserializeJson(doc, json) == DeserializationError::Ok) {
+        float cpu = doc["cpu"] | 0.0f;
+        const char* model = doc["model"] | "CyberFeng";
+        ui.updateStats(cpu, 0, model);
     }
 }
+
 
 
 // --- 初始化 ---
@@ -135,34 +123,18 @@ void setup() {
 
     // 3. 模块初始化
     ui.init();
-
-    ui.setOnBtnClick(onFetchData);
-    ui.updateServerStatus("Connecting WiFi...", false);
-    lv_timer_create(on_refresh_timer, 5000, NULL);
-
-    // 4. 联网
+    ui.setOnCommandClick(handleCommand);
+    ui.setOnWeightChange(handleWeight);
     
+    // 4. 联网
     web.connectWiFi("CMCC-301", "15926081964");
+    lv_timer_create(on_refresh_timer, 5000, NULL);
     
 }
 
-unsigned long lastWifiCheck = 0;
-bool wifiAnnounced = false;
 
 void loop() {
     // 运行 LVGL 定时器
     lv_timer_handler();
-
-    if (millis() - lastWifiCheck > 1000) {
-        lastWifiCheck = millis();
-        if (WiFi.status() == WL_CONNECTED && !wifiAnnounced) {
-            ui.updateServerStatus("WiFi OK", true);
-            ui.addLog("Network joined!");
-            wifiAnnounced = true;
-        } else if (WiFi.status() != WL_CONNECTED) {
-            ui.updateServerStatus("WiFi Offline", false);
-            wifiAnnounced = false;
-        }
-    }
     delay(5);
 }

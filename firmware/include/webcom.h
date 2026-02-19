@@ -20,7 +20,7 @@ public:
 
     // 发送 GET 请求并返回结果
     // 我们可以选择使用回调函数或者是返回字符串
-    String sendGetRequest(const char* endpoint);
+    String sendGetRequest(String endpoint);
 
     // 发送 POST 请求
     String sendPostRequest(const char* endpoint, String jsonpayload);

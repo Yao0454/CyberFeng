@@ -5,9 +5,15 @@ from pathlib import Path
 import uvicorn
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from pydantic import BaseModel
 
 import lib.tts as tts
 from src.CyberFeng import CyberFeng, CyberFengData
+
+
+class ChatRequest(BaseModel):
+    message: str
+
 
 app = FastAPI(title="CyberFeng")
 
@@ -60,14 +66,14 @@ async def chat_endpoint(file: UploadFile = File(...)):
 
 
 @app.post("/text")
-async def text_endpoint(text: str):
+async def text_endpoint(req: ChatRequest):
     if os.environ.get("NO_PROXY"):
         os.environ["NO_PROXY"] += ",127.0.0.1"
     else:
         os.environ["NO_PROXY"] = "127.0.0.1"
 
     try:
-        cfdata.transfered_text = text
+        cfdata.transfered_text = req.message
         cf.llm()
 
         return {"reply": cfdata.llm_response}

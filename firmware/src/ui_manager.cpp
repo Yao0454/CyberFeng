@@ -1,5 +1,6 @@
 #include "ui_manager.h"
 
+// 声明内置中文字体
 LV_FONT_DECLARE(lv_font_simsun_16_cjk);
 
 UIManager::UIManager() {}
@@ -7,15 +8,18 @@ UIManager::UIManager() {}
 void UIManager::init() {
     lv_obj_t* scr = lv_scr_act();
     lv_obj_set_style_bg_color(scr, lv_color_hex(0x000000), 0);
+    lv_obj_set_style_text_font(scr, &lv_font_simsun_16_cjk, 0);
 
     // 1. TabView
     _tabview = lv_tabview_create(scr, LV_DIR_TOP, 40);
     lv_obj_set_style_bg_color(_tabview, lv_color_hex(0x1A1A1A), LV_PART_MAIN);
+    lv_obj_set_style_text_font(_tabview, &lv_font_simsun_16_cjk, 0); // 强制 Tab 栏使用中文
 
     // Tab 按钮
     lv_obj_t* tab_btns = lv_tabview_get_tab_btns(_tabview);
     lv_obj_set_style_bg_color(tab_btns, lv_color_hex(0x333333), 0);
     lv_obj_set_style_text_color(tab_btns, lv_color_hex(0x00FFFF), 0);
+    lv_obj_set_style_text_font(tab_btns, &lv_font_simsun_16_cjk, 0); // 强制 Tab 按钮使用中文
 
     // 2. Four Pages
     lv_obj_t* t1 = lv_tabview_add_tab(_tabview, "Control");
@@ -34,6 +38,7 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
     _chat_list = lv_list_create(parent);
     lv_obj_set_size(_chat_list, 300, 110);
     lv_obj_align(_chat_list, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_set_style_text_font(_chat_list, &lv_font_simsun_16_cjk, 0); // 强制列表使用中文
 
     // 快捷回复容器，在底部，支持水平滑动
     lv_obj_t* qr_cont = lv_obj_create(parent);
@@ -45,17 +50,24 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
     lv_obj_set_style_pad_column(qr_cont, 10, 0);
     lv_obj_set_scrollbar_mode(qr_cont, LV_SCROLLBAR_MODE_OFF);
 
+    // 你可以在这里随意添加或删除句子，下面的代码会自动计算数量，绝不会再崩溃！
     const char* quick_replies[] = {
         "你好啊，我很高兴和你对话！",
-        "你觉得学物理难还是学数学难呢？"
+        "你觉得学物理难还是学数学难呢？",
+        "讲个笑话吧",
+        "今天天气怎么样？"
     };
 
-    for (int i = 0; i < 2; i++) {
+    // 动态计算数组长度，防止越界崩溃
+    int reply_count = sizeof(quick_replies) / sizeof(quick_replies[0]);
+
+    for (int i = 0; i < reply_count; i++) {
         lv_obj_t* btn = lv_btn_create(qr_cont);
         lv_obj_set_height(btn, 40);
         lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_BLUE), 0);
 
         lv_obj_t* lbl = lv_label_create(btn);
+        lv_obj_set_style_text_font(lbl, &lv_font_simsun_16_cjk, 0); // 强制按钮标签使用中文
         lv_label_set_text(lbl, quick_replies[i]);
         lv_obj_center(lbl);
 
@@ -64,12 +76,10 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
 }
 
 void UIManager::buildControlTab(lv_obj_t* parent) {
-    // 状态栏
     _status_label = lv_label_create(parent);
     lv_label_set_text(_status_label, "System: Ready");
     lv_obj_align(_status_label, LV_ALIGN_TOP_MID, 0, 0);
 
-    // 重启 TTS 按钮
     lv_obj_t* btn = lv_btn_create(parent);
     lv_obj_set_size(btn, 100, 40);
     lv_obj_align(btn, LV_ALIGN_TOP_LEFT, 10, 30);
@@ -79,7 +89,6 @@ void UIManager::buildControlTab(lv_obj_t* parent) {
     lv_obj_center(lbl);
     lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_CLICKED, this);
 
-    // Log 栏
     _log_text = lv_textarea_create(parent);
     lv_obj_set_size(_log_text, 300, 90);
     lv_obj_align(_log_text, LV_ALIGN_BOTTOM_MID, 0, -5);
@@ -107,13 +116,11 @@ void UIManager::buildConfigTab(lv_obj_t* parent) {
     lv_label_set_text(l1, "Model Weight:");
     lv_obj_align(l1, LV_ALIGN_TOP_LEFT, 20, 10);
 
-    // 下拉选择框
     lv_obj_t* dd = lv_dropdown_create(parent);
     lv_dropdown_set_options(dd, "GPT_weights_v4/CyberFeng-e25.ckpt");
     lv_obj_align(dd, LV_ALIGN_TOP_LEFT, 20, 35);
     lv_obj_add_event_cb(dd, dropdown_event_cb, LV_EVENT_VALUE_CHANGED, this);
 
-    // 屏幕亮度调节
     lv_obj_t* l2 = lv_label_create(parent);
     lv_label_set_text(l2, "LCD Brightness:");
     lv_obj_align(l2, LV_ALIGN_TOP_LEFT, 20, 90);
@@ -127,7 +134,7 @@ void UIManager::buildConfigTab(lv_obj_t* parent) {
 }
 
 void UIManager::addChatMessage(const char* role, const char* msg) {
-    if (!_chat_list) return; // 修复：必须是 !_chat_list
+    if (!_chat_list) return;
 
     uint32_t child_cnt = lv_obj_get_child_cnt(_chat_list);
     if (child_cnt >= 20) {
@@ -142,6 +149,7 @@ void UIManager::addChatMessage(const char* role, const char* msg) {
 
     lv_obj_t* label = lv_obj_get_child(btn, 0);
     if (label) {
+        lv_obj_set_style_text_font(label, &lv_font_simsun_16_cjk, 0); // 强制聊天记录使用中文
         lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
         lv_obj_set_width(label, 260);
     }
@@ -162,7 +170,7 @@ void UIManager::btn_event_cb(lv_event_t* e) {
 void UIManager::slider_event_cb(lv_event_t* e) {
     lv_obj_t* slider = lv_event_get_target(e);
     int val = lv_slider_get_value(slider);
-    analogWrite(21, val); // 直接调节背光引脚
+    analogWrite(21, val);
 }
 
 void UIManager::dropdown_event_cb(lv_event_t* e) {
@@ -173,7 +181,6 @@ void UIManager::dropdown_event_cb(lv_event_t* e) {
     if (inst->_onWeightChange) inst->_onWeightChange(buf);
 }
 
-// 新增：快捷回复按钮的点击事件
 void UIManager::quick_reply_event_cb(lv_event_t* e) {
     UIManager* inst = (UIManager*)lv_event_get_user_data(e);
     lv_obj_t* btn = lv_event_get_target(e);
@@ -181,8 +188,8 @@ void UIManager::quick_reply_event_cb(lv_event_t* e) {
     const char* txt = lv_label_get_text(label);
 
     if (inst->_onChatSubmit) {
-        inst->_onChatSubmit(txt); // 触发回调，将消息传给 main.cpp 的队列
-        inst->addChatMessage("Me", txt); // 在屏幕上显示自己发的消息
+        inst->_onChatSubmit(txt);
+        inst->addChatMessage("Me", txt);
     }
 }
 

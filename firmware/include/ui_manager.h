@@ -1,7 +1,6 @@
 #ifndef UI_MANAGER_H_
 #define UI_MANAGER_H_
 
-#include "core/lv_obj.h"
 #include <lvgl.h>
 #include <Arduino.h>
 
@@ -55,6 +54,7 @@ private:
     static void slider_event_cb(lv_event_t* e);
     static void dropdown_event_cb(lv_event_t* e);
     static void on_chat_send_event(lv_event_t* e);
+    static void quick_reply_event_cb(lv_event_t* e);
 };
 
 #endif // UI_MANAGER_H_

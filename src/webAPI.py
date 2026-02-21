@@ -68,19 +68,9 @@ async def text_endpoint(text: str):
 
     try:
         cfdata.transfered_text = text
-        cf.llm().tts()
+        cf.llm()
 
-        if not cfdata.output_audio_path:
-            raise RuntimeError("过程错误！")
-
-        output_audio_path = cfdata.output_audio_path
-
-        if output_audio_path and Path(output_audio_path).exists():
-            return FileResponse(
-                output_audio_path, media_type="audio/wav", filename="reply.wav"
-            )
-        else:
-            raise HTTPException(status_code=500, detail="进程失败")
+        return {"reply": cfdata.llm_response}
 
     except Exception as e:
         print(f"Error:{e}")

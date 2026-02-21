@@ -1,14 +1,6 @@
 #include "ui_manager.h"
-#include "core/lv_event.h"
-#include "core/lv_obj.h"
-#include "core/lv_obj_pos.h"
-#include "extra/widgets/list/lv_list.h"
-#include "misc/lv_area.h"
-#include "misc/lv_color.h"
-#include "widgets/lv_btn.h"
-#include "widgets/lv_label.h"
-#include "widgets/lv_textarea.h"
-#include <cstring>
+
+LV_FONT_DECLARE(lv_font_simsun_16_cjk);
 
 UIManager::UIManager() {}
 
@@ -38,31 +30,37 @@ void UIManager::init() {
 }
 
 void UIManager::buildChatTab(lv_obj_t* parent) {
-
     // 聊天列表 (上半部分)
     _chat_list = lv_list_create(parent);
     lv_obj_set_size(_chat_list, 300, 110);
     lv_obj_align(_chat_list, LV_ALIGN_TOP_MID, 0, 0);
 
-    // 输入框 （左下角）
-    _chat_input_ta = lv_textarea_create(parent);
-    lv_obj_set_size(_chat_input_ta, 220, 40);
-    lv_obj_align(_chat_input_ta, LV_ALIGN_BOTTOM_LEFT, 10, -5);
-    lv_textarea_set_one_line(_chat_input_ta, true);
-    lv_textarea_set_placeholder_text(_chat_input_ta, "Type message...");
+    // 快捷回复容器，在底部，支持水平滑动
+    lv_obj_t* qr_cont = lv_obj_create(parent);
+    lv_obj_set_size(qr_cont, 300, 55);
+    lv_obj_align(qr_cont, LV_ALIGN_BOTTOM_MID, 0, -5);
+    lv_obj_set_flex_flow(qr_cont, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_style_pad_all(qr_cont, 5, 0);
+    lv_obj_set_style_pad_column(qr_cont, 10, 0);
+    lv_obj_set_scrollbar_mode(qr_cont, LV_SCROLLBAR_MODE_OFF);
 
-    // 发送按钮（右下角）
-    lv_obj_t* send_btn = lv_btn_create(parent);
-    lv_obj_set_size(send_btn, 60, 40);
-    lv_obj_align(send_btn, LV_ALIGN_BOTTOM_RIGHT, -10, -5);
-    lv_obj_set_style_bg_color(send_btn, lv_palette_main(LV_PALETTE_BLUE), 0);
+    const char* quick_replies[] = {
+        "你好啊，我很高兴和你对话！",
+        "你觉得学物理难还是学数学难呢？"
+    };
 
-    lv_obj_t* send_lbl = lv_label_create(send_btn);
-    lv_label_set_text(send_lbl, "Send");
-    lv_obj_center(send_lbl);
+    for (int i = 0; i < 2; i++) {
+        lv_obj_t* btn = lv_btn_create(qr_cont);
+        lv_obj_set_height(btn, 40);
+        lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_BLUE), 0);
 
-    // 绑定发送事件
-    lv_obj_add_event_cb(send_btn, on_chat_send_event, LV_EVENT_CLICKED, this);
+        lv_obj_t* lbl = lv_label_create(btn);
+        lv_label_set_text(lbl, quick_replies[i]);
+        lv_obj_center(lbl);
+
+        lv_obj_add_event_cb(btn, quick_reply_event_cb, LV_EVENT_CLICKED, this);
+    }
 }
 
 void UIManager::buildControlTab(lv_obj_t* parent) {
@@ -102,23 +100,6 @@ void UIManager::buildStatsTab(lv_obj_t* parent) {
     _model_label = lv_label_create(parent);
     lv_obj_align(_model_label, LV_ALIGN_TOP_LEFT, 20, 80);
     lv_label_set_text_fmt(_model_label, "Active Model %s", "None");
-
-}
-
-void UIManager::addChatMessage(const char* role, const char* msg) {
-    if (_chat_list) return;
-
-    String fullMsg = String(role) + ": " + String(msg);
-    lv_obj_t* btn = lv_list_add_btn(_chat_list, LV_SYMBOL_DUMMY, fullMsg.c_str());
-
-    lv_obj_t* label = lv_obj_get_child(btn, 0);
-    if (label) {
-        lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
-        lv_obj_set_width(label, 260);
-
-    }
-
-    lv_obj_scroll_to_view(btn, LV_ANIM_ON);
 }
 
 void UIManager::buildConfigTab(lv_obj_t* parent) {
@@ -145,7 +126,28 @@ void UIManager::buildConfigTab(lv_obj_t* parent) {
     lv_obj_add_event_cb(_brightness_slider, slider_event_cb, LV_EVENT_VALUE_CHANGED, this);
 }
 
+void UIManager::addChatMessage(const char* role, const char* msg) {
+    if (!_chat_list) return; // 修复：必须是 !_chat_list
 
+    uint32_t child_cnt = lv_obj_get_child_cnt(_chat_list);
+    if (child_cnt >= 20) {
+        lv_obj_t* oldest_msg = lv_obj_get_child(_chat_list, 0);
+        if (oldest_msg) {
+            lv_obj_del(oldest_msg);
+        }
+    }
+
+    String fullMsg = String(role) + ": " + String(msg);
+    lv_obj_t* btn = lv_list_add_btn(_chat_list, LV_SYMBOL_DUMMY, fullMsg.c_str());
+
+    lv_obj_t* label = lv_obj_get_child(btn, 0);
+    if (label) {
+        lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+        lv_obj_set_width(label, 260);
+    }
+
+    lv_obj_scroll_to_view(btn, LV_ANIM_ON);
+}
 
 // 事件中转实现
 void UIManager::btn_event_cb(lv_event_t* e) {
@@ -171,17 +173,16 @@ void UIManager::dropdown_event_cb(lv_event_t* e) {
     if (inst->_onWeightChange) inst->_onWeightChange(buf);
 }
 
-void UIManager::on_chat_send_event(lv_event_t* e) {
+// 新增：快捷回复按钮的点击事件
+void UIManager::quick_reply_event_cb(lv_event_t* e) {
     UIManager* inst = (UIManager*)lv_event_get_user_data(e);
-    if (!inst->_chat_input_ta) return;
+    lv_obj_t* btn = lv_event_get_target(e);
+    lv_obj_t* label = lv_obj_get_child(btn, 0);
+    const char* txt = lv_label_get_text(label);
 
-    const char* txt = lv_textarea_get_text(inst->_chat_input_ta);
-    if (strlen(txt) > 0) {
-        if (inst->_onChatSubmit) inst->_onChatSubmit(txt);
-
-        inst->addChatMessage("Me", txt);
-
-        lv_textarea_set_text(inst->_chat_input_ta, "");
+    if (inst->_onChatSubmit) {
+        inst->_onChatSubmit(txt); // 触发回调，将消息传给 main.cpp 的队列
+        inst->addChatMessage("Me", txt); // 在屏幕上显示自己发的消息
     }
 }
 
@@ -190,7 +191,6 @@ void UIManager::updateStatus(const char* msg, bool isOnline) {
     lv_label_set_text(_status_label, msg);
     lv_obj_set_style_text_color(_status_label, isOnline ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000), 0);
 }
-
 
 void UIManager::addLog(const char* log) {
     lv_textarea_add_text(_log_text, log);

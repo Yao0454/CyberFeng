@@ -1,5 +1,6 @@
-import src.webAPI as webAPI
 from lib.stt import STT
+
+import src.webAPI as webAPI
 
 
 def main() -> None:

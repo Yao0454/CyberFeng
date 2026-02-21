@@ -1,0 +1,37 @@
+[
+  {
+    "label": "PIO: Build (编译)",
+    "command": "pio",
+    "args": ["run"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+  },
+  {
+    "label": "PIO: Upload (烧录)",
+    "command": "pio",
+    "args": ["run", "-t", "upload"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+  },
+  {
+    "label": "PIO: Monitor (串口监视器)",
+    "command": "pio",
+    "args": ["device", "monitor"],
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+  },
+  {
+    "label": "PIO: Clean (清理)",
+    "command": "pio",
+    "args": ["run", "-t", "clean"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+  },
+  {
+    "label": "PIO: Update Compile Commands (更新补全)",
+    "command": "pio",
+    "args": ["run", "-t", "compiledb"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+  },
+]

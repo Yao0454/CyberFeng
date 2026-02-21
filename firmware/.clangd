@@ -1,4 +1,5 @@
 CompileFlags:
+  Compiler: /Users/feng/Desktop/CyberFeng/firmware/clangd_wrapper.sh
   Add:
     [
       "-D__xtensa__",
@@ -7,7 +8,7 @@ CompileFlags:
       "-DARDUINO=10800",
       "-Wno-unknown-argument",
       "-Wno-unused-command-line-argument",
-      "--target=xtensa-esp32-elf",
+      "--target=arm-none-eabi",
     ]
   Remove:
     [

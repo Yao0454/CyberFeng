@@ -8,6 +8,8 @@
 // 导入你的模块
 #include "ArduinoJson/Document/StaticJsonDocument.hpp"
 #include "ArduinoJson/Json/JsonSerializer.hpp"
+#include "HardwareSerial.h"
+#include "esp32-hal.h"
 #include "freertos/portmacro.h"
 #include "freertos/projdefs.h"
 #include "webcom.h"
@@ -119,7 +121,7 @@ void TaskBackend(void *pvParameters) {
 
                 String response = web.sendPostRequest("/text", payload);
 
-                StaticJsonDocument<256> res_doc;
+                StaticJsonDocument<1024> res_doc;
                 if (deserializeJson(res_doc, response) == DeserializationError::Ok) {
                     const char* reply = res_doc["reply"] | "Error";
                     if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)) {
@@ -133,7 +135,7 @@ void TaskBackend(void *pvParameters) {
                 // 后台执行 HTTP 请求， 不阻塞 UI
                 last_status_time = xTaskGetTickCount();
                 String json = web.sendGetRequest("/status");
-                StaticJsonDocument<256> doc;
+                StaticJsonDocument<1024> doc;
                 if (deserializeJson(doc, json) == DeserializationError::Ok) {
                     float cpu = doc["cpu"] | 0.0f;
                     const char* model = doc["model"] | "CyberFeng";
@@ -200,6 +202,11 @@ void setup() {
 
     // 4. 联网
     web.connectWiFi("CMCC-301", "15926081964");
+    Serial.print("Waiting for WiFi");
+    while (!web.isConnected()) {
+        delay(500);
+        Serial.print(".");
+    }
 
     // 5. FreeRTOS 任务分配
     lvgl_mutex = xSemaphoreCreateMutex();

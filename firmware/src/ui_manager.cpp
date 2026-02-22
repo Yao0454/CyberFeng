@@ -1,25 +1,24 @@
 #include "ui_manager.h"
 
 // 声明内置中文字体
-LV_FONT_DECLARE(lv_font_simsun_16_cjk);
+LV_FONT_DECLARE(my_font_16);
 
 UIManager::UIManager() {}
 
 void UIManager::init() {
     lv_obj_t* scr = lv_scr_act();
     lv_obj_set_style_bg_color(scr, lv_color_hex(0x000000), 0);
-    lv_obj_set_style_text_font(scr, &lv_font_simsun_16_cjk, 0);
+    lv_obj_set_style_text_font(scr, &my_font_16, 0);
 
     // 1. TabView
     _tabview = lv_tabview_create(scr, LV_DIR_TOP, 40);
     lv_obj_set_style_bg_color(_tabview, lv_color_hex(0x1A1A1A), LV_PART_MAIN);
-    lv_obj_set_style_text_font(_tabview, &lv_font_simsun_16_cjk, 0); // 强制 Tab 栏使用中文
+    lv_obj_set_style_text_font(_tabview, &my_font_16, 0); // 强制 Tab 栏使用中文
 
     // Tab 按钮
     lv_obj_t* tab_btns = lv_tabview_get_tab_btns(_tabview);
     lv_obj_set_style_bg_color(tab_btns, lv_color_hex(0x333333), 0);
-    lv_obj_set_style_text_color(tab_btns, lv_color_hex(0x00FFFF), 0);
-    lv_obj_set_style_text_font(tab_btns, &lv_font_simsun_16_cjk, 0); // 强制 Tab 按钮使用中文
+    lv_obj_set_style_text_font(tab_btns, &my_font_16, 0); // 强制 Tab 按钮使用中文
 
     // 2. Four Pages
     lv_obj_t* t1 = lv_tabview_add_tab(_tabview, "Control");
@@ -38,7 +37,7 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
     _chat_list = lv_list_create(parent);
     lv_obj_set_size(_chat_list, 300, 110);
     lv_obj_align(_chat_list, LV_ALIGN_TOP_MID, 0, 0);
-    lv_obj_set_style_text_font(_chat_list, &lv_font_simsun_16_cjk, 0); // 强制列表使用中文
+    lv_obj_set_style_text_font(_chat_list, &my_font_16, 0); // 强制列表使用中文
 
     // 快捷回复容器，在底部，支持水平滑动
     lv_obj_t* qr_cont = lv_obj_create(parent);
@@ -67,7 +66,7 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
         lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_BLUE), 0);
 
         lv_obj_t* lbl = lv_label_create(btn);
-        lv_obj_set_style_text_font(lbl, &lv_font_simsun_16_cjk, 0); // 强制按钮标签使用中文
+        lv_obj_set_style_text_font(lbl, &my_font_16, 0); // 强制按钮标签使用中文
         lv_label_set_text(lbl, quick_replies[i]);
         lv_obj_center(lbl);
 
@@ -145,13 +144,12 @@ void UIManager::addChatMessage(const char* role, const char* msg) {
     }
 
     String fullMsg = String(role) + ": " + String(msg);
-    lv_obj_t* btn = lv_list_add_btn(_chat_list, LV_SYMBOL_DUMMY, fullMsg.c_str());
+    lv_obj_t* btn = lv_list_add_btn(_chat_list, NULL, fullMsg.c_str());
 
     lv_obj_t* label = lv_obj_get_child(btn, 0);
     if (label) {
-        lv_obj_set_style_text_font(label, &lv_font_simsun_16_cjk, 0); // 强制聊天记录使用中文
+        lv_obj_set_style_text_font(label, &my_font_16, 0); // 强制聊天记录使用中文
         lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
-        lv_obj_set_width(label, 260);
     }
 
     lv_obj_scroll_to_view(btn, LV_ANIM_ON);

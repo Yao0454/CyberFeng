@@ -1,4 +1,5 @@
 #include "ui_manager.h"
+#include "misc/lv_color.h"
 
 // 声明内置中文字体
 LV_FONT_DECLARE(my_font_16);
@@ -12,8 +13,9 @@ void UIManager::init() {
 
     // 1. TabView
     _tabview = lv_tabview_create(scr, LV_DIR_TOP, 40);
-    lv_obj_set_style_bg_color(_tabview, lv_color_hex(0x1A1A1A), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(_tabview, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
     lv_obj_set_style_text_font(_tabview, &my_font_16, 0); // 强制 Tab 栏使用中文
+    lv_obj_set_style_text_color(_tabview, lv_color_hex(0x000000), 0);
 
     // Tab 按钮
     lv_obj_t* tab_btns = lv_tabview_get_tab_btns(_tabview);

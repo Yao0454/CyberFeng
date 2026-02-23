@@ -4,14 +4,23 @@
 #include <cstring>
 #include <lvgl.h>
 #include <ArduinoJson.h>
+#include "driver/i2s.h"
+
+// Audio
+#include "AudioFileSourceHTTPStream.h"
+#include "AudioGeneratorMP3.h"
+#include "AudioGeneratorWAV.h"
+#include "AudioOutputI2SNoDAC.h"
 
 // 导入你的模块
 #include "ArduinoJson/Document/StaticJsonDocument.hpp"
 #include "ArduinoJson/Json/JsonSerializer.hpp"
 #include "HardwareSerial.h"
+#include "WString.h"
 #include "esp32-hal.h"
 #include "freertos/portmacro.h"
 #include "freertos/projdefs.h"
+#include "hal/i2s_types.h"
 #include "webcom.h"
 #include "ui_manager.h"
 
@@ -26,6 +35,9 @@
 #define XPT2046_CLK 25
 #define XPT2046_MISO 39
 #define XPT2046_MOSI 32
+
+// Audio Pointer
+AudioOutputI2SNoDAC* out = NULL;
 
 // --- 全局对象 ---
 TFT_eSPI tft = TFT_eSPI();
@@ -52,7 +64,7 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
     lv_disp_flush_ready(disp);
 }
 
-void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data) {
+void my_touchpad_read(lv_indev_drv_t* indev_driver, lv_indev_data_t *data) {
     if (ts.touched()) {
         TS_Point p = ts.getPoint();
         // 使用你之前调通的过滤逻辑
@@ -94,7 +106,7 @@ void handlChatSubmit(const char* msg) {
 }
 
 // FreeRTOS 任务
-void TaskUI(void *pvParameters) {
+void TaskUI(void* pvParameters) {
     while(1) {
         if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)) {
             lv_timer_handler();
@@ -104,7 +116,7 @@ void TaskUI(void *pvParameters) {
     }
 }
 
-void TaskBackend(void *pvParameters) {
+void TaskBackend(void* pvParameters) {
 
     char msg_buf[128];
     TickType_t last_status_time = 0;
@@ -124,9 +136,65 @@ void TaskBackend(void *pvParameters) {
                 StaticJsonDocument<1024> res_doc;
                 if (deserializeJson(res_doc, response) == DeserializationError::Ok) {
                     const char* reply = res_doc["reply"] | "Error";
+                    const char* audio_url = res_doc["audio_url"] | "";
+
+
+                    // 先显示 UI 文字
                     if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)) {
                         ui.addChatMessage("CyberFeng", reply);
                         xSemaphoreGive(lvgl_mutex);
+                    }
+
+                    // 然后流式播放音频
+                    if (strlen(audio_url) > 0) {
+                        Serial.printf("Playing audio from: %s\n", audio_url);
+
+                        AudioFileSourceHTTPStream* file = new AudioFileSourceHTTPStream(audio_url);
+                        bool begin_success = false;
+
+                        if (String(audio_url).endsWith(".wav")) {
+                            AudioGeneratorWAV* wav = new AudioGeneratorWAV();
+                            begin_success = wav->begin(file, out);
+                            if (!begin_success) Serial.println("Wav 解码失败");
+
+                            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
+                            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
+                                touchSpi.end();
+                                touchSpi.begin(25, 39, 32, 33);
+                                xSemaphoreGive(lvgl_mutex);
+                            }
+
+                            while (wav->isRunning()) {
+                                if (!wav->loop()) {
+                                    wav->stop();
+                                }
+                                vTaskDelay(pdMS_TO_TICKS(2));
+                            }
+                            delete wav;
+                        } else {
+                            AudioGeneratorMP3* mp3 = new AudioGeneratorMP3();
+                            begin_success = mp3->begin(file, out);
+
+                            if (!begin_success) Serial.println("Wav 解码失败");
+
+                            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
+                            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
+                                touchSpi.end();
+                                touchSpi.begin(25, 39, 32, 33);
+                                xSemaphoreGive(lvgl_mutex);
+                            }
+
+                            while (mp3->isRunning()) {
+                                if (!mp3->loop()) {
+                                    mp3->stop();
+                                }
+                                vTaskDelay(pdMS_TO_TICKS(2));
+                            }
+                            delete mp3;
+                        }
+
+                        delete file;
+                        Serial.println("Audio playback finished!");
                     }
                 }
             }
@@ -174,6 +242,11 @@ void setup() {
     ts.begin(touchSpi);
     ts.setRotation(1);
 
+    // Audio init
+    out = new AudioOutputI2SNoDAC();
+    out->SetPinout(22, 27, 26);
+    out->SetGain(2.5);
+
     // 2. LVGL 核心初始化
     lv_init();
     static lv_disp_draw_buf_t draw_buf;
@@ -201,7 +274,7 @@ void setup() {
     ui.setOnChatSubmit(handlChatSubmit);
 
     // 4. 联网
-    web.connectWiFi("CMCC-301", "15926081964");
+    web.connectWiFi("vivo X200 Pro mini", "Zhanghan0118");
     Serial.print("Waiting for WiFi");
     while (!web.isConnected()) {
         delay(500);

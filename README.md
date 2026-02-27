@@ -153,21 +153,21 @@ stt.unload_model()
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 7
+- ⭐ **Stars**: 8
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18786 KB
+- 💾 **仓库大小**: 18787 KB
 
 ### 📝 最近提交
 
+- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
 - [`50d6607`](https://github.com/Yao0454/CyberFeng/commit/50d6607095fcc77a89126a7acd44471615caa007) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 16:05)
 - [`247b154`](https://github.com/Yao0454/CyberFeng/commit/247b154230097225fc1b997e26f30b2e2a9c23f9) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-25 16:04)
 - [`508eead`](https://github.com/Yao0454/CyberFeng/commit/508eead2a97b372d6a315762f8970112163f8b08) Add VoiceManager header with I2S config - *Yao0454* (2026-02-25 16:04)
 - [`c4cd66d`](https://github.com/Yao0454/CyberFeng/commit/c4cd66dc6087fce1b40ba80e801a09cbf9849945) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 09:54)
-- [`445ded4`](https://github.com/Yao0454/CyberFeng/commit/445ded4676981d7fee39b3b4f6deb63ca0484097) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-24 09:52)
 
-*最后更新时间: 2026年02月26日 09:50:57 (北京时间)*
+*最后更新时间: 2026年02月27日 09:49:18 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -376,21 +376,21 @@ python main.py
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 7
+- ⭐ **Stars**: 8
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18786 KB
+- 💾 **仓库大小**: 18787 KB
 
 ### 📝 最近提交
 
+- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
 - [`50d6607`](https://github.com/Yao0454/CyberFeng/commit/50d6607095fcc77a89126a7acd44471615caa007) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 16:05)
 - [`247b154`](https://github.com/Yao0454/CyberFeng/commit/247b154230097225fc1b997e26f30b2e2a9c23f9) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-25 16:04)
 - [`508eead`](https://github.com/Yao0454/CyberFeng/commit/508eead2a97b372d6a315762f8970112163f8b08) Add VoiceManager header with I2S config - *Yao0454* (2026-02-25 16:04)
 - [`c4cd66d`](https://github.com/Yao0454/CyberFeng/commit/c4cd66dc6087fce1b40ba80e801a09cbf9849945) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 09:54)
-- [`445ded4`](https://github.com/Yao0454/CyberFeng/commit/445ded4676981d7fee39b3b4f6deb63ca0484097) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-24 09:52)
 
-*最后更新时间: 2026年02月26日 09:50:57 (北京时间)*
+*最后更新时间: 2026年02月27日 09:49:18 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

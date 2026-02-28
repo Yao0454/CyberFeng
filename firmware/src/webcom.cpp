@@ -1,3 +1,7 @@
+#include "HTTPClient.h"
+#include "WString.h"
+#include <stddef.h>
+#include <stdint.h>
 #include <webcom.h>
 
 WebCom::WebCom(String _serverUrl) {
@@ -51,4 +55,20 @@ String WebCom::sendPostRequest(const char* endpoint, String jsonPayload) {
     http.end();
 
     return response;
+}
+
+String WebCom::sendAudioPostRequest(const char* endpoint, uint8_t* audioData, size_t size) {
+    if (!isConnected()) return "Error: No WiFi";
+
+    HTTPClient http;
+    String fullUrl = String(serverUrl) + endpoint;
+
+    http.begin(fullUrl);
+    http.addHeader("Content-Type", "application/octet-stream");
+
+    int httpCode = http.POST(audioData, size);
+    String responce = http.getString();
+    http.end();
+
+    return responce;
 }

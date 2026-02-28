@@ -6,8 +6,8 @@
 #include <stdint.h>
 
 #define I2S_MIC_PORT I2S_NUM_1
-#define I2S_MIC_BCLK 32 // clock_port
-#define I2S_MIC_WS 33 // channel_port
+#define I2S_MIC_BCLK 22 // clock_port
+#define I2S_MIC_WS 27 // channel_port
 #define I2S_MIC_DATA 35 // data_port
 
 class VoiceManager {
@@ -27,10 +27,12 @@ public:
     void clearBuffer();
 
 private:
-    bool _is_recording;
+    volatile bool _is_recording;
     uint8_t* _audio_buffer;
     uint32_t _audio_size;
     uint32_t _buffer_max_size;
+
+    TaskHandle_t _record_task_handle;
 
     static void recordTask(void* pvParameters);
 };

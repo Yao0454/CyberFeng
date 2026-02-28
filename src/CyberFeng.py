@@ -10,10 +10,11 @@ from lib.tts import Infer
 @dataclass
 class CyberFengData:
     input_audio_path: Path | str = ""
-    model_path: Path | str = "Qwen/Qwen2.5-14B-Instruct-AWQ"
+    model_path: Path | str = "Qwen/Qwen2.5-7B-Instruct-AWQ"
     tts_addr: str = "http://127.0.0.1:9880"
     ref_audio_path: str = "reference_voice/reference.wav"
     ref_text: str = "就是学习函数可能的输出，在这个例子里"
+    base_url: str = "http://129.212.226.20:1111"
 
     transfered_text: str = ""
     filename: str = ""
@@ -128,6 +129,11 @@ class CyberFeng:
             _prompt_lang="zh",
             _prompt_text=self.datas.ref_text,
         )
-        self.datas.output_audio_path = infer.save_audio(self.datas.filename)
+        filename_with_ext = (
+            f"{self.datas.filename}.mp3"
+            if not self.datas.filename.endswith(".mp3")
+            else self.datas.filename
+        )
+        self.datas.output_audio_path = infer.save_audio(filename_with_ext)
 
         return self

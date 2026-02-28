@@ -9,7 +9,7 @@
 typedef void (*CommandClickCallback)(const char* cmd);
 typedef void (*WeightChangeCallback)(const char* weight);
 typedef void (*ChatSubmitCallback)(const char* msg);
-
+typedef void (*VoiceRecordingCallback)(bool is_start);
 
 class UIManager {
 public:
@@ -27,6 +27,7 @@ public:
     void setOnCommandClick(CommandClickCallback cb);
     void setOnWeightChange(WeightChangeCallback cb);
     void setOnChatSubmit(ChatSubmitCallback cb);
+    void setOnVoiceRecord(VoiceRecordingCallback cb);
 
 private:
     lv_obj_t* _tabview;
@@ -41,7 +42,7 @@ private:
     CommandClickCallback _onCommandClick = nullptr;
     WeightChangeCallback _onWeightChange = nullptr;
     ChatSubmitCallback _onChatSubmit = nullptr;
-
+    VoiceRecordingCallback _onVoiceRecord = nullptr;
 
     // 构建页面函数
     void buildControlTab(lv_obj_t* parent);
@@ -55,6 +56,7 @@ private:
     static void dropdown_event_cb(lv_event_t* e);
     static void on_chat_send_event(lv_event_t* e);
     static void quick_reply_event_cb(lv_event_t* e);
+    static void mic_btn_event_cb(lv_event_t* e);
 };
 
 #endif // UI_MANAGER_H_

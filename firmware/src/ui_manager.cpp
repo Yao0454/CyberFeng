@@ -1,5 +1,6 @@
 #include "ui_manager.h"
-#include "misc/lv_color.h"
+#include "core/lv_obj_pos.h"
+#include "extra/layouts/flex/lv_flex.h"
 
 // 声明内置中文字体
 LV_FONT_DECLARE(my_font_16);
@@ -47,6 +48,9 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
     lv_obj_align(qr_cont, LV_ALIGN_BOTTOM_MID, 0, -5);
     lv_obj_set_flex_flow(qr_cont, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_size(qr_cont, 300, 200);
+
     lv_obj_set_style_pad_all(qr_cont, 5, 0);
     lv_obj_set_style_pad_column(qr_cont, 10, 0);
     lv_obj_set_scrollbar_mode(qr_cont, LV_SCROLLBAR_MODE_OFF);
@@ -74,6 +78,20 @@ void UIManager::buildChatTab(lv_obj_t* parent) {
 
         lv_obj_add_event_cb(btn, quick_reply_event_cb, LV_EVENT_CLICKED, this);
     }
+    lv_obj_t* mic_btn = lv_btn_create(qr_cont);
+    lv_obj_set_height(mic_btn, 40);
+    lv_obj_set_style_bg_color(mic_btn, lv_palette_main(LV_PALETTE_RED), 0);
+
+    lv_obj_t* mic_lbl = lv_label_create(mic_btn);
+    lv_obj_set_style_text_font(mic_lbl, &my_font_16, 0);
+    lv_obj_set_style_text_color(mic_lbl, lv_color_hex(0xFFFFFF), 0);
+    lv_label_set_text(mic_lbl, "按住说话");
+    lv_obj_center(mic_lbl);
+
+    // 监听按下松开和手指滑出按钮的事件
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESSED, this);
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_RELEASED, this);
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESS_LOST, this);
 }
 
 void UIManager::buildControlTab(lv_obj_t* parent) {
@@ -193,6 +211,24 @@ void UIManager::quick_reply_event_cb(lv_event_t* e) {
     }
 }
 
+void UIManager::mic_btn_event_cb(lv_event_t* e) {
+    UIManager* inst = (UIManager*)lv_event_get_user_data(e);
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t* btn = lv_event_get_target(e);
+    lv_obj_t* lbl = lv_obj_get_child(btn, 0);
+
+    if (code == LV_EVENT_PRESSED) {
+        lv_obj_set_style_bg_color(btn, lv_palette_darken(LV_PALETTE_RED, 3), 0);
+        lv_label_set_text(lbl, "松开发送");
+        if (inst->_onVoiceRecord) inst->_onVoiceRecord(true);
+    } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) {
+        lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_RED), 0);
+        lv_label_set_text(lbl, "按住说话");
+        if (inst->_onVoiceRecord) inst -> _onVoiceRecord(false);
+    }
+}
+
+
 // 接口实现
 void UIManager::updateStatus(const char* msg, bool isOnline) {
     lv_label_set_text(_status_label, msg);
@@ -204,6 +240,7 @@ void UIManager::addLog(const char* log) {
     lv_textarea_add_text(_log_text, "\n");
 }
 
+
 void UIManager::updateStats(float cpu, float ram, const char* model) {
     lv_bar_set_value(_cpu_bar, (int)cpu, LV_ANIM_ON);
     lv_label_set_text_fmt(_model_label, "Active Model: %s", model);
@@ -212,3 +249,4 @@ void UIManager::updateStats(float cpu, float ram, const char* model) {
 void UIManager::setOnCommandClick(void (*cb)(const char*)) { _onCommandClick = cb; }
 void UIManager::setOnWeightChange(void (*cb)(const char*)) { _onWeightChange = cb; }
 void UIManager::setOnChatSubmit(void (*cb)(const char*)) { _onChatSubmit = cb; }
+void UIManager::setOnVoiceRecord(VoiceRecordingCallback cb) { _onVoiceRecord = cb; }

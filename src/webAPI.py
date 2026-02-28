@@ -1,9 +1,10 @@
 import os
-import shutil
+import uuid
 from pathlib import Path
 
+import psutil
 import uvicorn
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
@@ -33,20 +34,25 @@ cf: CyberFeng = CyberFeng(cfdata)
 
 
 @app.post("/chat")
-async def chat_endpoint(file: UploadFile = File(...)):
+async def chat_endpoint(request: Request):
+    count: int = 0
     if os.environ.get("NO_PROXY"):
         os.environ["NO_PROXY"] += ",127.0.0.1"
     else:
         os.environ["NO_PROXY"] = "127.0.0.1"
     try:
         # 保存上传到服务器的音频文件
-        file_location = UPLOAD_DIR / (file.filename or "")
+        audio_data = await request.body()
+        count += 1
+        file_name = f"upload{count}"
 
-        with file_location.open("wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        print(f"成功收到音频文件{file_location}")
+        file_path: Path = UPLOAD_DIR / file_name
 
-        cf.choose_audio(file).stt().llm().tts()
+        with file_path.open("wb") as buffer:
+            buffer.write(audio_data)
+        print(f"成功收到音频文件{file_path}")
+
+        cf.choose_audio(file_path).stt().llm().tts()
 
         if not cfdata.output_audio_path:
             raise RuntimeError("过程错误！")
@@ -55,7 +61,7 @@ async def chat_endpoint(file: UploadFile = File(...)):
 
         if output_audio_path and Path(output_audio_path).exists():
             return FileResponse(
-                output_audio_path, media_type="audio/wav", filename="reply.wav"
+                output_audio_path, media_type="audio/mpeg", filename="reply.mp3"
             )
         else:
             raise HTTPException(status_code=500, detail="进程失败")
@@ -73,14 +79,27 @@ async def text_endpoint(req: ChatRequest):
         os.environ["NO_PROXY"] = "127.0.0.1"
 
     try:
+        cfdata.filename = f"text_{uuid.uuid4().hex}"
         cfdata.transfered_text = req.message
-        cf.llm()
+        cf.llm().tts()
 
-        return {"reply": cfdata.llm_response}
+        filename = Path(cfdata.output_audio_path).name
+
+        file_url = f"{cfdata.base_url}/audio/{filename}"
+        return {"reply": cfdata.llm_response, "audio_url": file_url}
 
     except Exception as e:
         print(f"Error:{e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/audio/{filename}")
+async def get_audio_file(filename: str):
+    file_path = RESPONCE_DIR / filename
+    if file_path.exists():
+        media_type = "audio/mpeg" if filename.endswith(".mp3") else "audio/wav"
+        return FileResponse(file_path, media_type=media_type, filename=filename)
+    raise HTTPException(status_code=404, detail="文件不存在")
 
 
 @app.get("/control")
@@ -135,6 +154,8 @@ async def get_status() -> dict:
         "status": "online",
         "stt": str(cf.stt_service.get_model_status),
         "llm": str(cf.llm_service.get_model_status),
+        "model": cf.llm_service.model_path,
+        "cpu": psutil.cpu_percent(interval=0.5),
     }
 
 

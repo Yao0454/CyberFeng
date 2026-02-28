@@ -5,6 +5,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include <stddef.h>
+#include <stdint.h>
 
 class WebCom {
 private:
@@ -24,6 +26,9 @@ public:
 
     // 发送 POST 请求
     String sendPostRequest(const char* endpoint, String jsonpayload);
+
+    String sendAudioPostRequest(const char* endpoint, uint8_t* audioData, size_t size);
+
 
 };
 

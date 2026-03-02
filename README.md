@@ -161,13 +161,13 @@ stt.unload_model()
 
 ### 📝 最近提交
 
+- [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 - [`fa8f756`](https://github.com/Yao0454/CyberFeng/commit/fa8f756f7432916d5e4c326366b9adef9eaff05e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 12:12)
 - [`8825f29`](https://github.com/Yao0454/CyberFeng/commit/8825f297f015c07ac048adbe3abb5e5c323e8aa5) Add voice recording and audio upload/playback - *Yao0454* (2026-02-28 12:12)
 - [`70afba7`](https://github.com/Yao0454/CyberFeng/commit/70afba7a4a5b374e81334da4f03aafd102cae305) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 09:40)
 - [`1498def`](https://github.com/Yao0454/CyberFeng/commit/1498def79a3c287c86176e26f4b22de6326f1a12) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-27 09:49)
-- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
 
-*最后更新时间: 2026年03月01日 10:01:20 (北京时间)*
+*最后更新时间: 2026年03月02日 09:52:22 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -384,13 +384,13 @@ python main.py
 
 ### 📝 最近提交
 
+- [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 - [`fa8f756`](https://github.com/Yao0454/CyberFeng/commit/fa8f756f7432916d5e4c326366b9adef9eaff05e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 12:12)
 - [`8825f29`](https://github.com/Yao0454/CyberFeng/commit/8825f297f015c07ac048adbe3abb5e5c323e8aa5) Add voice recording and audio upload/playback - *Yao0454* (2026-02-28 12:12)
 - [`70afba7`](https://github.com/Yao0454/CyberFeng/commit/70afba7a4a5b374e81334da4f03aafd102cae305) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 09:40)
 - [`1498def`](https://github.com/Yao0454/CyberFeng/commit/1498def79a3c287c86176e26f4b22de6326f1a12) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-27 09:49)
-- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
 
-*最后更新时间: 2026年03月01日 10:01:20 (北京时间)*
+*最后更新时间: 2026年03月02日 09:52:22 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

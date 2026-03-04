@@ -153,7 +153,7 @@ stt.unload_model()
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 8
+- ⭐ **Stars**: 9
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
@@ -161,13 +161,13 @@ stt.unload_model()
 
 ### 📝 最近提交
 
+- [`1bb8f3b`](https://github.com/Yao0454/CyberFeng/commit/1bb8f3bc999688f7a5e2252cac430ac180402dd1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-03 09:54)
 - [`0ab8264`](https://github.com/Yao0454/CyberFeng/commit/0ab8264cf312d2da61169a585ab153a08f826a85) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-02 09:52)
 - [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 - [`fa8f756`](https://github.com/Yao0454/CyberFeng/commit/fa8f756f7432916d5e4c326366b9adef9eaff05e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 12:12)
 - [`8825f29`](https://github.com/Yao0454/CyberFeng/commit/8825f297f015c07ac048adbe3abb5e5c323e8aa5) Add voice recording and audio upload/playback - *Yao0454* (2026-02-28 12:12)
-- [`70afba7`](https://github.com/Yao0454/CyberFeng/commit/70afba7a4a5b374e81334da4f03aafd102cae305) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 09:40)
 
-*最后更新时间: 2026年03月03日 09:54:53 (北京时间)*
+*最后更新时间: 2026年03月04日 09:48:32 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -376,7 +376,7 @@ python main.py
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 8
+- ⭐ **Stars**: 9
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
@@ -384,13 +384,13 @@ python main.py
 
 ### 📝 最近提交
 
+- [`1bb8f3b`](https://github.com/Yao0454/CyberFeng/commit/1bb8f3bc999688f7a5e2252cac430ac180402dd1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-03 09:54)
 - [`0ab8264`](https://github.com/Yao0454/CyberFeng/commit/0ab8264cf312d2da61169a585ab153a08f826a85) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-02 09:52)
 - [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 - [`fa8f756`](https://github.com/Yao0454/CyberFeng/commit/fa8f756f7432916d5e4c326366b9adef9eaff05e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 12:12)
 - [`8825f29`](https://github.com/Yao0454/CyberFeng/commit/8825f297f015c07ac048adbe3abb5e5c323e8aa5) Add voice recording and audio upload/playback - *Yao0454* (2026-02-28 12:12)
-- [`70afba7`](https://github.com/Yao0454/CyberFeng/commit/70afba7a4a5b374e81334da4f03aafd102cae305) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-28 09:40)
 
-*最后更新时间: 2026年03月03日 09:54:53 (北京时间)*
+*最后更新时间: 2026年03月04日 09:48:32 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

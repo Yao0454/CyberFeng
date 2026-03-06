@@ -153,21 +153,21 @@ stt.unload_model()
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 8
+- ⭐ **Stars**: 9
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18794 KB
+- 💾 **仓库大小**: 18822 KB
 
 ### 📝 最近提交
 
-- [`1498def`](https://github.com/Yao0454/CyberFeng/commit/1498def79a3c287c86176e26f4b22de6326f1a12) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-27 09:49)
-- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
-- [`50d6607`](https://github.com/Yao0454/CyberFeng/commit/50d6607095fcc77a89126a7acd44471615caa007) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 16:05)
-- [`247b154`](https://github.com/Yao0454/CyberFeng/commit/247b154230097225fc1b997e26f30b2e2a9c23f9) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-25 16:04)
-- [`508eead`](https://github.com/Yao0454/CyberFeng/commit/508eead2a97b372d6a315762f8970112163f8b08) Add VoiceManager header with I2S config - *Yao0454* (2026-02-25 16:04)
+- [`4f4a59d`](https://github.com/Yao0454/CyberFeng/commit/4f4a59def47a09c1d4fae4b7154445b4751c21ac) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-05 09:51)
+- [`4e4d62c`](https://github.com/Yao0454/CyberFeng/commit/4e4d62c10a28efa806bbb5a5a26d2bee54aab679) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-04 09:48)
+- [`1bb8f3b`](https://github.com/Yao0454/CyberFeng/commit/1bb8f3bc999688f7a5e2252cac430ac180402dd1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-03 09:54)
+- [`0ab8264`](https://github.com/Yao0454/CyberFeng/commit/0ab8264cf312d2da61169a585ab153a08f826a85) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-02 09:52)
+- [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 
-*最后更新时间: 2026年02月28日 09:40:53 (北京时间)*
+*最后更新时间: 2026年03月06日 09:52:55 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -376,21 +376,21 @@ python main.py
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 8
+- ⭐ **Stars**: 9
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18794 KB
+- 💾 **仓库大小**: 18822 KB
 
 ### 📝 最近提交
 
-- [`1498def`](https://github.com/Yao0454/CyberFeng/commit/1498def79a3c287c86176e26f4b22de6326f1a12) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-27 09:49)
-- [`f7aa9ac`](https://github.com/Yao0454/CyberFeng/commit/f7aa9acbf128b4e648598d792ffe0b9f4c3d5dee) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-26 09:50)
-- [`50d6607`](https://github.com/Yao0454/CyberFeng/commit/50d6607095fcc77a89126a7acd44471615caa007) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-02-25 16:05)
-- [`247b154`](https://github.com/Yao0454/CyberFeng/commit/247b154230097225fc1b997e26f30b2e2a9c23f9) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-02-25 16:04)
-- [`508eead`](https://github.com/Yao0454/CyberFeng/commit/508eead2a97b372d6a315762f8970112163f8b08) Add VoiceManager header with I2S config - *Yao0454* (2026-02-25 16:04)
+- [`4f4a59d`](https://github.com/Yao0454/CyberFeng/commit/4f4a59def47a09c1d4fae4b7154445b4751c21ac) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-05 09:51)
+- [`4e4d62c`](https://github.com/Yao0454/CyberFeng/commit/4e4d62c10a28efa806bbb5a5a26d2bee54aab679) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-04 09:48)
+- [`1bb8f3b`](https://github.com/Yao0454/CyberFeng/commit/1bb8f3bc999688f7a5e2252cac430ac180402dd1) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-03 09:54)
+- [`0ab8264`](https://github.com/Yao0454/CyberFeng/commit/0ab8264cf312d2da61169a585ab153a08f826a85) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-02 09:52)
+- [`fba33e1`](https://github.com/Yao0454/CyberFeng/commit/fba33e1431614e2e5dfeed81a6fb5c83a4daf627) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-01 10:01)
 
-*最后更新时间: 2026年02月28日 09:40:53 (北京时间)*
+*最后更新时间: 2026年03月06日 09:52:55 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

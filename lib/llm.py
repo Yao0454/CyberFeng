@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from transformers import AutoTokenizer
 
 load_dotenv()
-proxy_url = "http://127.0.0.1:20171"
+proxy_url = "http://127.0.0.1:10808"
 
 os.environ["HTTP_PROXY"] = proxy_url
 os.environ["HTTPS_PROXY"] = proxy_url
@@ -24,7 +24,7 @@ class LLM:
         _temperature: float = 0.7,
         _top_p: float = 0.8,
         _max_tokens: int = 512,
-        _gpu_memory_utilization: float = 0.3,
+        _gpu_memory_utilization: float = 0.65,
     ) -> None:
         """
         初始化 LLM 配置

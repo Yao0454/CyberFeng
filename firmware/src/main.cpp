@@ -50,7 +50,7 @@ XPT2046_Touchscreen ts(XPT2046_CS); // 软件轮询模式
 
 // 你的功能模块实例化
 UIManager ui;
-WebCom web("http://129.212.226.20:1111"); // Python 后端地址
+WebCom web("http://101.37.80.57:1111"); // Python 后端地址
 
 // 录音
 VoiceManager voice;
@@ -330,7 +330,7 @@ void setup() {
     ui.setOnChatSubmit(handlChatSubmit);
 
     // 4. 联网
-    web.connectWiFi("枫枫子的iPhone14Pro", "iloveyou77yes");
+    web.connectWiFi("sys-jky", "jky.scuec");
     Serial.print("Waiting for WiFi");
     while (!web.isConnected()) {
         delay(500);

@@ -157,17 +157,17 @@ stt.unload_model()
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18869 KB
+- 💾 **仓库大小**: 18870 KB
 
 ### 📝 最近提交
 
+- [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
 - [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
 - [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
 - [`51f7199`](https://github.com/Yao0454/CyberFeng/commit/51f71991bfddb529423176116c13ebd6b7b3e7fd) Update - *Yao0454* (2026-03-13 20:46)
-- [`bfb6036`](https://github.com/Yao0454/CyberFeng/commit/bfb60366f8109dca0bec3b82b758a95e8c999d4f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:09)
-- [`5613128`](https://github.com/Yao0454/CyberFeng/commit/56131281b985b45e6c376ec5b460bb30892f30b6) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:09)
 
-*最后更新时间: 2026年03月14日 09:48:12 (北京时间)*
+*最后更新时间: 2026年03月14日 20:50:35 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -380,17 +380,17 @@ python main.py
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18869 KB
+- 💾 **仓库大小**: 18870 KB
 
 ### 📝 最近提交
 
+- [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
 - [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
 - [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
 - [`51f7199`](https://github.com/Yao0454/CyberFeng/commit/51f71991bfddb529423176116c13ebd6b7b3e7fd) Update - *Yao0454* (2026-03-13 20:46)
-- [`bfb6036`](https://github.com/Yao0454/CyberFeng/commit/bfb60366f8109dca0bec3b82b758a95e8c999d4f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:09)
-- [`5613128`](https://github.com/Yao0454/CyberFeng/commit/56131281b985b45e6c376ec5b460bb30892f30b6) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:09)
 
-*最后更新时间: 2026年03月14日 09:48:12 (北京时间)*
+*最后更新时间: 2026年03月14日 20:50:35 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

@@ -46,13 +46,14 @@ async def chat_endpoint(request: Request):
         count += 1
         file_name = f"upload{count}"
 
-        file_path: Path = UPLOAD_DIR / file_name
+        raw_file_path: Path = UPLOAD_DIR / f"{file_name}.pcm"
+        out_file_path: Path = UPLOAD_DIR / f"{file_name}.wav"
 
-        with file_path.open("wb") as buffer:
+        with raw_file_path.open("wb") as buffer:
             buffer.write(audio_data)
-        print(f"成功收到音频文件{file_path}")
+        print(f"成功收到音频文件{raw_file_path}")
 
-        cf.choose_audio(file_path).stt().llm().tts()
+        cf.choose_audio(raw_file_path, out_file_path).stt().llm().tts()
 
         if not cfdata.output_audio_path:
             raise RuntimeError("过程错误！")

@@ -10,6 +10,7 @@ from lib.tts import Infer
 @dataclass
 class CyberFengData:
     input_audio_path: Path | str = ""
+    trans_audio_path: Path | str = ""
     model_path: Path | str = "Qwen/Qwen2.5-1.5B-Instruct-AWQ"
     tts_addr: str = "http://127.0.0.1:9880"
     ref_audio_path: str = "reference_voice/reference.wav"
@@ -61,7 +62,7 @@ class CyberFeng:
             and not self.llm_service.get_model_status
         )
 
-    def choose_audio(self, input_audio_path) -> Self:
+    def choose_audio(self, input_audio_path, trans_audio_path) -> Self:
         """选择输入音频文件路径，支持链式调用。
 
         Args:
@@ -71,6 +72,7 @@ class CyberFeng:
             Self: 返回自身实例，支持链式调用。
         """
         self.datas.input_audio_path = input_audio_path
+        self.datas.trans_audio_path = trans_audio_path
         return self
 
     def stt(self) -> Self:
@@ -88,7 +90,9 @@ class CyberFeng:
             raise RuntimeError("模型没有被正常初始化！")
 
         self.datas.transfered_text, self.datas.filename = (
-            self.stt_service.process_audio(str(self.datas.input_audio_path))
+            self.stt_service.process_audio(
+                str(self.datas.input_audio_path), str(self.datas.output_audio_path)
+            )
         )
 
         return self

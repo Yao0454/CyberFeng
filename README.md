@@ -157,17 +157,17 @@ stt.unload_model()
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18881 KB
+- 💾 **仓库大小**: 18882 KB
 
 ### 📝 最近提交
 
+- [`67c59ae`](https://github.com/Yao0454/CyberFeng/commit/67c59ae42a99204ee5ceb88ca938c1c8a71862f5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-15 10:04)
 - [`f798c31`](https://github.com/Yao0454/CyberFeng/commit/f798c31c97a7844f08a9398ecde73f375cc86dd6) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 20:50)
 - [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
 - [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
 - [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
-- [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
 
-*最后更新时间: 2026年03月15日 10:04:44 (北京时间)*
+*最后更新时间: 2026年03月16日 10:06:09 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -380,17 +380,17 @@ python main.py
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18881 KB
+- 💾 **仓库大小**: 18882 KB
 
 ### 📝 最近提交
 
+- [`67c59ae`](https://github.com/Yao0454/CyberFeng/commit/67c59ae42a99204ee5ceb88ca938c1c8a71862f5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-15 10:04)
 - [`f798c31`](https://github.com/Yao0454/CyberFeng/commit/f798c31c97a7844f08a9398ecde73f375cc86dd6) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 20:50)
 - [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
 - [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
 - [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
-- [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
 
-*最后更新时间: 2026年03月15日 10:04:44 (北京时间)*
+*最后更新时间: 2026年03月16日 10:06:09 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

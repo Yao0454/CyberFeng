@@ -1,0 +1,22 @@
+CompileFlags:
+  Compiler: clangd_wrapper.sh
+  Add:
+    [
+      "-D__xtensa__",
+      "-D_GNU_SOURCE",
+      "-DESP32",
+      "-DARDUINO=10800",
+      "-Wno-unknown-argument",
+      "-Wno-unused-command-line-argument",
+      "--target=arm-none-eabi",
+    ]
+  Remove:
+    [
+      "-mlongcalls",
+      "-fno-tree-switch-conversion",
+      "-fstrict-volatile-bitfields",
+      "-mfix-esp32-erratum-76",
+    ]
+
+Index:
+  Background: Build

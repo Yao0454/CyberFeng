@@ -153,21 +153,21 @@ stt.unload_model()
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 9
+- ⭐ **Stars**: 10
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18882 KB
+- 💾 **仓库大小**: 18889 KB
 
 ### 📝 最近提交
 
+- [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 - [`67c59ae`](https://github.com/Yao0454/CyberFeng/commit/67c59ae42a99204ee5ceb88ca938c1c8a71862f5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-15 10:04)
 - [`f798c31`](https://github.com/Yao0454/CyberFeng/commit/f798c31c97a7844f08a9398ecde73f375cc86dd6) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 20:50)
 - [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
 - [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
-- [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
 
-*最后更新时间: 2026年03月16日 10:06:09 (北京时间)*
+*最后更新时间: 2026年03月17日 09:52:59 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -376,21 +376,21 @@ python main.py
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 9
+- ⭐ **Stars**: 10
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18882 KB
+- 💾 **仓库大小**: 18889 KB
 
 ### 📝 最近提交
 
+- [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 - [`67c59ae`](https://github.com/Yao0454/CyberFeng/commit/67c59ae42a99204ee5ceb88ca938c1c8a71862f5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-15 10:04)
 - [`f798c31`](https://github.com/Yao0454/CyberFeng/commit/f798c31c97a7844f08a9398ecde73f375cc86dd6) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 20:50)
 - [`2a154c0`](https://github.com/Yao0454/CyberFeng/commit/2a154c0ef48d82878dee4fe8a2b6d92a0a079ab7) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
 - [`c59dc5e`](https://github.com/Yao0454/CyberFeng/commit/c59dc5e21665c012f6b45a79410f717a1d5ca1d5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-14 09:48)
-- [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
 
-*最后更新时间: 2026年03月16日 10:06:09 (北京时间)*
+*最后更新时间: 2026年03月17日 09:52:59 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

@@ -4,8 +4,6 @@
 #include <cstring>
 #include <lvgl.h>
 #include <ArduinoJson.h>
-#include "ArduinoJson/Deserialization/DeserializationError.hpp"
-#include "ArduinoJson/Json/JsonDeserializer.hpp"
 #include "driver/i2s.h"
 
 // Audio
@@ -15,14 +13,6 @@
 #include "AudioOutputI2SNoDAC.h"
 
 // 导入你的模块
-#include "ArduinoJson/Document/StaticJsonDocument.hpp"
-#include "ArduinoJson/Json/JsonSerializer.hpp"
-#include "HardwareSerial.h"
-#include "WString.h"
-#include "esp32-hal.h"
-#include "freertos/portmacro.h"
-#include "freertos/projdefs.h"
-#include "hal/i2s_types.h"
 #include "webcom.h"
 #include "ui_manager.h"
 #include "voice.h"
@@ -31,8 +21,14 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/semphr.h>
+#include <freertos/portmacro.h>
 #include <freertos/queue.h>
-#include <stdint.h>
+
+// WatchDog
+#include <esp32-hal.h>
+#include <esp_task_wdt.h>
+
+
 
 // 硬件引脚定义
 #define XPT2046_CS 33
@@ -118,7 +114,7 @@ void handleVoiceRecord(bool is_start) {
     if (is_start) {
         voice.startRecording();
     } else {
-        voice.startRecording();
+        voice.stopRecording();
         audio_ready_to_send = true;
     }
 }
@@ -134,19 +130,12 @@ void play_audio (const char* audio_url) {
             AudioGeneratorWAV* wav = new AudioGeneratorWAV();
             begin_success = wav->begin(file, out);
             if (!begin_success) Serial.println("Wav 解码失败");
-
-            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
-            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
-                touchSpi.end();
-                touchSpi.begin(25, 39, 32, 33);
-                xSemaphoreGive(lvgl_mutex);
-            }
-
             while (wav->isRunning()) {
+                esp_task_wdt_reset();
                 if (!wav->loop()) {
                     wav->stop();
                 }
-                vTaskDelay(pdMS_TO_TICKS(2));
+                vTaskDelay(pdMS_TO_TICKS(1));
             }
             delete wav;
         } else {
@@ -155,18 +144,12 @@ void play_audio (const char* audio_url) {
 
             if (!begin_success) Serial.println("Wav 解码失败");
 
-            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
-            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
-                touchSpi.end();
-                touchSpi.begin(25, 39, 32, 33);
-                xSemaphoreGive(lvgl_mutex);
-            }
-
             while (mp3->isRunning()) {
+                esp_task_wdt_reset();
                 if (!mp3->loop()) {
                     mp3->stop();
                 }
-                vTaskDelay(pdMS_TO_TICKS(2));
+                vTaskDelay(pdMS_TO_TICKS(1));
             }
             delete mp3;
         }
@@ -190,12 +173,17 @@ void TaskUI(void* pvParameters) {
 
 void TaskBackend(void* pvParameters) {
 
+    esp_task_wdt_add(NULL);
+
     char msg_buf[128];
 
     TickType_t last_status_time = 0;
     const TickType_t status_interval = pdMS_TO_TICKS(5000);
 
     while(1) {
+
+        esp_task_wdt_reset();
+
         if (web.isConnected()) {
             // Voice 发送
             if (audio_ready_to_send) {
@@ -300,8 +288,8 @@ void setup() {
 
     // Audio init
     out = new AudioOutputI2SNoDAC();
-    out->SetPinout(-1, -1, 26);
-    out->SetGain(2.5);
+    out->SetPinout(19, 23, 26);
+    out->SetGain(1.2);
 
     // 2. LVGL 核心初始化
     lv_init();
@@ -330,7 +318,7 @@ void setup() {
     ui.setOnChatSubmit(handlChatSubmit);
 
     // 4. 联网
-    web.connectWiFi("sys-jky", "jky.scuec");
+    web.connectWiFi("枫枫子的iPhone14Pro", "iloveyou77yes");
     Serial.print("Waiting for WiFi");
     while (!web.isConnected()) {
         delay(500);

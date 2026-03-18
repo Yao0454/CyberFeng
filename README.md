@@ -157,6 +157,7 @@ stt.unload_model()
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
+<<<<<<< HEAD
 - 💾 **仓库大小**: 18896 KB
 
 ### 📝 最近提交
@@ -168,6 +169,19 @@ stt.unload_model()
 - [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 
 *最后更新时间: 2026年03月18日 12:58:19 (北京时间)*
+=======
+- 💾 **仓库大小**: 18898 KB
+
+### 📝 最近提交
+
+- [`f6fbe40`](https://github.com/Yao0454/CyberFeng/commit/f6fbe40dd1f057da9a7e4ecbdcc3944184f35ae7) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 15:06)
+- [`8187598`](https://github.com/Yao0454/CyberFeng/commit/818759853e7bbfc915120eb377ac1578a2b12bde) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`a8f7454`](https://github.com/Yao0454/CyberFeng/commit/a8f7454f6d954554901e6baab0e734c38cc1dc11) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 12:58)
+- [`f311595`](https://github.com/Yao0454/CyberFeng/commit/f3115957913292d4ccbf2406eee89c8d238e849f) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 12:58)
+- [`29679d2`](https://github.com/Yao0454/CyberFeng/commit/29679d219bde773afed1d1b506694d0a3cedba46) Update GPT-Sovits url - *Yao0454* (2026-03-18 12:57)
+
+*最后更新时间: 2026年03月18日 15:07:02 (北京时间)*
+>>>>>>> cc04d20bcf4c7612b38b06c59b84628118ee2223
 
 <!-- STATS:END -->
 
@@ -380,6 +394,7 @@ python main.py
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
+<<<<<<< HEAD
 - 💾 **仓库大小**: 18896 KB
 
 ### 📝 最近提交
@@ -391,6 +406,19 @@ python main.py
 - [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 
 *最后更新时间: 2026年03月18日 12:58:19 (北京时间)*
+=======
+- 💾 **仓库大小**: 18898 KB
+
+### 📝 最近提交
+
+- [`f6fbe40`](https://github.com/Yao0454/CyberFeng/commit/f6fbe40dd1f057da9a7e4ecbdcc3944184f35ae7) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 15:06)
+- [`8187598`](https://github.com/Yao0454/CyberFeng/commit/818759853e7bbfc915120eb377ac1578a2b12bde) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`a8f7454`](https://github.com/Yao0454/CyberFeng/commit/a8f7454f6d954554901e6baab0e734c38cc1dc11) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 12:58)
+- [`f311595`](https://github.com/Yao0454/CyberFeng/commit/f3115957913292d4ccbf2406eee89c8d238e849f) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 12:58)
+- [`29679d2`](https://github.com/Yao0454/CyberFeng/commit/29679d219bde773afed1d1b506694d0a3cedba46) Update GPT-Sovits url - *Yao0454* (2026-03-18 12:57)
+
+*最后更新时间: 2026年03月18日 15:07:02 (北京时间)*
+>>>>>>> cc04d20bcf4c7612b38b06c59b84628118ee2223
 
 <!-- STATS:END -->` 标记之间。
 

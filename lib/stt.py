@@ -97,7 +97,8 @@ class STT:
             "-ac",
             "1",  # 声道设置：单声道
             "-i",
-            str(raw_path),  # 输入文件
+            str(raw_path),  # 输入文件,
+            str(output_path),
         ]
         # 直到开始做项目才发现try except有多重要
         try:

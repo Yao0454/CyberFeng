@@ -153,21 +153,21 @@ stt.unload_model()
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 9
+- ⭐ **Stars**: 10
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18869 KB
+- 💾 **仓库大小**: 18896 KB
 
 ### 📝 最近提交
 
-- [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
-- [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
-- [`51f7199`](https://github.com/Yao0454/CyberFeng/commit/51f71991bfddb529423176116c13ebd6b7b3e7fd) Update - *Yao0454* (2026-03-13 20:46)
-- [`bfb6036`](https://github.com/Yao0454/CyberFeng/commit/bfb60366f8109dca0bec3b82b758a95e8c999d4f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:09)
-- [`5613128`](https://github.com/Yao0454/CyberFeng/commit/56131281b985b45e6c376ec5b460bb30892f30b6) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:09)
+- [`f311595`](https://github.com/Yao0454/CyberFeng/commit/f3115957913292d4ccbf2406eee89c8d238e849f) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 12:58)
+- [`29679d2`](https://github.com/Yao0454/CyberFeng/commit/29679d219bde773afed1d1b506694d0a3cedba46) Update GPT-Sovits url - *Yao0454* (2026-03-18 12:57)
+- [`7878e85`](https://github.com/Yao0454/CyberFeng/commit/7878e85cd57b2ccf0585ece6662d2fcdedecd0f2) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 09:57)
+- [`62b26c1`](https://github.com/Yao0454/CyberFeng/commit/62b26c139944513a518b2532cbbf1bdf97dfb9a0) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-17 09:52)
+- [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 
-*最后更新时间: 2026年03月14日 09:48:12 (北京时间)*
+*最后更新时间: 2026年03月18日 12:58:19 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -376,21 +376,21 @@ python main.py
 
 ### 📈 仓库数据
 
-- ⭐ **Stars**: 9
+- ⭐ **Stars**: 10
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18869 KB
+- 💾 **仓库大小**: 18896 KB
 
 ### 📝 最近提交
 
-- [`1374c0a`](https://github.com/Yao0454/CyberFeng/commit/1374c0acd04e76fd34d02486cc0bf1d7963d244b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:47)
-- [`cc725dd`](https://github.com/Yao0454/CyberFeng/commit/cc725dd98de3554a2fe817ac1a52f73df7f8f535) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:46)
-- [`51f7199`](https://github.com/Yao0454/CyberFeng/commit/51f71991bfddb529423176116c13ebd6b7b3e7fd) Update - *Yao0454* (2026-03-13 20:46)
-- [`bfb6036`](https://github.com/Yao0454/CyberFeng/commit/bfb60366f8109dca0bec3b82b758a95e8c999d4f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-13 20:09)
-- [`5613128`](https://github.com/Yao0454/CyberFeng/commit/56131281b985b45e6c376ec5b460bb30892f30b6) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-13 20:09)
+- [`f311595`](https://github.com/Yao0454/CyberFeng/commit/f3115957913292d4ccbf2406eee89c8d238e849f) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 12:58)
+- [`29679d2`](https://github.com/Yao0454/CyberFeng/commit/29679d219bde773afed1d1b506694d0a3cedba46) Update GPT-Sovits url - *Yao0454* (2026-03-18 12:57)
+- [`7878e85`](https://github.com/Yao0454/CyberFeng/commit/7878e85cd57b2ccf0585ece6662d2fcdedecd0f2) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 09:57)
+- [`62b26c1`](https://github.com/Yao0454/CyberFeng/commit/62b26c139944513a518b2532cbbf1bdf97dfb9a0) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-17 09:52)
+- [`9e0b73b`](https://github.com/Yao0454/CyberFeng/commit/9e0b73b48a10711ec42048043828ed7bdebd7bc5) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-16 10:06)
 
-*最后更新时间: 2026年03月14日 09:48:12 (北京时间)*
+*最后更新时间: 2026年03月18日 12:58:19 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+#include <cstddef>
 #include <cstring>
 #include <lvgl.h>
 #include <ArduinoJson.h>
@@ -13,6 +14,7 @@
 #include "AudioOutputI2SNoDAC.h"
 
 // 导入你的模块
+#include "freertos/projdefs.h"
 #include "webcom.h"
 #include "ui_manager.h"
 #include "voice.h"
@@ -55,9 +57,9 @@ volatile bool audio_ready_to_send = false;
 // FreeRTOS 句柄
 SemaphoreHandle_t lvgl_mutex;
 QueueHandle_t chat_queue;
+QueueHandle_t audio_queue;
 
 // LVGL 驱动接口
-
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
@@ -173,7 +175,7 @@ void TaskUI(void* pvParameters) {
 
 void TaskBackend(void* pvParameters) {
 
-    esp_task_wdt_add(NULL);
+
 
     char msg_buf[128];
 
@@ -210,7 +212,12 @@ void TaskBackend(void* pvParameters) {
                             xSemaphoreGive(lvgl_mutex);
                         }
 
-                        play_audio(audio_url);
+                        if (strlen(audio_url) > 0) {
+                            char url_buf[256];
+                            strncpy(url_buf, audio_url, sizeof(url_buf) - 1);
+                            url_buf[sizeof(url_buf) - 1] = '\0';
+                            xQueueSend(audio_queue, &url_buf, 0);
+                        }
                     }
                 }
             }
@@ -239,7 +246,12 @@ void TaskBackend(void* pvParameters) {
                     }
 
                     // 然后流式播放音频
-                    play_audio(audio_url);
+                    if (strlen(audio_url) > 0) {
+                        char url_buf[256];
+                        strncpy(url_buf, audio_url, sizeof(url_buf) - 1);
+                        url_buf[sizeof(url_buf) - 1] = '\0';
+                        xQueueSend(audio_queue, &url_buf, 0);
+                    }
                 }
             }
 
@@ -269,6 +281,21 @@ void TaskBackend(void* pvParameters) {
         }
     }
 }
+
+void TaskAudio(void* pvParameters) {
+
+    char audio_url_buf[256];
+
+    while (1) {
+        if (xQueueReceive(audio_queue, &audio_url_buf, portMAX_DELAY) == pdTRUE) {
+            esp_task_wdt_reset();
+            play_audio(audio_url_buf);
+            esp_task_wdt_reset();
+        }
+    }
+}
+
+
 // 初始化
 
 void setup() {
@@ -287,9 +314,12 @@ void setup() {
     ts.setRotation(1);
 
     // Audio init
-    out = new AudioOutputI2SNoDAC();
-    out->SetPinout(19, 23, 26);
-    out->SetGain(1.2);
+
+    if (!out) {
+        out = new AudioOutputI2SNoDAC();
+        out->SetPinout(19, 23, 26);
+        out->SetGain(1.2);
+    }
 
     // 2. LVGL 核心初始化
     lv_init();
@@ -332,6 +362,7 @@ void setup() {
     // 5. FreeRTOS 任务分配
     lvgl_mutex = xSemaphoreCreateMutex();
     chat_queue = xQueueCreate(5, sizeof(char[128]));
+    audio_queue = xQueueCreate(3, sizeof(char[256]));
 
     // Core 1: 渲染 UI （高优先级）
     xTaskCreatePinnedToCore(
@@ -342,6 +373,9 @@ void setup() {
     xTaskCreatePinnedToCore(
         TaskBackend, "TaskBackend", 8192, NULL, 2, NULL, 0
     );
+
+    xTaskCreatePinnedToCore(TaskAudio, "TaskAudio", 8192, NULL, 1, NULL, 0);
+
 }
 
 

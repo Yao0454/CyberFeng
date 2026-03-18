@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
+#include <cstddef>
 #include <cstring>
 #include <lvgl.h>
 #include <ArduinoJson.h>
@@ -13,6 +14,10 @@
 #include "AudioOutputI2SNoDAC.h"
 
 // 导入你的模块
+<<<<<<< HEAD
+=======
+#include "freertos/projdefs.h"
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
 #include "webcom.h"
 #include "ui_manager.h"
 #include "voice.h"
@@ -55,9 +60,13 @@ volatile bool audio_ready_to_send = false;
 // FreeRTOS 句柄
 SemaphoreHandle_t lvgl_mutex;
 QueueHandle_t chat_queue;
+QueueHandle_t audio_queue;
 
 // LVGL 驱动接口
+<<<<<<< HEAD
 
+=======
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
@@ -173,8 +182,13 @@ void TaskUI(void* pvParameters) {
 
 void TaskBackend(void* pvParameters) {
 
+<<<<<<< HEAD
     esp_task_wdt_add(NULL);
 
+=======
+
+
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
     char msg_buf[128];
 
     TickType_t last_status_time = 0;
@@ -210,7 +224,16 @@ void TaskBackend(void* pvParameters) {
                             xSemaphoreGive(lvgl_mutex);
                         }
 
+<<<<<<< HEAD
                         play_audio(audio_url);
+=======
+                        if (strlen(audio_url) > 0) {
+                            char url_buf[256];
+                            strncpy(url_buf, audio_url, sizeof(url_buf) - 1);
+                            url_buf[sizeof(url_buf) - 1] = '\0';
+                            xQueueSend(audio_queue, &url_buf, 0);
+                        }
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
                     }
                 }
             }
@@ -239,7 +262,16 @@ void TaskBackend(void* pvParameters) {
                     }
 
                     // 然后流式播放音频
+<<<<<<< HEAD
                     play_audio(audio_url);
+=======
+                    if (strlen(audio_url) > 0) {
+                        char url_buf[256];
+                        strncpy(url_buf, audio_url, sizeof(url_buf) - 1);
+                        url_buf[sizeof(url_buf) - 1] = '\0';
+                        xQueueSend(audio_queue, &url_buf, 0);
+                    }
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
                 }
             }
 
@@ -269,6 +301,21 @@ void TaskBackend(void* pvParameters) {
         }
     }
 }
+
+void TaskAudio(void* pvParameters) {
+
+    char audio_url_buf[256];
+
+    while (1) {
+        if (xQueueReceive(audio_queue, &audio_url_buf, portMAX_DELAY) == pdTRUE) {
+            esp_task_wdt_reset();
+            play_audio(audio_url_buf);
+            esp_task_wdt_reset();
+        }
+    }
+}
+
+
 // 初始化
 
 void setup() {
@@ -287,6 +334,7 @@ void setup() {
     ts.setRotation(1);
 
     // Audio init
+<<<<<<< HEAD
     out = new AudioOutputI2SNoDAC();
     out->SetPinout(19, 23, 26);
     out->SetGain(1.2);
@@ -311,6 +359,35 @@ void setup() {
     indev_drv.read_cb = my_touchpad_read;
     lv_indev_drv_register(&indev_drv);
 
+=======
+
+    if (!out) {
+        out = new AudioOutputI2SNoDAC();
+        out->SetPinout(19, 23, 26);
+        out->SetGain(1.2);
+    }
+
+    // 2. LVGL 核心初始化
+    lv_init();
+    static lv_disp_draw_buf_t draw_buf;
+    static lv_color_t buf[320 * 10];
+    lv_disp_draw_buf_init(&draw_buf, buf, NULL, 320 * 10);
+
+    static lv_disp_drv_t disp_drv;
+    lv_disp_drv_init(&disp_drv);
+    disp_drv.hor_res = 320;
+    disp_drv.ver_res = 240;
+    disp_drv.flush_cb = my_disp_flush;
+    disp_drv.draw_buf = &draw_buf; // 注意 &
+    lv_disp_drv_register(&disp_drv);
+
+    static lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_POINTER;
+    indev_drv.read_cb = my_touchpad_read;
+    lv_indev_drv_register(&indev_drv);
+
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
     // 3. 模块初始化
     ui.init();
     ui.setOnCommandClick(handleCommand);
@@ -332,16 +409,31 @@ void setup() {
     // 5. FreeRTOS 任务分配
     lvgl_mutex = xSemaphoreCreateMutex();
     chat_queue = xQueueCreate(5, sizeof(char[128]));
+<<<<<<< HEAD
+=======
+    audio_queue = xQueueCreate(3, sizeof(char[256]));
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
 
     // Core 1: 渲染 UI （高优先级）
     xTaskCreatePinnedToCore(
         TaskUI, "TaskUI", 8192, NULL, 5, NULL, 1
     );
+<<<<<<< HEAD
 
     // Core 0: 处理后端网络请求 （低优先级）
     xTaskCreatePinnedToCore(
         TaskBackend, "TaskBackend", 8192, NULL, 2, NULL, 0
     );
+=======
+
+    // Core 0: 处理后端网络请求 （低优先级）
+    xTaskCreatePinnedToCore(
+        TaskBackend, "TaskBackend", 8192, NULL, 2, NULL, 0
+    );
+
+    xTaskCreatePinnedToCore(TaskAudio, "TaskAudio", 8192, NULL, 1, NULL, 0);
+
+>>>>>>> a14359869441a1eace535eb4643f198dc2de7519
 }
 
 

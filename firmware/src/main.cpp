@@ -7,6 +7,10 @@
 #include <XPT2046_Touchscreen.h>
 #include <cstring>
 #include <lvgl.h>
+#include <ArduinoJson.h>
+#include "ArduinoJson/Deserialization/DeserializationError.hpp"
+#include "ArduinoJson/Json/JsonDeserializer.hpp"
+#include "driver/i2s.h"
 
 // Audio
 #include "AudioFileSourceHTTPStream.h"
@@ -23,6 +27,7 @@
 #include "freertos/portmacro.h"
 #include "freertos/projdefs.h"
 #include "hal/i2s_types.h"
+#include "webcom.h"
 #include "ui_manager.h"
 #include "voice.h"
 #include "webcom.h"
@@ -31,7 +36,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/queue.h>
 #include <freertos/semphr.h>
-#include <freertos/task.h>
+#include <freertos/queue.h>
 #include <stdint.h>
 
 // 硬件引脚定义
@@ -115,12 +120,12 @@ void handlChatSubmit(const char *msg) {
 
 // Voice
 void handleVoiceRecord(bool is_start) {
-  if (is_start) {
-    voice.startRecording();
-  } else {
-    voice.startRecording();
-    audio_ready_to_send = true;
-  }
+    if (is_start) {
+        voice.startRecording();
+    } else {
+        voice.startRecording();
+        audio_ready_to_send = true;
+    }
 }
 
 void play_audio(const char *audio_url) {
@@ -130,48 +135,46 @@ void play_audio(const char *audio_url) {
     AudioFileSourceHTTPStream *file = new AudioFileSourceHTTPStream(audio_url);
     bool begin_success = false;
 
-    if (String(audio_url).endsWith(".wav")) {
-      AudioGeneratorWAV *wav = new AudioGeneratorWAV();
-      begin_success = wav->begin(file, out);
-      if (!begin_success)
-        Serial.println("Wav 解码失败");
+        if (String(audio_url).endsWith(".wav")) {
+            AudioGeneratorWAV* wav = new AudioGeneratorWAV();
+            begin_success = wav->begin(file, out);
+            if (!begin_success) Serial.println("Wav 解码失败");
 
-      i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
-      if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)) {
-        touchSpi.end();
-        touchSpi.begin(25, 39, 32, 33);
-        xSemaphoreGive(lvgl_mutex);
-      }
+            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
+            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
+                touchSpi.end();
+                touchSpi.begin(25, 39, 32, 33);
+                xSemaphoreGive(lvgl_mutex);
+            }
 
-      while (wav->isRunning()) {
-        if (!wav->loop()) {
-          wav->stop();
+            while (wav->isRunning()) {
+                if (!wav->loop()) {
+                    wav->stop();
+                }
+                vTaskDelay(pdMS_TO_TICKS(2));
+            }
+            delete wav;
+        } else {
+            AudioGeneratorMP3* mp3 = new AudioGeneratorMP3();
+            begin_success = mp3->begin(file, out);
+
+            if (!begin_success) Serial.println("Wav 解码失败");
+
+            i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
+            if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)){
+                touchSpi.end();
+                touchSpi.begin(25, 39, 32, 33);
+                xSemaphoreGive(lvgl_mutex);
+            }
+
+            while (mp3->isRunning()) {
+                if (!mp3->loop()) {
+                    mp3->stop();
+                }
+                vTaskDelay(pdMS_TO_TICKS(2));
+            }
+            delete mp3;
         }
-        vTaskDelay(pdMS_TO_TICKS(2));
-      }
-      delete wav;
-    } else {
-      AudioGeneratorMP3 *mp3 = new AudioGeneratorMP3();
-      begin_success = mp3->begin(file, out);
-
-      if (!begin_success)
-        Serial.println("Wav 解码失败");
-
-      i2s_set_dac_mode(I2S_DAC_CHANNEL_LEFT_EN);
-      if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY)) {
-        touchSpi.end();
-        touchSpi.begin(25, 39, 32, 33);
-        xSemaphoreGive(lvgl_mutex);
-      }
-
-      while (mp3->isRunning()) {
-        if (!mp3->loop()) {
-          mp3->stop();
-        }
-        vTaskDelay(pdMS_TO_TICKS(2));
-      }
-      delete mp3;
-    }
 
     delete file;
     Serial.println("Audio playback finished!");
@@ -189,18 +192,18 @@ void TaskUI(void *pvParameters) {
   }
 }
 
-void TaskBackend(void *pvParameters) {
+void TaskBackend(void* pvParameters) {
 
   char msg_buf[128];
 
   TickType_t last_status_time = 0;
   const TickType_t status_interval = pdMS_TO_TICKS(5000);
 
-  while (1) {
-    if (web.isConnected()) {
-      // Voice 发送
-      if (audio_ready_to_send) {
-        audio_ready_to_send = false;
+    while(1) {
+        if (web.isConnected()) {
+            // Voice 发送
+            if (audio_ready_to_send) {
+                audio_ready_to_send = false;
 
         uint8_t *audio_data = voice.getAudioBuffer();
         uint32_t audio_size = voice.getAudioSize();
@@ -297,10 +300,10 @@ void setup() {
   ts.begin(touchSpi);
   ts.setRotation(1);
 
-  // Audio init
-  out = new AudioOutputI2SNoDAC();
-  out->SetPinout(-1, -1, 26);
-  out->SetGain(2.5);
+    // Audio init
+    out = new AudioOutputI2SNoDAC();
+    out->SetPinout(-1, -1, 26);
+    out->SetGain(2.5);
 
   // 2. LVGL 核心初始化
   lv_init();
@@ -328,13 +331,13 @@ void setup() {
   ui.setOnWeightChange(handleWeight);
   ui.setOnChatSubmit(handlChatSubmit);
 
-  // 4. 联网
-  web.connectWiFi("Xiaomi 15 Pro", "950819stj");
-  Serial.print("Waiting for WiFi");
-  while (!web.isConnected()) {
-    delay(500);
-    Serial.print(".");
-  }
+    // 4. 联网
+    web.connectWiFi("sys-jky", "jky.scuec");
+    Serial.print("Waiting for WiFi");
+    while (!web.isConnected()) {
+        delay(500);
+        Serial.print(".");
+    }
 
   // voice
   voice.init();

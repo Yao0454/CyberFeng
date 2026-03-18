@@ -126,7 +126,7 @@ class CyberFeng:
             Self: 返回自身实例，支持链式调用。
         """
         infer: Infer = Infer(
-            _api_addr=self.datas.tts_addr,
+            _gpt_url=self.datas.tts_addr,
             _text=str(self.datas.llm_response),
             _text_lang="zh",
             _ref_audio_path=self.datas.ref_audio_path,

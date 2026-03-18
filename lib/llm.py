@@ -7,8 +7,8 @@ from typing import Optional
 
 import torch
 import vllm
-from dotenv import load_dotenv
-from transformers import AutoTokenizer
+from dotenv import load_dotenv 
+from transformers import AutoTokenizer # 分词器：把文字转换成电脑认识的数字
 
 load_dotenv()
 proxy_url = "http://127.0.0.1:10808"
@@ -29,33 +29,43 @@ class LLM:
         """
         初始化 LLM 配置
         """
+        
+        # 人设设定
         self.role_prompt: str = "你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字"
+        
         self.model_path: str = _modelpath
         self.temperature: float = _temperature
         self.top_p: float = _top_p
-        self.max_tokens: int = _max_tokens
-        self.gpu_memory_utilization: float = _gpu_memory_utilization
+        self.max_tokens: int = _max_tokens # 最大回复长度
+        self.gpu_memory_utilization: float = _gpu_memory_utilization # 显存占用率
 
         self.llm = None
         self.tokenizer = None
         self.sampling_params = None
 
+
     def load_model(self) -> None:
         """
-        新增接口启动配置的 LLM 模型
+        新增接口：启动配置的 LLM 模型
         """
+        # 找到模型的存储路径
         project_root = Path(__file__).resolve().parent.parent
         models_dir = project_root / "models"
 
         if self.llm is None:
             print(f"正在加载模型：{self.model_path}")
+            
+            # 使用 vLLM 加载模型 
             self.llm = vllm.LLM(
                 model=self.model_path,
                 gpu_memory_utilization=self.gpu_memory_utilization,
                 download_dir=str(models_dir),
             )
 
+            # 加载分词器
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+            
+            # 模型参数设置：选词方式
             self.sampling_params = vllm.SamplingParams(
                 temperature=self.temperature,
                 top_p=self.top_p,
@@ -67,7 +77,7 @@ class LLM:
 
     def unload_model(self) -> None:
         """
-        新增接口关闭模型
+        新增接口：关闭模型
         """
         if self.llm is not None:
             print("正在关闭模型")
@@ -104,19 +114,26 @@ class LLM:
         assert self.tokenizer is not None
         assert self.llm is not None
 
+        # AI 对话的标准格式：系统指令 + 用户提问
         messages = [
             {"role": "system", "content": self.role_prompt},
             {"role": "user", "content": text},
         ]
 
+        # 把 messages 列表转成模型能看懂的格式
         prompt_text = self.tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
+            messages, 
+            tokenize=False, 
+            add_generation_prompt=True
         )
 
+        # 生成回答
         response = self.llm.generate([prompt_text], self.sampling_params)
 
+        # 提取回答中的文字
         answer_text: str = str(response[0].outputs[0].text)
 
+        
         request_output: vllm.RequestOutput = response[0]
         raw_data_dict: dict = {
             "request_id": request_output.request_id,
@@ -125,17 +142,17 @@ class LLM:
             "finish_reason": request_output.outputs[0].finish_reason,
             "finished": request_output.finished,
         }
-
+        
+        # 需要的结果保存在字典中
         data_to_save = {
             "input": text,
             "output": answer_text,
             "raw_data": raw_data_dict,
         }
 
-        # 新增逻辑让LLM输出保留在json文件里面
+        # 和 STT 文件中、的逻辑类似，让 LLM 的输出保留在 json 文件里面
         save_dir = Path.cwd() / "json" / "llm_output"
         save_dir.mkdir(parents=True, exist_ok=True)
-
         full_path = save_dir / f"{filename}.json"
         with full_path.open("w", encoding="utf-8") as f:
             json.dump(data_to_save, f, ensure_ascii=False, indent=4)
@@ -167,6 +184,9 @@ class LLM:
             self.load_model()
 
     def __del__(self) -> None:
+        """
+        析构函数: 删除实例对象后清理显存
+        """
         if self.llm:
             del self.llm
             torch.cuda.empty_cache()

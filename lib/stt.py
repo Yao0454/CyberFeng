@@ -78,7 +78,7 @@ class STT:
         Arg:
             raw_path: str : 原始音频文件路径
 
-        Returns：
+        Returns: 
             str(output_path), filename | "", filename : 转换格式后的音频文件路径和文件名
         """
 

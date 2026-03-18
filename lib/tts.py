@@ -7,15 +7,16 @@ import requests
 class TTS:
     def __init__(self, _api_addr: str) -> None:
         """
-        在这里输入你的 APIKEY
+        在这里输入你的 APIKEY, 发送网络请求
         """
+        # 规范化地址：确保开头有 http://
         if not _api_addr.startswith("http://") and not _api_addr.startswith("https://"):
             _api_addr = f"http://{_api_addr}"
 
-        self.api_addr: str = _api_addr
-        self.mode: str = ""
-        self.payload: dict = {}
-        self.params: dict = {}
+        self.api_addr: str = _api_addr # 服务器地址
+        self.mode: str = ""            # 告诉 API 进行对应操作，在子类中填写，拼接到服务器地址后面
+        self.payload: dict = {}        # 存放要发给 API 的数据
+        self.params: dict = {}         # 存放链接里的参数
         self.server_addr = "/mnt/data/GPTSoVits"
 
     def post(self) -> Optional[requests.Response]:

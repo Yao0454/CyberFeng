@@ -71,7 +71,7 @@ class STT:
     def get_model_status(self) -> bool:
         return self.model is not None
 
-    def convert_audio(self, raw_path: str) -> tuple[str, str]:
+    def convert_audio(self, raw_path: str, output_path: str) -> tuple[str, str]:
         """
         4. 使用 FFmpeg 将音频格式转换为 API 支持的格式
 
@@ -86,21 +86,18 @@ class STT:
         # Path 类中，stem 属性直接对应文件名，无需切割
         filename: str = Path(raw_path).stem
         # 配置输出文件的路径以及名字
-        output_path = self.audio_output_dir / f"{filename}_converted.wav"
-
         # 使用 FFmpeg 的命令，用 "," 替代命令行中的 " "
         command = [
             "ffmpeg",  # 表明使用 FFmpeg
             "-y",
-            "-i",
-            str(raw_path),  # 输入文件
-            "-ac",
-            "1",  # 声道设置：单声道
+            "-f",
+            "s16le",  # 采样深度
             "-ar",
             "16000",  # 声音频率设置：16000Hz
-            "-sample_fmt",
-            "s16",  # 采样深度
-            str(output_path),  # 输出文件的路径
+            "-ac",
+            "1",  # 声道设置：单声道
+            "-i",
+            str(raw_path),  # 输入文件
         ]
         # 直到开始做项目才发现try except有多重要
         try:
@@ -131,7 +128,7 @@ class STT:
         print(f"语音文本已保存至{json_path}")
         return str(json_path)
 
-    def process_audio(self, raw_path: str) -> tuple[str, str]:
+    def process_audio(self, raw_path: str, output_path: str) -> tuple[str, str]:
         """
         5. 把音频文件发给本地模型进行语音转文字，作为后续的 Prompt
 
@@ -144,7 +141,7 @@ class STT:
             self.load_model()
             assert self.model is not None
 
-        converted_path, filename = self.convert_audio(raw_path)
+        converted_path, filename = self.convert_audio(raw_path, output_path)
 
         try:
             response = self.model.generate(input=converted_path)

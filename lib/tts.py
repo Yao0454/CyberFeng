@@ -5,21 +5,28 @@ import requests
 
 
 class TTS:
-    def __init__(self, _api_addr: str) -> None:
+    """
+    父类：给 GPT-SoVIts 发送请求
+    """
+    def __init__(self, _gpt_url: str) -> None:
         """
-        在这里输入你的 APIKEY
+        在这里输入你的 APIKEY, 发送网络请求
         """
-        if not _api_addr.startswith("http://") and not _api_addr.startswith("https://"):
-            _api_addr = f"http://{_api_addr}"
+        # 规范化地址：确保开头有 http://
+        if not _gpt_url.startswith("http://") and not _gpt_url.startswith("https://"):
+            _gpt_url = f"http://{_gpt_url}"
 
-        self.api_addr: str = _api_addr
-        self.mode: str = ""
-        self.payload: dict = {}
-        self.params: dict = {}
+        self.api_addr: str = _gpt_url # 服务器地址
+        self.mode: str = ""            # 告诉 API 进行对应操作，在子类中填写，拼接到服务器地址后面
+        self.payload: dict = {}        # 存放要发给 API 的数据
+        self.params: dict = {}         # 存放链接里的参数
         self.server_addr = "/mnt/data/GPTSoVits"
 
     def post(self) -> Optional[requests.Response]:
-        # 发POST请求给GPT_SoVits
+        """
+        发POST请求给GPT_SoVits服务器
+        """
+        # POST 请求：向发送大量数据（这里是 JSON 格式）
         url = f"{self.api_addr}{self.mode}"
         try:
             response: requests.Response = requests.post(
@@ -31,10 +38,15 @@ class TTS:
             return None
 
     def get(self) -> Optional[requests.Response]:
-        # 发Get请求到GPT_SoVits
+        """
+        发Get请求到GPT_SoVits服务器
+        """
+        # GET 请求：向服务器索取数据 
         url = f"{self.api_addr}{self.mode}"
         try:
-            response: requests.Response = requests.get(url, params=self.params)
+            response: requests.Response = requests.get(
+                url, params=self.params
+            )
             return response
         except Exception as e:
             print(f"发Get到{url}:{e}")
@@ -42,9 +54,12 @@ class TTS:
 
 
 class Infer(TTS):
+    """
+    子类 Infer: 负责语音推理
+    """
     def __init__(
         self,
-        _api_addr: str,  # GPT-SoVITS 服务地址（包含协议与端口）
+        _gpt_url: str,  # GPT-SoVITS 服务地址（包含协议与端口）
         _text: str,  # 待合成的文本内容
         _text_lang: str,  # 文本对应的语言代码
         _ref_audio_path: str,  # 参考音频在服务器上的路径
@@ -71,12 +86,13 @@ class Infer(TTS):
         _overlap_length: int = 2,  # 流式模式语义 token 重叠长度
         _min_chunk_length: int = 16,  # 流式模式最小语义片段长度
     ) -> None:
-        super().__init__(_api_addr)
-        self.mode: str = "/tts"
+        super().__init__(_gpt_url)
+        self.mode: str = "/tts" # 告诉服务器，我要做语音合成
 
         if _aux_ref_audio_paths is None:
             _aux_ref_audio_paths = []
 
+        # GPT-SoVITS 需要的参数
         self.payload = {
             "text": _text,
             "text_lang": _text_lang,
@@ -106,12 +122,22 @@ class Infer(TTS):
     @classmethod
     def simple(
         cls,
-        _api_addr: str,  # GPT-SoVITS 服务地址
-        _text: str,  # 待合成的文本内容
-        _text_lang: str,  # 文本语言代码
+        _gpt_url: str,  
+        _text: str,      
+        _text_lang: str, 
     ) -> "Infer":
+        """接受少量核心参数，其余复杂的参数按照默认值分配
+
+        Args:
+            _gpt_url (str): GPT-SoVITS 服务器地址
+            _text: str (str): 待合成的文本内容
+            _text_lang (str): 参考提交文本的语言，例如 "zh"
+
+        Returns:
+            Infer: 一个实例对象
+        """
         return cls(
-            _api_addr=_api_addr,
+            _gpt_url=_gpt_url,
             _text=_text,
             _text_lang=_text_lang,
             _ref_audio_path="",
@@ -121,6 +147,14 @@ class Infer(TTS):
         )
 
     def save_audio(self, filename: str) -> Path | str:
+        """保存声音文件
+
+        Args:
+            filename (str): 文件名
+
+        Returns:
+            Path | str: 文件路径 or 空
+        """
         save_dir = Path.cwd() / "audio" / "trans"
         save_dir.mkdir(parents=True, exist_ok=True)
 
@@ -141,31 +175,37 @@ class Infer(TTS):
 class Control(TTS):
     def __init__(
         self,
-        _api_addr: str,  # GPT-SoVITS 服务地址
+        _gpt_url: str,  # GPT-SoVITS 服务地址
         _command: str,  # 控制指令（restart / exit）
     ) -> None:
-        super().__init__(_api_addr)
-        self.mode: str = "/control"
-        self.params = {"command": _command}
+        super().__init__(_gpt_url)
+        self.mode: str = "/control" # 服务器进行 control 操作
+        self.params = {"command": _command} # 重启 or 退出
 
 
 class GPT(TTS):
+    """
+    改变说话风格
+    """
     def __init__(
         self,
-        _api_addr: str,  # GPT-SoVITS 服务地址
+        _gpt_url: str,  # GPT-SoVITS 服务地址
         _weights_path: str,  # GPT 权重文件路径
     ) -> None:
-        super().__init__(_api_addr)
-        self.mode: str = "/set_gpt_weights"
+        super().__init__(_gpt_url)
+        self.mode: str = "/set_gpt_weights" 
         self.params = {"weights_path": _weights_path}
 
 
 class Sovits(TTS):
+    """
+    改变音色
+    """
     def __init__(
         self,
-        _api_addr: str,  # GPT-SoVITS 服务地址
+        _gpt_url: str,  # GPT-SoVITS 服务地址
         _weights_path: str,  # SoVITS 权重文件路径
     ) -> None:
-        super().__init__(_api_addr)
+        super().__init__(_gpt_url)
         self.mode: str = "/set_sovits_weights"
         self.params = {"weights_path": _weights_path}

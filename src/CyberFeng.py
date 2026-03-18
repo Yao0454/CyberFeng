@@ -14,7 +14,7 @@ class CyberFengData:
     tts_addr: str = "http://127.0.0.1:9880"
     ref_audio_path: str = "reference_voice/reference.wav"
     ref_text: str = "就是学习函数可能的输出，在这个例子里"
-    base_url: str = "http://129.212.226.20:1111"
+    base_url: str = "http://101.37.80.57:1111"
 
     transfered_text: str = ""
     filename: str = ""

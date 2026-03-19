@@ -1,11 +1,11 @@
 # stt.py 即 Speak to Text 将嵌入式端得到的语音文件转换为文本
 import gc  # Garbage Collector："垃圾回收"，手动清理显存/内存
 import json
-import subprocess
+import subprocess # 在 convert_audio 中运行外部命令，设置相关参数
 from pathlib import Path  # 现代文件路径处理库
 
 import torch
-from funasr import AutoModel
+from funasr import AutoModel # 阿里的开源语音识别库
 
 # 环境准备：确保在父目录中创建 models 文件夹
 project_root = Path(__file__).resolve().parent.parent
@@ -27,7 +27,7 @@ class STT:
         # 以防万一，确保两个文件夹的创建
         self.audio_output_dir.mkdir(parents=True, exist_ok=True)
         self.json_output_dir.mkdir(parents=True, exist_ok=True)
-        # 预设模型启动状态为空，节省显存
+        # 预设模型启动状态为空
         self.model = None
 
     def load_model(self) -> None:
@@ -112,14 +112,14 @@ class STT:
                 print(f"错误详情: {e.stderr.decode()}")
             return "", filename
 
-    # 这个函数把我获取到的responce写入一个json文件里面
+    # 这个函数把我获取到的response写入一个json文件里面
     def save_to_json(self, response, filename: str) -> str:
         """
         接受stt的response以及写入json文件的文件名
         将转换的文字写入该文件
         """
+        # JSON 文件路径
         json_filename: str = f"{filename}_text.json"
-
         json_path = self.json_output_dir / json_filename
         # 讨厌文件处理
         with json_path.open("w", encoding="utf-8") as f:

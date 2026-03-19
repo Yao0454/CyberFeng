@@ -1,0 +1,11 @@
+{
+    "input": "你觉得学物理难还是学数学难呢？",
+    "output": "难易因人而异，物理注重理解应用，数学侧重逻辑推理。",
+    "raw_data": {
+        "request_id": "27",
+        "prompt": "<|im_start|>system\n你是一个AI智能语音助手，你叫枫枫子，你会很热情的回答别人的问题，把你的回答总结为一句话，不超过20个字<|im_end|>\n<|im_start|>user\n你觉得学物理难还是学数学难呢？<|im_end|>\n<|im_start|>assistant\n",
+        "generated_text": "难易因人而异，物理注重理解应用，数学侧重逻辑推理。",
+        "finish_reason": "stop",
+        "finished": true
+    }
+}

@@ -1,3 +1,5 @@
+# lib/tts.py
+
 from pathlib import Path
 from typing import List, Optional, Union
 
@@ -8,6 +10,7 @@ class TTS:
     """
     父类：给 GPT-SoVIts 发送请求
     """
+
     def __init__(self, _gpt_url: str) -> None:
         """
         在这里输入你的 APIKEY, 发送网络请求
@@ -16,10 +19,10 @@ class TTS:
         if not _gpt_url.startswith("http://") and not _gpt_url.startswith("https://"):
             _gpt_url = f"http://{_gpt_url}"
 
-        self.api_addr: str = _gpt_url # 服务器地址
-        self.mode: str = ""            # 告诉 API 进行对应操作，在子类中填写，拼接到服务器地址后面
-        self.payload: dict = {}        # 存放要发给 API 的数据
-        self.params: dict = {}         # 存放链接里的参数
+        self.api_addr: str = _gpt_url  # 服务器地址
+        self.mode: str = ""  # 告诉 API 进行对应操作，在子类中填写，拼接到服务器地址后面
+        self.payload: dict = {}  # 存放要发给 API 的数据
+        self.params: dict = {}  # 存放链接里的参数
         self.server_addr = "/mnt/data/GPTSoVits"
 
     def post(self) -> Optional[requests.Response]:
@@ -41,12 +44,10 @@ class TTS:
         """
         发Get请求到GPT_SoVits服务器
         """
-        # GET 请求：向服务器索取数据 
+        # GET 请求：向服务器索取数据
         url = f"{self.api_addr}{self.mode}"
         try:
-            response: requests.Response = requests.get(
-                url, params=self.params
-            )
+            response: requests.Response = requests.get(url, params=self.params)
             return response
         except Exception as e:
             print(f"发Get到{url}:{e}")
@@ -57,6 +58,7 @@ class Infer(TTS):
     """
     子类 Infer: 负责语音推理
     """
+
     def __init__(
         self,
         _gpt_url: str,  # GPT-SoVITS 服务地址（包含协议与端口）
@@ -87,7 +89,7 @@ class Infer(TTS):
         _min_chunk_length: int = 16,  # 流式模式最小语义片段长度
     ) -> None:
         super().__init__(_gpt_url)
-        self.mode: str = "/tts" # 告诉服务器，我要做语音合成
+        self.mode: str = "/tts"  # 告诉服务器，我要做语音合成
 
         if _aux_ref_audio_paths is None:
             _aux_ref_audio_paths = []
@@ -122,9 +124,9 @@ class Infer(TTS):
     @classmethod
     def simple(
         cls,
-        _gpt_url: str,  
-        _text: str,      
-        _text_lang: str, 
+        _gpt_url: str,
+        _text: str,
+        _text_lang: str,
     ) -> "Infer":
         """接受少量核心参数，其余复杂的参数按照默认值分配
 
@@ -179,21 +181,22 @@ class Control(TTS):
         _command: str,  # 控制指令（restart / exit）
     ) -> None:
         super().__init__(_gpt_url)
-        self.mode: str = "/control" # 服务器进行 control 操作
-        self.params = {"command": _command} # 重启 or 退出
+        self.mode: str = "/control"  # 服务器进行 control 操作
+        self.params = {"command": _command}  # 重启 or 退出
 
 
 class GPT(TTS):
     """
     改变说话风格
     """
+
     def __init__(
         self,
         _gpt_url: str,  # GPT-SoVITS 服务地址
         _weights_path: str,  # GPT 权重文件路径
     ) -> None:
         super().__init__(_gpt_url)
-        self.mode: str = "/set_gpt_weights" 
+        self.mode: str = "/set_gpt_weights"
         self.params = {"weights_path": _weights_path}
 
 
@@ -201,6 +204,7 @@ class Sovits(TTS):
     """
     改变音色
     """
+
     def __init__(
         self,
         _gpt_url: str,  # GPT-SoVITS 服务地址
@@ -213,10 +217,15 @@ class Sovits(TTS):
 
 def main() -> None:
     addr: str = "http://127.0.0.1:9880"
-    gpt = GPT(addr, "GPT_weights_v4/CyberFeng-e50.ckpt")
-    sovits = Sovits(addr, "SoVITS_weights_v4/CyberFeng_e6_s72_l32.pth")
-    gpt.get()
-    sovits.get()
+    infer: Infer = Infer(
+        _gpt_url=addr,
+        _text="你好啊",
+        _text_lang="zh",
+        _ref_audio_path="referenc_voice/reference.wav",
+        _prompt_lang="zh",
+        _prompt_text="就是学习函数可能的输出，在这个例子里",
+    )
+    infer.post()
 
 
 if __name__ == "__main__":

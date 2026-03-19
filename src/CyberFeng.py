@@ -4,11 +4,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Self
 
+# 引入 lib 文件夹中的模块化功能
 from lib.llm import LLM
 from lib.stt import STT
 from lib.tts import Infer
 
-
+# 使用 dataclass 存储数据
 @dataclass
 class CyberFengData:
     input_audio_path: Path | str = ""

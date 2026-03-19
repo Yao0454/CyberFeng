@@ -10,11 +10,11 @@ from lib.tts import Infer
 # 使用 dataclass 存储数据
 @dataclass
 class CyberFengData:
-    input_audio_path: Path | str = "" # 用户说话的录音路径
-    trans_audio_path: Path | str = "" # 
-    model_path: Path | str = "Qwen/Qwen2.5-1.5B-Instruct-AWQ"
-    tts_addr: str = "http://127.0.0.1:9880" # 在本地监听代表 GPT-SoVITS 的 9880端口
-    ref_audio_path: str = "reference_voice/reference.wav"
+    input_audio_path: Path | str = ""
+    trans_audio_path: Path | str = ""
+    model_path: Path | str = "Qwen/Qwen2.5-7B-Instruct-AWQ"
+    tts_addr: str = "http://127.0.0.1:9880"
+    ref_audio_path: str = "referenc_voice/reference.wav"
     ref_text: str = "就是学习函数可能的输出，在这个例子里"
     base_url: str = "http://101.37.80.57:1111"
 
@@ -92,7 +92,7 @@ class CyberFeng:
 
         self.datas.transfered_text, self.datas.filename = (
             self.stt_service.process_audio(
-                str(self.datas.input_audio_path), str(self.datas.output_audio_path)
+                str(self.datas.input_audio_path), str(self.datas.trans_audio_path)
             )
         )
 

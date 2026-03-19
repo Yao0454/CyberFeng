@@ -1,6 +1,14 @@
 #include "ui_manager.h"
+#include "core/lv_obj.h"
 #include "core/lv_obj_pos.h"
+#include "core/lv_obj_scroll.h"
+#include "core/lv_obj_style.h"
 #include "extra/layouts/flex/lv_flex.h"
+#include "misc/lv_anim.h"
+#include "misc/lv_area.h"
+#include "misc/lv_color.h"
+#include "widgets/lv_label.h"
+#include <cstring>
 
 // 声明内置中文字体
 LV_FONT_DECLARE(my_font_16);
@@ -8,258 +16,280 @@ LV_FONT_DECLARE(my_font_16);
 UIManager::UIManager() {}
 
 void UIManager::init() {
-  lv_obj_t *scr = lv_scr_act();
-  lv_obj_set_style_bg_color(scr, lv_color_hex(0x000000), 0);
-  lv_obj_set_style_text_font(scr, &my_font_16, 0);
+    lv_obj_t* scr = lv_scr_act();
+    lv_obj_set_style_bg_color(scr, lv_color_hex(0x000000), 0);
+    lv_obj_set_style_text_font(scr, &my_font_16, 0);
 
-  // 1. TabView
-  _tabview = lv_tabview_create(scr, LV_DIR_TOP, 40);
-  lv_obj_set_style_bg_color(_tabview, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
-  lv_obj_set_style_text_font(_tabview, &my_font_16, 0); // 强制 Tab 栏使用中文
-  lv_obj_set_style_text_color(_tabview, lv_color_hex(0x000000), 0);
+    // 1. TabView
+    _tabview = lv_tabview_create(scr, LV_DIR_TOP, 40);
+    lv_obj_set_style_bg_color(_tabview, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+    lv_obj_set_style_text_font(_tabview, &my_font_16, 0); // 强制 Tab 栏使用中文
+    lv_obj_set_style_text_color(_tabview, lv_color_hex(0x000000), 0);
 
-  // Tab 按钮
-  lv_obj_t *tab_btns = lv_tabview_get_tab_btns(_tabview);
-  lv_obj_set_style_bg_color(tab_btns, lv_color_hex(0x333333), 0);
-  lv_obj_set_style_text_font(tab_btns, &my_font_16, 0); // 强制 Tab 按钮使用中文
+    // Tab 按钮
+    lv_obj_t* tab_btns = lv_tabview_get_tab_btns(_tabview);
+    lv_obj_set_style_bg_color(tab_btns, lv_color_hex(0x333333), 0);
+    lv_obj_set_style_text_font(tab_btns, &my_font_16, 0); // 强制 Tab 按钮使用中文
 
-  // 2. Four Pages
-  lv_obj_t *t1 = lv_tabview_add_tab(_tabview, "Control");
-  lv_obj_t *t2 = lv_tabview_add_tab(_tabview, "Stats");
-  lv_obj_t *t3 = lv_tabview_add_tab(_tabview, "Config");
-  lv_obj_t *t4 = lv_tabview_add_tab(_tabview, "Chat");
+    // 2. Four Pages
+    lv_obj_t* t1 = lv_tabview_add_tab(_tabview, "Control");
+    lv_obj_t* t2 = lv_tabview_add_tab(_tabview, "Stats");
+    lv_obj_t* t3 = lv_tabview_add_tab(_tabview, "Config");
+    lv_obj_t* t4 = lv_tabview_add_tab(_tabview, "Chat");
 
-  buildControlTab(t1);
-  buildStatsTab(t2);
-  buildConfigTab(t3);
-  buildChatTab(t4);
+    buildControlTab(t1);
+    buildStatsTab(t2);
+    buildConfigTab(t3);
+    buildChatTab(t4);
 }
 
-void UIManager::buildChatTab(lv_obj_t *parent) {
-  // 聊天列表 (上半部分)
-  _chat_list = lv_list_create(parent);
-  lv_obj_set_size(_chat_list, 300, 110);
-  lv_obj_align(_chat_list, LV_ALIGN_TOP_MID, 0, 0);
-  lv_obj_set_style_text_font(_chat_list, &my_font_16, 0); // 强制列表使用中文
+void UIManager::buildChatTab(lv_obj_t* parent) {
+    // 聊天列表 (上半部分)，高度设为 140
+    _chat_list = lv_obj_create(parent);
+    lv_obj_set_size(_chat_list, 320, 140);
+    lv_obj_align(_chat_list, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_set_flex_flow(_chat_list, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_all(_chat_list, 5, 0);
+    lv_obj_set_style_bg_color(_chat_list, lv_color_hex(0xF3F3F3), 0);
+    lv_obj_set_style_border_width(_chat_list, 0, 0);
 
-  // 快捷回复容器，在底部，支持水平滑动
-  lv_obj_t *qr_cont = lv_obj_create(parent);
-  lv_obj_set_size(qr_cont, 300, 55);
-  lv_obj_align(qr_cont, LV_ALIGN_BOTTOM_MID, 0, -5);
-  lv_obj_set_flex_flow(qr_cont, LV_FLEX_FLOW_ROW);
-  lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER,
-                        LV_FLEX_ALIGN_CENTER);
-  lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START,
-                        LV_FLEX_ALIGN_CENTER);
-  lv_obj_set_size(qr_cont, 300, 200);
+    // 快捷回复容器，在底部，高度设为 60
+    lv_obj_t* qr_cont = lv_obj_create(parent);
+    lv_obj_set_size(qr_cont, 320, 60);
+    lv_obj_align(qr_cont, LV_ALIGN_BOTTOM_MID, 0, 0);
+    lv_obj_set_flex_flow(qr_cont, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(qr_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-  lv_obj_set_style_pad_all(qr_cont, 5, 0);
-  lv_obj_set_style_pad_column(qr_cont, 10, 0);
-  lv_obj_set_scrollbar_mode(qr_cont, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_pad_all(qr_cont, 5, 0);
+    lv_obj_set_style_pad_column(qr_cont, 10, 0);
+    lv_obj_set_scrollbar_mode(qr_cont, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_border_width(qr_cont, 0, 0);
 
-  // 你可以在这里随意添加或删除句子，下面的代码会自动计算数量，绝不会再崩溃！
-  const char *quick_replies[] = {"你好啊，我很高兴和你对话！",
-                                 "你觉得学物理难还是学数学难呢？", "讲个笑话吧",
-                                 "今天天气怎么样？"};
+    // 快捷回复句子
+    const char* quick_replies[] = {
+        "你好啊，我很高兴和你对话！",
+        "你觉得学物理难还是学数学难呢？",
+        "讲个笑话吧",
+        "今天天气怎么样？"
+    };
 
-  // 动态计算数组长度，防止越界崩溃
-  int reply_count = sizeof(quick_replies) / sizeof(quick_replies[0]);
+    int reply_count = sizeof(quick_replies) / sizeof(quick_replies[0]);
 
-  for (int i = 0; i < reply_count; i++) {
-    lv_obj_t *btn = lv_btn_create(qr_cont);
-    lv_obj_set_height(btn, 40);
-    lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_BLUE), 0);
+    // 添加语音按键 (放在最前面比较方便点)
+    lv_obj_t* mic_btn = lv_btn_create(qr_cont);
+    lv_obj_set_height(mic_btn, 45);
+    lv_obj_set_style_bg_color(mic_btn, lv_palette_main(LV_PALETTE_RED), 0);
 
-    lv_obj_t *lbl = lv_label_create(btn);
-    lv_obj_set_style_text_font(lbl, &my_font_16, 0); // 强制按钮标签使用中文
-    lv_label_set_text(lbl, quick_replies[i]);
-    lv_obj_center(lbl);
+    lv_obj_t* mic_lbl = lv_label_create(mic_btn);
+    lv_obj_set_style_text_font(mic_lbl, &my_font_16, 0);
+    lv_obj_set_style_text_color(mic_lbl, lv_color_hex(0xFFFFFF), 0);
+    lv_label_set_text(mic_lbl, "按住说话");
+    lv_obj_center(mic_lbl);
 
-    lv_obj_add_event_cb(btn, quick_reply_event_cb, LV_EVENT_CLICKED, this);
-  }
-  lv_obj_t *mic_btn = lv_btn_create(qr_cont);
-  lv_obj_set_height(mic_btn, 40);
-  lv_obj_set_style_bg_color(mic_btn, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESSED, this);
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_RELEASED, this);
+    lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESS_LOST, this);
 
-  lv_obj_t *mic_lbl = lv_label_create(mic_btn);
-  lv_obj_set_style_text_font(mic_lbl, &my_font_16, 0);
-  lv_obj_set_style_text_color(mic_lbl, lv_color_hex(0xFFFFFF), 0);
-  lv_label_set_text(mic_lbl, "按住说话");
-  lv_obj_center(mic_lbl);
+    // 循环添加快捷回复按键
+    for (int i = 0; i < reply_count; i++) {
+        lv_obj_t* btn = lv_btn_create(qr_cont);
+        lv_obj_set_height(btn, 45);
+        lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_BLUE), 0);
 
-  // 监听按下松开和手指滑出按钮的事件
-  lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESSED, this);
-  lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_RELEASED, this);
-  lv_obj_add_event_cb(mic_btn, mic_btn_event_cb, LV_EVENT_PRESS_LOST, this);
-}
+        lv_obj_t* lbl = lv_label_create(btn);
+        lv_obj_set_style_text_font(lbl, &my_font_16, 0);
+        lv_label_set_text(lbl, quick_replies[i]);
+        lv_obj_center(lbl);
 
-void UIManager::buildControlTab(lv_obj_t *parent) {
-  _status_label = lv_label_create(parent);
-  lv_label_set_text(_status_label, "System: Ready");
-  lv_obj_align(_status_label, LV_ALIGN_TOP_MID, 0, 0);
-
-  lv_obj_t *btn = lv_btn_create(parent);
-  lv_obj_set_size(btn, 100, 40);
-  lv_obj_align(btn, LV_ALIGN_TOP_LEFT, 10, 30);
-  lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_RED), 0);
-  lv_obj_t *lbl = lv_label_create(btn);
-  lv_label_set_text(lbl, "RESTART");
-  lv_obj_center(lbl);
-  lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_CLICKED, this);
-
-  _log_text = lv_textarea_create(parent);
-  lv_obj_set_size(_log_text, 300, 90);
-  lv_obj_align(_log_text, LV_ALIGN_BOTTOM_MID, 0, -5);
-  lv_obj_set_style_bg_color(_log_text, lv_color_hex(0x00FF00), 0);
-  lv_textarea_set_cursor_click_pos(_log_text, false);
-}
-
-void UIManager::buildStatsTab(lv_obj_t *parent) {
-  lv_obj_t *l1 = lv_label_create(parent);
-  lv_label_set_text(l1, "BACKED CPU:");
-  lv_obj_align(l1, LV_ALIGN_TOP_LEFT, 20, 20);
-
-  _cpu_bar = lv_bar_create(parent);
-  lv_obj_set_size(_cpu_bar, 200, 20);
-  lv_obj_align(_cpu_bar, LV_ALIGN_TOP_LEFT, 20, 45);
-  lv_bar_set_value(_cpu_bar, 0, LV_ANIM_ON);
-
-  _model_label = lv_label_create(parent);
-  lv_obj_align(_model_label, LV_ALIGN_TOP_LEFT, 20, 80);
-  lv_label_set_text_fmt(_model_label, "Active Model %s", "None");
-}
-
-void UIManager::buildConfigTab(lv_obj_t *parent) {
-  lv_obj_t *l1 = lv_label_create(parent);
-  lv_label_set_text(l1, "Model Weight:");
-  lv_obj_align(l1, LV_ALIGN_TOP_LEFT, 20, 10);
-
-  lv_obj_t *dd = lv_dropdown_create(parent);
-  lv_dropdown_set_options(dd, "GPT_weights_v4/CyberFeng-e25.ckpt");
-  lv_obj_align(dd, LV_ALIGN_TOP_LEFT, 20, 35);
-  lv_obj_add_event_cb(dd, dropdown_event_cb, LV_EVENT_VALUE_CHANGED, this);
-
-  lv_obj_t *l2 = lv_label_create(parent);
-  lv_label_set_text(l2, "LCD Brightness:");
-  lv_obj_align(l2, LV_ALIGN_TOP_LEFT, 20, 90);
-
-  _brightness_slider = lv_slider_create(parent);
-  lv_obj_set_size(_brightness_slider, 200, 10);
-  lv_obj_align(_brightness_slider, LV_ALIGN_TOP_LEFT, 20, 115);
-  lv_slider_set_range(_brightness_slider, 10, 255);
-  lv_slider_set_value(_brightness_slider, 255, LV_ANIM_OFF);
-  lv_obj_add_event_cb(_brightness_slider, slider_event_cb,
-                      LV_EVENT_VALUE_CHANGED, this);
-}
-
-void UIManager::addChatMessage(const char *role, const char *msg) {
-  if (!_chat_list)
-    return;
-
-  uint32_t child_cnt = lv_obj_get_child_cnt(_chat_list);
-  if (child_cnt >= 20) {
-    lv_obj_t *oldest_msg = lv_obj_get_child(_chat_list, 0);
-    if (oldest_msg) {
-      lv_obj_del(oldest_msg);
+        lv_obj_add_event_cb(btn, quick_reply_event_cb, LV_EVENT_CLICKED, this);
     }
-  }
+}
 
-  String fullMsg = String(role) + ": " + String(msg);
-  lv_obj_t *btn = lv_list_add_btn(_chat_list, NULL, fullMsg.c_str());
 
-  lv_obj_t *label = lv_obj_get_child(btn, 0);
-  if (label) {
-    lv_obj_set_style_text_font(label, &my_font_16, 0); // 强制聊天记录使用中文
+void UIManager::buildControlTab(lv_obj_t* parent) {
+    _status_label = lv_label_create(parent);
+    lv_label_set_text(_status_label, "System: Ready");
+    lv_obj_align(_status_label, LV_ALIGN_TOP_MID, 0, 0);
+
+    lv_obj_t* btn = lv_btn_create(parent);
+    lv_obj_set_size(btn, 100, 40);
+    lv_obj_align(btn, LV_ALIGN_TOP_LEFT, 10, 30);
+    lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_obj_t* lbl = lv_label_create(btn);
+    lv_label_set_text(lbl, "RESTART");
+    lv_obj_center(lbl);
+    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_CLICKED, this);
+
+    _log_text = lv_textarea_create(parent);
+    lv_obj_set_size(_log_text, 300, 90);
+    lv_obj_align(_log_text, LV_ALIGN_BOTTOM_MID, 0, -5);
+    lv_obj_set_style_bg_color(_log_text, lv_color_hex(0x00FF00), 0);
+    lv_textarea_set_cursor_click_pos(_log_text, false);
+}
+
+void UIManager::buildStatsTab(lv_obj_t* parent) {
+    lv_obj_t* l1 = lv_label_create(parent);
+    lv_label_set_text(l1, "BACKED CPU:");
+    lv_obj_align(l1, LV_ALIGN_TOP_LEFT, 20, 20);
+
+    _cpu_bar = lv_bar_create(parent);
+    lv_obj_set_size(_cpu_bar, 200, 20);
+    lv_obj_align(_cpu_bar, LV_ALIGN_TOP_LEFT, 20, 45);
+    lv_bar_set_value(_cpu_bar, 0, LV_ANIM_ON);
+
+    _model_label = lv_label_create(parent);
+    lv_obj_align(_model_label, LV_ALIGN_TOP_LEFT, 20, 80);
+    lv_label_set_text_fmt(_model_label, "Active Model %s", "None");
+}
+
+void UIManager::buildConfigTab(lv_obj_t* parent) {
+    lv_obj_t* l1 = lv_label_create(parent);
+    lv_label_set_text(l1, "Model Weight:");
+    lv_obj_align(l1, LV_ALIGN_TOP_LEFT, 20, 10);
+
+    lv_obj_t* dd = lv_dropdown_create(parent);
+    lv_dropdown_set_options(dd, "GPT_weights_v4/CyberFeng-e25.ckpt");
+    lv_obj_align(dd, LV_ALIGN_TOP_LEFT, 20, 35);
+    lv_obj_add_event_cb(dd, dropdown_event_cb, LV_EVENT_VALUE_CHANGED, this);
+
+    lv_obj_t* l2 = lv_label_create(parent);
+    lv_label_set_text(l2, "LCD Brightness:");
+    lv_obj_align(l2, LV_ALIGN_TOP_LEFT, 20, 90);
+
+    _brightness_slider = lv_slider_create(parent);
+    lv_obj_set_size(_brightness_slider, 200, 10);
+    lv_obj_align(_brightness_slider, LV_ALIGN_TOP_LEFT, 20, 115);
+    lv_slider_set_range(_brightness_slider, 10, 255);
+    lv_slider_set_value(_brightness_slider, 255, LV_ANIM_OFF);
+    lv_obj_add_event_cb(_brightness_slider, slider_event_cb, LV_EVENT_VALUE_CHANGED, this);
+}
+
+void UIManager::addChatMessage(const char* role, const char* msg) {
+    if (!_chat_list) return;
+
+    uint32_t child_cnt = lv_obj_get_child_cnt(_chat_list);
+    if (child_cnt >= 20) {
+        lv_obj_t* oldest_msg = lv_obj_get_child(_chat_list, 0);
+        if (oldest_msg) lv_obj_del(oldest_msg);
+    }
+
+    lv_obj_t* msg_cont = lv_obj_create(_chat_list);
+    lv_obj_set_width(msg_cont, lv_pct(100));
+
+    lv_obj_set_height(msg_cont, LV_SIZE_CONTENT);
+    lv_obj_set_style_pad_all(msg_cont, 0, 0);
+    lv_obj_set_style_bg_opa(msg_cont, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(msg_cont, 0, 0);
+    lv_obj_clear_flag(msg_cont, LV_OBJ_FLAG_SCROLLABLE);
+
+    bool is_me = (strcmp(role, "Me") == 0);
+
+    lv_obj_set_flex_flow(msg_cont, LV_FLEX_FLOW_ROW);
+    if (is_me) {
+        lv_obj_set_flex_align(msg_cont, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+    } else {
+        lv_obj_set_flex_align(msg_cont, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+    }
+
+    lv_obj_t* bubble = lv_obj_create(msg_cont);
+    lv_obj_set_width(bubble, 240);
+    lv_obj_set_height(bubble, LV_SIZE_CONTENT);
+    lv_obj_set_style_pad_all(bubble, 8, 0);
+    lv_obj_set_style_radius(bubble, 8, 0);
+    lv_obj_set_style_border_width(bubble, 0, 0);
+    lv_obj_clear_flag(bubble, LV_OBJ_FLAG_SCROLLABLE);
+
+    if (is_me) {
+        lv_obj_set_style_bg_color(bubble, lv_color_hex(0x95EC69), 0);
+    } else {
+        lv_obj_set_style_bg_color(bubble, lv_color_hex(0xFFFFFF), 0);
+    }
+
+    lv_obj_t* label = lv_label_create(bubble);
+    lv_obj_set_width(label, LV_SIZE_CONTENT);
+    lv_obj_set_style_max_width(label, 224, 0);
+    lv_obj_set_style_text_font(label, &my_font_16, 0);
     lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
-  }
+    lv_obj_set_style_text_color(label, lv_color_hex(0x000000), 0);
 
-  lv_obj_scroll_to_view(btn, LV_ANIM_ON);
+    String fullMsg = String(role) + ":\n" + String(msg);
+    lv_label_set_text(label, fullMsg.c_str());
+
+    lv_obj_scroll_to_view(msg_cont, LV_ANIM_ON);
 }
 
 // 事件中转实现
-void UIManager::btn_event_cb(lv_event_t *e) {
-  UIManager *inst = (UIManager *)lv_event_get_user_data(e);
-  lv_obj_t *target = lv_event_get_target(e);
-  lv_obj_t *label = lv_obj_get_child(target, 0);
-  const char *txt = lv_label_get_text(label);
+void UIManager::btn_event_cb(lv_event_t* e) {
+    UIManager* inst = (UIManager*)lv_event_get_user_data(e);
+    lv_obj_t* target = lv_event_get_target(e);
+    lv_obj_t* label = lv_obj_get_child(target, 0);
+    const char* txt = lv_label_get_text(label);
 
-  if (inst->_onCommandClick)
-    inst->_onCommandClick(txt);
+    if (inst->_onCommandClick) inst->_onCommandClick(txt);
 }
 
-void UIManager::slider_event_cb(lv_event_t *e) {
-  lv_obj_t *slider = lv_event_get_target(e);
-  int val = lv_slider_get_value(slider);
-  analogWrite(21, val);
+void UIManager::slider_event_cb(lv_event_t* e) {
+    lv_obj_t* slider = lv_event_get_target(e);
+    int val = lv_slider_get_value(slider);
+    analogWrite(21, val);
 }
 
-void UIManager::dropdown_event_cb(lv_event_t *e) {
-  UIManager *inst = (UIManager *)lv_event_get_user_data(e);
-  lv_obj_t *dd = lv_event_get_target(e);
-  char buf[64];
-  lv_dropdown_get_selected_str(dd, buf, sizeof(buf));
-  if (inst->_onWeightChange)
-    inst->_onWeightChange(buf);
+void UIManager::dropdown_event_cb(lv_event_t* e) {
+    UIManager* inst = (UIManager*)lv_event_get_user_data(e);
+    lv_obj_t* dd = lv_event_get_target(e);
+    char buf[64];
+    lv_dropdown_get_selected_str(dd, buf, sizeof(buf));
+    if (inst->_onWeightChange) inst->_onWeightChange(buf);
 }
 
-void UIManager::quick_reply_event_cb(lv_event_t *e) {
-  UIManager *inst = (UIManager *)lv_event_get_user_data(e);
-  lv_obj_t *btn = lv_event_get_target(e);
-  lv_obj_t *label = lv_obj_get_child(btn, 0);
-  const char *txt = lv_label_get_text(label);
+void UIManager::quick_reply_event_cb(lv_event_t* e) {
+    UIManager* inst = (UIManager*)lv_event_get_user_data(e);
+    lv_obj_t* btn = lv_event_get_target(e);
+    lv_obj_t* label = lv_obj_get_child(btn, 0);
+    const char* txt = lv_label_get_text(label);
 
-  if (inst->_onChatSubmit) {
-    inst->_onChatSubmit(txt);
-    inst->addChatMessage("Me", txt);
-  }
+    if (inst->_onChatSubmit) {
+        inst->_onChatSubmit(txt);
+        inst->addChatMessage("Me", txt);
+    }
 }
 
-void UIManager::mic_btn_event_cb(lv_event_t *e) {
-  UIManager *inst = (UIManager *)lv_event_get_user_data(e);
-  lv_event_code_t code = lv_event_get_code(e);
-  lv_obj_t *btn = lv_event_get_target(e);
-  lv_obj_t *lbl = lv_obj_get_child(btn, 0);
+void UIManager::mic_btn_event_cb(lv_event_t* e) {
+    UIManager* inst = (UIManager*)lv_event_get_user_data(e);
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t* btn = lv_event_get_target(e);
+    lv_obj_t* lbl = lv_obj_get_child(btn, 0);
 
-  if (code == LV_EVENT_PRESSED) {
-    lv_obj_set_style_bg_color(btn, lv_palette_darken(LV_PALETTE_RED, 3), 0);
-    lv_label_set_text(lbl, "松开发送");
-    if (inst->_onVoiceRecord)
-      inst->_onVoiceRecord(true);
-  } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) {
-    lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_label_set_text(lbl, "按住说话");
-    if (inst->_onVoiceRecord)
-      inst->_onVoiceRecord(false);
-  }
+    if (code == LV_EVENT_PRESSED) {
+        lv_obj_set_style_bg_color(btn, lv_palette_darken(LV_PALETTE_RED, 3), 0);
+        lv_label_set_text(lbl, "松开发送");
+        if (inst->_onVoiceRecord) inst->_onVoiceRecord(true);
+    } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) {
+        lv_obj_set_style_bg_color(btn, lv_palette_main(LV_PALETTE_RED), 0);
+        lv_label_set_text(lbl, "按住说话");
+        if (inst->_onVoiceRecord) inst -> _onVoiceRecord(false);
+    }
 }
+
 
 // 接口实现
-void UIManager::updateStatus(const char *msg, bool isOnline) {
-  lv_label_set_text(_status_label, msg);
-  lv_obj_set_style_text_color(
-      _status_label, isOnline ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000),
-      0);
+void UIManager::updateStatus(const char* msg, bool isOnline) {
+    lv_label_set_text(_status_label, msg);
+    lv_obj_set_style_text_color(_status_label, isOnline ? lv_color_hex(0x00FF00) : lv_color_hex(0xFF0000), 0);
 }
 
-void UIManager::addLog(const char *log) {
-  lv_textarea_add_text(_log_text, log);
-  lv_textarea_add_text(_log_text, "\n");
+void UIManager::addLog(const char* log) {
+    lv_textarea_add_text(_log_text, log);
+    lv_textarea_add_text(_log_text, "\n");
 }
 
-void UIManager::updateStats(float cpu, float ram, const char *model) {
-  lv_bar_set_value(_cpu_bar, (int)cpu, LV_ANIM_ON);
-  lv_label_set_text_fmt(_model_label, "Active Model: %s", model);
+
+void UIManager::updateStats(float cpu, float ram, const char* model) {
+    lv_bar_set_value(_cpu_bar, (int)cpu, LV_ANIM_ON);
+    lv_label_set_text_fmt(_model_label, "Active Model: %s", model);
 }
 
-void UIManager::setOnCommandClick(void (*cb)(const char *)) {
-  _onCommandClick = cb;
-}
-void UIManager::setOnWeightChange(void (*cb)(const char *)) {
-  _onWeightChange = cb;
-}
-void UIManager::setOnChatSubmit(void (*cb)(const char *)) {
-  _onChatSubmit = cb;
-}
-void UIManager::setOnVoiceRecord(VoiceRecordingCallback cb) {
-  _onVoiceRecord = cb;
-}
+void UIManager::setOnCommandClick(void (*cb)(const char*)) { _onCommandClick = cb; }
+void UIManager::setOnWeightChange(void (*cb)(const char*)) { _onWeightChange = cb; }
+void UIManager::setOnChatSubmit(void (*cb)(const char*)) { _onChatSubmit = cb; }
+void UIManager::setOnVoiceRecord(VoiceRecordingCallback cb) { _onVoiceRecord = cb; }

@@ -209,3 +209,15 @@ class Sovits(TTS):
         super().__init__(_gpt_url)
         self.mode: str = "/set_sovits_weights"
         self.params = {"weights_path": _weights_path}
+
+
+def main() -> None:
+    addr: str = "http://127.0.0.1:9880"
+    gpt = GPT(addr, "GPT_weights_v4/CyberFeng-e50.ckpt")
+    sovits = Sovits(addr, "SoVITS_weights_v4/CyberFeng_e6_s72_l32.pth")
+    gpt.get()
+    sovits.get()
+
+
+if __name__ == "__main__":
+    main()

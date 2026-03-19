@@ -157,17 +157,17 @@ stt.unload_model()
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18905 KB
+- 💾 **仓库大小**: 18968 KB
 
 ### 📝 最近提交
 
-- [`ee666db`](https://github.com/Yao0454/CyberFeng/commit/ee666dbf7b7a3e014d50453da47a0db1fb9977e5) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Lntano-S* (2026-03-18 16:09)
-- [`c5da0db`](https://github.com/Yao0454/CyberFeng/commit/c5da0dba7c20a27f0356a56b3efb5229d8ee80fa) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Lntano-S* (2026-03-18 16:08)
-- [`cc04d20`](https://github.com/Yao0454/CyberFeng/commit/cc04d20bcf4c7612b38b06c59b84628118ee2223) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 15:07)
-- [`f6fbe40`](https://github.com/Yao0454/CyberFeng/commit/f6fbe40dd1f057da9a7e4ecbdcc3944184f35ae7) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 15:06)
-- [`8187598`](https://github.com/Yao0454/CyberFeng/commit/818759853e7bbfc915120eb377ac1578a2b12bde) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`cf85685`](https://github.com/Yao0454/CyberFeng/commit/cf85685030190128cff7e73f23689912c8bff07c) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 22:23)
+- [`a143598`](https://github.com/Yao0454/CyberFeng/commit/a14359869441a1eace535eb4643f198dc2de7519) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 22:23)
+- [`f1f48b2`](https://github.com/Yao0454/CyberFeng/commit/f1f48b2833fee54222096fb82223cf8fb5b98b74) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 22:22)
+- [`ad27935`](https://github.com/Yao0454/CyberFeng/commit/ad27935a462ecd9dbc0dc4b21e5542785be268ff) Update main.cpp - *Yao0454* (2026-03-18 22:21)
+- [`d784056`](https://github.com/Yao0454/CyberFeng/commit/d784056366d2c482b1ff7cfe66011dc349d29239) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 21:35)
 
-*最后更新时间: 2026年03月18日 16:09:28 (北京时间)*
+*最后更新时间: 2026年03月18日 22:24:07 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -380,17 +380,17 @@ python main.py
 - 🍴 **Forks**: 0
 - 👀 **Watchers**: 0
 - 🐛 **Open Issues**: 0
-- 💾 **仓库大小**: 18905 KB
+- 💾 **仓库大小**: 18968 KB
 
 ### 📝 最近提交
 
-- [`ee666db`](https://github.com/Yao0454/CyberFeng/commit/ee666dbf7b7a3e014d50453da47a0db1fb9977e5) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Lntano-S* (2026-03-18 16:09)
-- [`c5da0db`](https://github.com/Yao0454/CyberFeng/commit/c5da0dba7c20a27f0356a56b3efb5229d8ee80fa) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Lntano-S* (2026-03-18 16:08)
-- [`cc04d20`](https://github.com/Yao0454/CyberFeng/commit/cc04d20bcf4c7612b38b06c59b84628118ee2223) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 15:07)
-- [`f6fbe40`](https://github.com/Yao0454/CyberFeng/commit/f6fbe40dd1f057da9a7e4ecbdcc3944184f35ae7) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 15:06)
-- [`8187598`](https://github.com/Yao0454/CyberFeng/commit/818759853e7bbfc915120eb377ac1578a2b12bde) Support specifying output path for audio conversion - *Yao0454* (2026-03-14 20:50)
+- [`cf85685`](https://github.com/Yao0454/CyberFeng/commit/cf85685030190128cff7e73f23689912c8bff07c) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 22:23)
+- [`a143598`](https://github.com/Yao0454/CyberFeng/commit/a14359869441a1eace535eb4643f198dc2de7519) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-03-18 22:23)
+- [`f1f48b2`](https://github.com/Yao0454/CyberFeng/commit/f1f48b2833fee54222096fb82223cf8fb5b98b74) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 22:22)
+- [`ad27935`](https://github.com/Yao0454/CyberFeng/commit/ad27935a462ecd9dbc0dc4b21e5542785be268ff) Update main.cpp - *Yao0454* (2026-03-18 22:21)
+- [`d784056`](https://github.com/Yao0454/CyberFeng/commit/d784056366d2c482b1ff7cfe66011dc349d29239) Merge branch 'main' of https://github.com/Yao0454/CyberFeng - *Yao0454* (2026-03-18 21:35)
 
-*最后更新时间: 2026年03月18日 16:09:28 (北京时间)*
+*最后更新时间: 2026年03月18日 22:24:07 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

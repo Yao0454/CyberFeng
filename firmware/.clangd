@@ -1,12 +1,22 @@
 CompileFlags:
+  Compiler: /Users/feng/Desktop/CyberFeng/firmware/clangd_wrapper.sh
   Add:
-    - --target=xtensa-esp32-elf
-    - -Wno-unknown-argument
-    - -Wno-unused-command-line-argument
+    [
+      "-D__xtensa__",
+      "-D_GNU_SOURCE",
+      "-DESP32",
+      "-DARDUINO=10800",
+      "-Wno-unknown-argument",
+      "-Wno-unused-command-line-argument",
+      "--target=arm-none-eabi",
+    ]
   Remove:
-    - -mlongcalls
-    - -fstrict-volatile-bitfields
-    - -fno-tree-switch-conversion
-    - -mfix-esp32-erratum-76
-    - -freorder-blocks
-    - -fno-jump-tables
+    [
+      "-mlongcalls",
+      "-fno-tree-switch-conversion",
+      "-fstrict-volatile-bitfields",
+      "-mfix-esp32-erratum-76",
+    ]
+
+Index:
+  Background: Build

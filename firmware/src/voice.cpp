@@ -86,9 +86,10 @@ void VoiceManager::recordTask(void* pvParameters) {
             if (err == ESP_OK && bytes_read > 0) {
                 uint32_t space_left = manager->_buffer_max_size - manager->_audio_size;
                 uint32_t copy_size = (bytes_read > space_left) ? space_left : bytes_read;
-
-                memcpy(manager->_audio_buffer + manager->_audio_size, temp_buf, copy_size);
-                manager->_audio_size += copy_size;
+                if (copy_size > 0) {
+                    memcpy(manager->_audio_buffer + manager->_audio_size, temp_buf, copy_size);
+                    manager->_audio_size += copy_size;
+                }
 
                 if (manager->_audio_size >= manager->_buffer_max_size) {
                     manager->stopRecording();

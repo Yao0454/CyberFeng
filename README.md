@@ -156,18 +156,18 @@ stt.unload_model()
 - ⭐ **Stars**: 11
 - 🍴 **Forks**: 1
 - 👀 **Watchers**: 0
-- 🐛 **Open Issues**: 1
+- 🐛 **Open Issues**: 0
 - 💾 **仓库大小**: 34745 KB
 
 ### 📝 最近提交
 
+- [`b8228a4`](https://github.com/Yao0454/CyberFeng/commit/b8228a46f394e56658893e10830823b713f1b4b5) Merge pull request #3 from orbisai0security/fix-v-002-heap-buffer-overflow-voice-memcpy - *姚奕枫* (2026-05-13 10:30)
+- [`6bc6439`](https://github.com/Yao0454/CyberFeng/commit/6bc6439e1a4abc32fff1d31b75c2b09f8714e26c) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-12 10:41)
 - [`521d4bd`](https://github.com/Yao0454/CyberFeng/commit/521d4bd91c345bffe26266f99a706c348970dc8f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-11 10:49)
 - [`7b3996f`](https://github.com/Yao0454/CyberFeng/commit/7b3996fd6d9db04769b62fe155129a83dd32de10) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-10 10:39)
-- [`6cf8aa2`](https://github.com/Yao0454/CyberFeng/commit/6cf8aa21eae70aa39f59103fe6cc4e9ff2ee384d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-09 10:35)
-- [`9f372d6`](https://github.com/Yao0454/CyberFeng/commit/9f372d683d96405f2d037abe8b415b6a81215a7e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-08 10:41)
-- [`23626ac`](https://github.com/Yao0454/CyberFeng/commit/23626acc8bea9baa893322e5efaae0372e4ec95d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-07 10:35)
+- [`e5865b6`](https://github.com/Yao0454/CyberFeng/commit/e5865b659e3a770b0a5d55004b03db90e2153c11) Apply code changes: > Hey - 我在这里给出了一些高层次的反馈： - *orbisai0security* (2026-05-09 22:35)
 
-*最后更新时间: 2026年05月12日 10:41:41 (北京时间)*
+*最后更新时间: 2026年05月13日 10:30:50 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -379,18 +379,18 @@ python main.py
 - ⭐ **Stars**: 11
 - 🍴 **Forks**: 1
 - 👀 **Watchers**: 0
-- 🐛 **Open Issues**: 1
+- 🐛 **Open Issues**: 0
 - 💾 **仓库大小**: 34745 KB
 
 ### 📝 最近提交
 
+- [`b8228a4`](https://github.com/Yao0454/CyberFeng/commit/b8228a46f394e56658893e10830823b713f1b4b5) Merge pull request #3 from orbisai0security/fix-v-002-heap-buffer-overflow-voice-memcpy - *姚奕枫* (2026-05-13 10:30)
+- [`6bc6439`](https://github.com/Yao0454/CyberFeng/commit/6bc6439e1a4abc32fff1d31b75c2b09f8714e26c) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-12 10:41)
 - [`521d4bd`](https://github.com/Yao0454/CyberFeng/commit/521d4bd91c345bffe26266f99a706c348970dc8f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-11 10:49)
 - [`7b3996f`](https://github.com/Yao0454/CyberFeng/commit/7b3996fd6d9db04769b62fe155129a83dd32de10) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-10 10:39)
-- [`6cf8aa2`](https://github.com/Yao0454/CyberFeng/commit/6cf8aa21eae70aa39f59103fe6cc4e9ff2ee384d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-09 10:35)
-- [`9f372d6`](https://github.com/Yao0454/CyberFeng/commit/9f372d683d96405f2d037abe8b415b6a81215a7e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-08 10:41)
-- [`23626ac`](https://github.com/Yao0454/CyberFeng/commit/23626acc8bea9baa893322e5efaae0372e4ec95d) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-05-07 10:35)
+- [`e5865b6`](https://github.com/Yao0454/CyberFeng/commit/e5865b659e3a770b0a5d55004b03db90e2153c11) Apply code changes: > Hey - 我在这里给出了一些高层次的反馈： - *orbisai0security* (2026-05-09 22:35)
 
-*最后更新时间: 2026年05月12日 10:41:41 (北京时间)*
+*最后更新时间: 2026年05月13日 10:30:50 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 

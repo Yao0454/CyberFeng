@@ -161,13 +161,13 @@ stt.unload_model()
 
 ### 📝 最近提交
 
+- [`d11d743`](https://github.com/Yao0454/CyberFeng/commit/d11d743fbb773069c59897b8d107e8de82815113) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-12 11:36)
 - [`f1ba46f`](https://github.com/Yao0454/CyberFeng/commit/f1ba46fd02d285183313330a0c0d60d71ab3c83b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-11 11:36)
 - [`f5fa503`](https://github.com/Yao0454/CyberFeng/commit/f5fa503342ecf8614b0f758a7a164214cc6c363f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-10 15:53)
 - [`70ce821`](https://github.com/Yao0454/CyberFeng/commit/70ce821914d6ea0d85e430dea0698a56a3cbb6a1) Delete firmware/src/my_font_16.c - *姚奕枫* (2026-06-10 15:53)
 - [`3afc99c`](https://github.com/Yao0454/CyberFeng/commit/3afc99c3cb7a41d4c4df8ccd2a3b0f9acd3a1b18) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-10 11:24)
-- [`1f956c6`](https://github.com/Yao0454/CyberFeng/commit/1f956c67345fdcdf0f901e6d157601b3ed116d7e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-09 10:48)
 
-*最后更新时间: 2026年06月12日 11:36:21 (北京时间)*
+*最后更新时间: 2026年06月13日 11:23:49 (北京时间)*
 
 <!-- STATS:END -->
 
@@ -384,13 +384,13 @@ python main.py
 
 ### 📝 最近提交
 
+- [`d11d743`](https://github.com/Yao0454/CyberFeng/commit/d11d743fbb773069c59897b8d107e8de82815113) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-12 11:36)
 - [`f1ba46f`](https://github.com/Yao0454/CyberFeng/commit/f1ba46fd02d285183313330a0c0d60d71ab3c83b) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-11 11:36)
 - [`f5fa503`](https://github.com/Yao0454/CyberFeng/commit/f5fa503342ecf8614b0f758a7a164214cc6c363f) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-10 15:53)
 - [`70ce821`](https://github.com/Yao0454/CyberFeng/commit/70ce821914d6ea0d85e430dea0698a56a3cbb6a1) Delete firmware/src/my_font_16.c - *姚奕枫* (2026-06-10 15:53)
 - [`3afc99c`](https://github.com/Yao0454/CyberFeng/commit/3afc99c3cb7a41d4c4df8ccd2a3b0f9acd3a1b18) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-10 11:24)
-- [`1f956c6`](https://github.com/Yao0454/CyberFeng/commit/1f956c67345fdcdf0f901e6d157601b3ed116d7e) docs: auto-update README with latest stats [skip ci] - *github-actions[bot]* (2026-06-09 10:48)
 
-*最后更新时间: 2026年06月12日 11:36:21 (北京时间)*
+*最后更新时间: 2026年06月13日 11:23:49 (北京时间)*
 
 <!-- STATS:END -->` 标记之间。
 
